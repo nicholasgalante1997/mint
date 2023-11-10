@@ -1,5 +1,8 @@
+const dotenv = require('dotenv');
 const path = require('path');
 const webpack = require('webpack');
+
+dotenv.config();
 
 module.exports = {
   cache: false,

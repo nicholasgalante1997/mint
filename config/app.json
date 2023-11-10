@@ -1,0 +1,25 @@
+{
+    "app": {
+        "name": "@couch-gag/mint",
+        "version": "1.0.0"
+    },
+    "entrypoints": [
+        {
+            "key": "@mint-home-page",
+            "path": "mounts/home/index.tsx",
+            "page": {
+                "registryKey": "@mint-home-page",
+                "metadata": {
+                    "raw": [
+                        "<title>@mint.</title>",
+                        "<meta name=\"description\" content=\"A minimal technology blog.\">"
+                    ]
+                }
+            },
+            "out": {
+                "bundle": "home",
+                "html": "index"
+            }
+        }
+    ]
+}

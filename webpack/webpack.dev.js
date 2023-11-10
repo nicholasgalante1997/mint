@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const { merge } = require('webpack-merge');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,16 +8,19 @@ dotenv.config();
 
 const dev = {
   mode: 'development',
-  entry: path.resolve(process.cwd(), 'src', 'index.tsx'),
+  entry: path.resolve(process.cwd(), 'src', 'mounts', 'home', 'index.tsx'),
   devServer: {
     hot: true,
     port: 3000,
     https: false,
     open: true,
     static: [
-        {
-            directory: path.resolve(process.cwd(), 'src', 'styles')
-        }
+      {
+        directory: path.resolve(process.cwd(), 'src', 'styles')
+      },
+      {
+        directory: path.resolve(process.cwd(), 'assets')
+      }
     ]
   },
   plugins: [new HtmlWebpackPlugin({ template: 'html/index.html' })]

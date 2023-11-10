@@ -4,6 +4,7 @@ type ThemeContextProviderProps = {
 
 type ThemeContextType = {
   dispatchThemeUpdate(next: ThemeModeType): void;
+  mode: ThemeModeType;
 };
 
 type ThemeModeType = 'dark' | 'light' | 'alt';

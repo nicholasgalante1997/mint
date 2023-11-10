@@ -1,15 +1,19 @@
 import React from 'react';
 
 function wrapComponent<P = any>(
-  Wrapper: React.ComponentType,
-  Component: React.ComponentType<P>,
+  wrappers: React.ComponentType<{ children: React.ReactNode }>[],
+  Component: React.ComponentType<any>,
   options: { wrapperProps: any } = { wrapperProps: {} }
-) {
-  return function (props: P) {
-    <Wrapper {...options.wrapperProps}>
-      <Component {...(props as any)} />
-    </Wrapper>;
-  };
+): React.FC<P> {
+  let WrappedComponent = (props: any) => <Component {...props} />;
+  for (const Wrapper of wrappers) {
+    WrappedComponent = (props) => (
+      <Wrapper>
+        <Component {...props} />
+      </Wrapper>
+    );
+  }
+  return (props: any) => <WrappedComponent {...props} />;
 }
 
 export { wrapComponent };

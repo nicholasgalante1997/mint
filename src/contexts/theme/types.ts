@@ -1,5 +1,6 @@
 type ThemeContextProviderProps = {
   children: React.ReactNode;
+  initialMode?: ThemeModeType;
 };
 
 type ThemeContextType = {

@@ -21,5 +21,205 @@
                 "html": "index"
             }
         }
-    ]
+    ],
+    "data": {
+        "articles": [
+            {
+                "key": "@mint/how-i/react-project-structure.md",
+                "contentPath": "data/how-i/react-project-structure.md",
+                "display": {
+                    "image": "/react.png",
+                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "title": "How I'll set up a react application",
+                    "subtitle": "Let's walk through setting up a few different react apps.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/how-to/prefetch-in-react.md",
+                "contentPath": "data/how-to/prefetch-in-react.md",
+                "display": {
+                    "image": "/react.png",
+                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "title": "Setting up dynamic route prefetching in React in 10 minutes with WebWorkers and Context",
+                    "subtitle": "Prefetching your application's resources enhances your end user's experience with your application because it reduces the idle time your user is spending on your site. Here's how it works.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "Optimization",
+                            "keys": ["optimization"]
+                        },
+                        {
+                            "visible": "Web Workers",
+                            "keys": ["web-workers", "webworkers", "web workers"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/how-to/get-observability-into-web-app-performance",
+                "contentPath": "data/how-to/get-observability-into-web-app-performance.md",
+                "display": {
+                    "image": "/react.png",
+                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "title": "How to get observability into your web application's performance?",
+                    "subtitle": "Learning what parts of your application are in need of revision and updates allows us to grow as developers and app maintainers by learning from our implemantation pitfalls, and allows us to prioritize development work more efficiently.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "Optimization",
+                            "keys": ["optimization"]
+                        },
+                        {
+                            "visible": "Web Vitals",
+                            "keys": ["web-vitals", "webvitals", "web vitals"]
+                        },
+                        {
+                            "visible": "Lighthouse",
+                            "keys": ["lighthouse", "browser-tools"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/how-to/lazy-load-images-with-native-html",
+                "contentPath": "data/how-to/lazy-load-images-with-native-html.md",
+                "display": {
+                    "image": "/html.png",
+                    "imageAltText": "The html5 logo in orange.",
+                    "title": "How to lazy load images with native html",
+                    "subtitle": "Lazy loading images allows your application to fetch its resources on demand, as opposed to up-front; allowing your users to engage with your application quicker.",
+                    "tags": [
+                        {
+                            "visible": "Html",
+                            "keys": ["html"]
+                        }, 
+                        {
+                            "visible": "Optimization",
+                            "keys": ["optimization"]
+                        },
+                        {
+                            "visible": "Javascript",
+                            "keys": ["javascript"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/how-to/react-server-side-rendering-with-no-framework",
+                "contentPath": "data/how-to/react-server-side-rendering-with-no-framework.md",
+                "display": {
+                    "image": "/react.png",
+                    "imageAltText": "The react logo in a light blue hue.",
+                    "title": "How to set up server side rendering for your react application, with no framework",
+                    "subtitle": "Server Side rendering your react application has a number of performance benefits for certain larger react apps. We'll dive into those benefits and how to set up server side rendering in react here.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "Optimization",
+                            "keys": ["optimization"]
+                        },
+                        {
+                            "visible": "Server-Side Rendering",
+                            "keys": ["ssr", "server-side rendering"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/how-to/react-static-site-generation-with-no-framework",
+                "contentPath": "data/how-to/react-static-site-generation-with-no-framework.md",
+                "display": {
+                    "image": "/react.png",
+                    "imageAltText": "The react logo in a light blue hue.",
+                    "title": "How to set up static site generation for your react application, with no framework",
+                    "subtitle": "Server Side rendering your react application has a number of performance benefits for certain larger react apps. We'll dive into those benefits and how to set up server side rendering in react here.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "Optimization",
+                            "keys": ["optimization"]
+                        },
+                        {
+                            "visible": "Static Site Generation",
+                            "keys": ["ssg", "static site generation"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/patterns/predictable-try-in-javascript",
+                "contentPath": "data/patterns/predictable-try-in-javascript.md",
+                "display": {
+                    "image": "/es6.png",
+                    "imageAltText": "The javascript logo.",
+                    "title": "Offering an alternatve method for executing code that could fail. Based on the Rust 'Option' concept.",
+                    "subtitle": "There are a number of code smells with the javascript usage of try-catch. Here's a simple alternative that could help standardize your handling of fallable code.",
+                    "tags": [
+                        {
+                            "visible": "Javascript",
+                            "keys": ["javascript"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/anecdotal/gotham-styled-components-learnings",
+                "contentPath": "data/anecdotal/gotham-styled-components-learnings.md",
+                "display": {
+                    "image": "/styled-components.png",
+                    "imageAltText": "The styled-components logo.",
+                    "title": "Reflecting on the usage of styled-components in a react component library developed while at Amazon Games.",
+                    "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "styled-components",
+                            "keys": ["styled-components"]
+                        }
+                    ]
+                }
+            },
+            {
+                "key": "@mint/anecdotal/tales-from-the-couch-dev_1",
+                "contentPath": "data/anecdotal/tales-from-the-couch-dev_1.md",
+                "display": {
+                    "image": "/styled-components.png",
+                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "title": "Reflecting on the usage of styled-components in a react component library developed while at Amazon Games.",
+                    "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
+                    "tags": [
+                        {
+                            "visible": "React",
+                            "keys": ["react", "react-dom"]
+                        }, 
+                        {
+                            "visible": "styled-components",
+                            "keys": ["styled-components"]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

@@ -8,7 +8,7 @@ dotenv.config();
 
 const dev = {
   mode: 'development',
-  entry: path.resolve(process.cwd(), 'src', 'mounts', 'home', 'index.tsx'),
+  entry: path.resolve(process.cwd(), 'src', 'development', 'index.tsx'),
   devServer: {
     hot: true,
     port: 3000,

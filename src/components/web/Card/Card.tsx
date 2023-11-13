@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { CardClassNames } from './classnames';
+import { CardClassNames } from './CardMeta';
 import { type CardProps } from './types';
 import { to } from '@/lib';
 
@@ -16,7 +16,11 @@ export function CardComponent(props: CardProps): React.JSX.Element | React.React
   const renderImage = useCallback<() => React.ReactNode>(() => {
     if (type === 'mini') return false;
     return (
-      <div className={CardClassNames.CardImageWrapper} data-couchcardtype={type} data-couchcardsize={size}>
+      <div
+        className={CardClassNames.CardImageWrapper}
+        data-couchcardtype={type}
+        data-couchcardsize={size}
+      >
         <img
           src={image}
           alt={alt}
@@ -47,7 +51,13 @@ export function CardComponent(props: CardProps): React.JSX.Element | React.React
             {cta.text}
           </button>
         ) : (
-          <a href={cta.href} target="_self" data-couchcardtype={type} data-couchcardsize={size}>
+          <a
+            href={cta.href}
+            className="link"
+            target="_self"
+            data-couchcardtype={type}
+            data-couchcardsize={size}
+          >
             {cta.text}
           </a>
         )}

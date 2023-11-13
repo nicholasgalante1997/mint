@@ -15,7 +15,12 @@ function render({ Component, mountingElement, props = {} }: MintRenderOptions) {
   if (process.env.NODE_ENV === 'development') {
     createRoot(getMountingElement(mountingElement)).render(<Component {...props} />);
   } else {
-    hydrateRoot(getMountingElement(mountingElement), <Component {...props} />);
+    hydrateRoot(getMountingElement(mountingElement), <Component {...props} />, {
+      onRecoverableError(error, errorInfo) {
+        console.warn(error);
+        console.warn(errorInfo);
+      }
+    });
   }
 }
 

@@ -4,8 +4,10 @@
   "description": "A minimal technology blog.",
   "author": "Nick J Galante <nicholasgalante1997@gmail.com>",
   "scripts": {
+    "format": "prettier --write src webpack build.tsx",
+    "summarize-articles": "node scripts/summarize.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack serve --config webpack/webpack.dev.js",
+    "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.js",
     "build": "npm-run-all package:clean package:bundleJs package:compileBuildScript package:buildMarkup package:cleanTmp package:copyAssets",
     "package:clean": "rm -rf build",
     "package:compileBuildScript": "webpack --config webpack/webpack.build-script.js",
@@ -13,7 +15,6 @@
     "package:cleanTmp": "rm -rf .build-process/",
     "package:bundleJs": "webpack --config webpack/webpack.prod.js",
     "package:copyAssets": "cp -R src/styles/* assets/* build",
-    "format": "prettier --write src webpack build.tsx",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -22,10 +23,12 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "gsap": "^3.12.2",
+    "lodash.isequal": "^4.5.0",
     "pino": "^8.16.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-markdown": "^9.0.0"
+    "react-markdown": "^8.0.7",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
@@ -40,6 +43,7 @@
     "@storybook/react": "^7.5.3",
     "@storybook/react-webpack5": "^7.5.3",
     "@storybook/testing-library": "^0.2.2",
+    "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^20.9.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",

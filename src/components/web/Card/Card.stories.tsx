@@ -5,7 +5,7 @@ import React from 'react';
 
 const meta: Meta<typeof CardComponent> = {
   component: CardComponent,
-  title: 'components/complex/card',
+  title: 'components/web/card',
   args: {},
   decorators: [],
   parameters: {}

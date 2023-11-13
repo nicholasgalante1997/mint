@@ -1,8 +1,4 @@
 import React, { createContext, memo, useContext, useEffect, useState } from 'react';
-import classNames from 'classnames';
-
-import { CouchFont, Text } from '@/components/web/Text';
-
 import { ThemeContextType, ThemeContextProviderProps, ThemeModeType } from './types';
 
 const defaultContext: ThemeContextType = {
@@ -14,15 +10,27 @@ const ThemeContext = createContext(defaultContext);
 export const useThemeContext = () => useContext(ThemeContext);
 
 const ThemeContextProvider = memo(function ThemeContextProviderComponent({
-  children
+  children,
+  initialMode = 'light'
 }: ThemeContextProviderProps) {
-  const [mode, setMode] = useState<ThemeModeType>('light');
+  const [mode, setMode] = useState<ThemeModeType>(initialMode);
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem('@couch-mint/theme');
+    if (storedTheme) {
+      setMode(storedTheme as ThemeModeType);
+    }
+  }, []);
+
   useEffect(() => {
     const appElement = document.getElementById('app');
     if (appElement) {
       appElement.dataset.theme = mode;
     }
+
+    window.localStorage.setItem('@couch-mint/theme', mode);
   }, [mode]);
+
   return (
     <ThemeContext.Provider value={{ dispatchThemeUpdate: setMode, mode }}>
       <div id="couch-mint__theme" data-mode={mode}>

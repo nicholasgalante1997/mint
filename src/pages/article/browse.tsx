@@ -15,9 +15,10 @@ const BrowsePageClassNames = {
 
 function BrowsePage() {
   const { articles, filters, updateFilter } = useBrowsePageStore();
-  const allFilterTags = useMemo(() => new Set(Array.from(articles.all.map(({ display: { tags }}) => tags ))), []); /** This list could grow long, so we'll choose to memoize here. */
-
-  
+  const allFilterTags = useMemo(
+    () => new Set(Array.from(articles.all.map(({ display: { tags } }) => tags))),
+    []
+  ); /** This list could grow long, so we'll choose to memoize here. */
 
   return (
     <React.Fragment>
@@ -29,12 +30,10 @@ function BrowsePage() {
           </div>
           <div className={BrowsePageClassNames.CardWrappingGrid}>{/* Cards */}</div>
         </div>
-        <aside className={BrowsePageClassNames.CardAsideColumn}>
-
-        </aside>
+        <aside className={BrowsePageClassNames.CardAsideColumn}></aside>
       </div>
     </React.Fragment>
   );
 }
 
-export const Browse = memo(wrapComponent([ThemeContextProvider], BrowsePage))
+export const Browse = memo(wrapComponent([ThemeContextProvider], BrowsePage));

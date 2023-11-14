@@ -19,7 +19,11 @@ const useBrowsePageStore = create<BrowsePageStoreState & BrowsePageStoreActions>
         if (action === 'add') {
           activeFilters = new Set([...store.filters.activeFilters, filter]);
         } else {
-          activeFilters = new Set(Array.from(store.filters.activeFilters).filter(activeFilter => !isEqual(activeFilter, filter)));
+          activeFilters = new Set(
+            Array.from(store.filters.activeFilters).filter(
+              (activeFilter) => !isEqual(activeFilter, filter)
+            )
+          );
         }
         const flatArrayOfTags = Array.from(activeFilters)
           .map(({ keys }) => keys)

@@ -1,39 +1,45 @@
-import React, { memo } from 'react';
-
+import React, { memo, useCallback, useState } from 'react';
+import { ShowIf } from '@/components/logical';
 import { useThemeContext } from '@/contexts';
+import { ThemeModeType } from '@/contexts/theme/types';
+import { keyDown, titleCase } from '@/lib';
+
+import { AltIcon } from './AltIcon';
+import { DarkIcon } from './DarkIcon';
+import { LightIcon } from './LightIcon';
+
+const themeOptionIconMap = {
+  light: LightIcon,
+  dark: DarkIcon,
+  alt: AltIcon
+};
+
+const themeOptions = ['light', 'dark', 'alt'] as const;
 
 const ThemeToggle = memo(function ThemeToggleComponent() {
+  const [showPopover, setShowPopover] = useState(false);
   const { dispatchThemeUpdate, mode } = useThemeContext();
+
+  const mapThemeOptionsToJsx = useCallback(function (theme: ThemeModeType) {
+    const clickHandler = () => dispatchThemeUpdate(theme);
+    const Icon = themeOptionIconMap[theme];
+    return (
+      <div {...keyDown(clickHandler)} onClick={clickHandler} className="couch-mint__theme-option-container">
+        <Icon />
+        <span className="couch-mint__theme-option">
+          {titleCase(theme)}
+        </span>
+      </div>
+    );
+  }, []);
   return (
-    <div className="couch-mint__header-theme-toggle">
-      <div onClick={() => dispatchThemeUpdate('light')}>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 0 32 32" id="sun">
-          <path
-            d="M11.15 27.22C10.4 28.26 8.4 27 9 25.87c.72-1.31 3 .13 2.15 1.35ZM15.73 9a1 1 0 0 0 1-1 1 1 0 0 0-1-1A9 9 0 0 0 16 25c7.48.09 11.77-9 7-14.7a1 1 0 0 0-1.54 1.27A7 7 0 0 1 16 23c-9.08-.26-9.34-13.41-.27-14Zm3.52.8a1 1 0 0 0 1.35-.42c.51-1-.61-1.53-1.39-1.79a1 1 0 0 0-1.29.58c-.36.98.63 1.32 1.33 1.63ZM30.67 19c-2.3-2.06-2.16-3.83 0-6a1 1 0 0 0 .33-1 1 1 0 0 0-.72-.7c-3-.75-3.94-2.28-3-5.23A1 1 0 0 0 26 4.79c-3 .89-4.52 0-5.24-3A1 1 0 0 0 19 1.32c-2.09 2.23-3.95 2.23-6 0a1 1 0 0 0-1.7.43c-.79 3-2.28 4-5.22 3.05A1 1 0 0 0 4.79 6c.81 3 0 4.6-3 5.25A1 1 0 0 0 1 12a1 1 0 0 0 .28 1c2.24 2.12 2.24 3.92 0 6a1 1 0 0 0 .44 1.7 7 7 0 0 1 1.79.67C4.52 21.94 5.71 23 4.8 26a1 1 0 0 0 .2 1c.64.66 1.64 0 2.35 0a1 1 0 1 0-.32-2c.34-3.36-1.31-4.75-3.29-5.66A5.41 5.41 0 0 0 5 16a5.36 5.36 0 0 0-1.2-3.25 5.28 5.28 0 0 0 2.59-2.1A5.6 5.6 0 0 0 7 7.08a5.26 5.26 0 0 0 3.31-.52 5.51 5.51 0 0 0 2.36-2.79 5 5 0 0 0 6.56 0 5 5 0 0 0 5.66 3.28 5 5 0 0 0 3.32 5.67 5 5 0 0 0-.08 6.53A5 5 0 0 0 25 24.92a5 5 0 0 0-5.67 3.32 5 5 0 0 0-6.64 0A1 1 0 0 0 11.6 28c-1 .4-.54 1.42-.32 2.21a1 1 0 0 0 1.7.45c2.09-2.23 3.95-2.23 6 0a1 1 0 0 0 1.7-.43 4.62 4.62 0 0 1 1.93-3.08 4.12 4.12 0 0 1 3.28 0A1 1 0 0 0 27.21 26c-.79-3 0-4.63 3-5.26a1 1 0 0 0 .46-1.74Z"
-            fill={mode === 'light' ? '#0d1b2a' : '#fff'}
-          ></path>
-        </svg>
-      </div>
-      <div onClick={() => dispatchThemeUpdate('dark')}>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 0 24 24" id="moon">
-          <path
-            fill={mode === 'dark' ? '#0d1b2a' : '#fff'}
-            d="M17.189 3.5c.465 1.403 1.561 2.479 3.348 3.288a1.001 1.001 0 0 1-.031 1.836c-1.648.68-2.633 1.623-3.333 3.318-.285.689-.934.643-.934.643-.403 0-.767-.242-.923-.614-.696-1.666-1.78-2.756-3.315-3.335a.999.999 0 0 1-.055-1.848c1.765-.79 2.859-1.868 3.347-3.295.138-.405.519-.673.946-.677.724-.008.95.684.95.684zm-2.751 4.178A7.454 7.454 0 0 1 16.23 9.49a7.445 7.445 0 0 1 1.829-1.803 7.605 7.605 0 0 1-1.821-1.732 7.597 7.597 0 0 1-1.8 1.723zm5.081 11.24a10.177 10.177 0 0 0 2.253-3.393 1 1 0 0 0-1.303-1.303 8.25 8.25 0 0 1-8.956-1.814A8.254 8.254 0 0 1 9.7 3.453.999.999 0 0 0 8.397 2.15a10.198 10.198 0 0 0-3.392 2.253 10.205 10.205 0 0 0-2.823 5.331 1 1 0 0 0 1.964.374A8.216 8.216 0 0 1 7.19 5.135a10.247 10.247 0 0 0 2.91 8.688 10.246 10.246 0 0 0 8.688 2.91c-.21.269-.438.526-.683.771-3.222 3.221-8.463 3.222-11.686 0a8.223 8.223 0 0 1-2.281-4.352 1.002 1.002 0 0 0-1.968.36 10.202 10.202 0 0 0 2.834 5.406 10.231 10.231 0 0 0 7.258 3.001 10.237 10.237 0 0 0 7.257-3.001z"
-          ></path>
-        </svg>
-      </div>
-      <div onClick={() => dispatchThemeUpdate('alt')}>
-        <svg
-          fill={mode === 'alt' ? '#0d1b2a' : '#fff'}
-          height="24px"
-          width="24px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 64 64"
-          id="tree"
-        >
-          <path d="M30,46.91V60H19.5v4h25V60H34V46.91a23.5,23.5,0,1,0-4,0ZM32,4a19.5,19.5,0,0,1,2,38.9V35l7.27-5.95L38.73,26,34,29.83V15.88H30v7.21L25,19l-2.54,3.1L30,28.26V42.9A19.5,19.5,0,0,1,32,4Z"></path>
-        </svg>
-      </div>
+    <div className="couch-mint__theme-button-container">
+      <button className="couch-mint__button-primary">Theme</button>
+      <ShowIf condition={showPopover}>
+        <div className="couch-mint__theme-selection-popover">
+          {themeOptions.map(mapThemeOptionsToJsx)}
+        </div>
+      </ShowIf>
     </div>
   );
 });

@@ -7,7 +7,7 @@ const PAGE = process.env.REQUEST_PAGE;
 let Component = PageIndex.get(PAGE as PageIndexKey);
 
 if (!Component) {
-    Component = () => <div>404</div>;
+  Component = () => <div>404</div>;
 }
 
 render({ Component, mountingElement: 'app' });

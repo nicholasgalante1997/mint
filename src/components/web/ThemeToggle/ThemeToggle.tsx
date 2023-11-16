@@ -15,9 +15,6 @@ const ThemeToggle = memo(function ThemeToggleComponent() {
   const popoverOn = () => setShowPopover(true);
   const onClickOffPopover = (event: any) => {
     if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-      // Clicked outside the popover, so close it
-      console.log('The dismiss popover callback is being called', event.target);
-
       setShowPopover(false);
     }
   };

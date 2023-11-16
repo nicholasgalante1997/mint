@@ -8,6 +8,7 @@
     "summarize-articles": "node scripts/summarize.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.js",
+    "dev:BROWSE": "REQUEST_PAGE=\"@mint-browse-page\" webpack serve --config webpack/webpack.dev.js",
     "build": "npm-run-all package:clean package:bundleJs package:compileBuildScript package:buildMarkup package:cleanTmp package:copyAssets",
     "package:clean": "rm -rf build",
     "package:compileBuildScript": "webpack --config webpack/webpack.build-script.js",

@@ -7,11 +7,11 @@ import { type BrowsePageStoreActions, type BrowsePageStoreState } from './browse
 const useBrowsePageStore = create<BrowsePageStoreState & BrowsePageStoreActions>((set) => {
   return {
     articles: {
-      all: ArticlesJson,
-      visible: ArticlesJson
+      all: ArticlesJson
     },
     filters: {
-      activeFilters: new Set()
+      activeFilters: new Set(),
+      search: ''
     },
     updateFilter(filter, action) {
       set((store) => {
@@ -25,27 +25,20 @@ const useBrowsePageStore = create<BrowsePageStoreState & BrowsePageStoreActions>
             )
           );
         }
-        const flatArrayOfTags = Array.from(activeFilters)
-          .map(({ keys }) => keys)
-          .flat();
-        const filteredArticles = ArticlesJson.filter((article) => {
-          for (const articleTags of article.display.tags) {
-            for (const keyTerm of articleTags.keys) {
-              if (flatArrayOfTags.includes(keyTerm)) {
-                return true;
-              }
-            }
-          }
-          return false;
-        });
         return {
-          ...store,
-          articles: {
-            ...store.articles,
-            visible: filteredArticles
-          },
           filters: {
+            search: store.filters.search,
             activeFilters
+          }
+        };
+      });
+    },
+    updateSearch(term) {
+      return set((store) => {
+        return {
+          filters: {
+            activeFilters: store.filters.activeFilters,
+            search: term
           }
         };
       });

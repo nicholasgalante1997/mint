@@ -8,6 +8,7 @@
 /* 4. Home Page */
 /* 5. Links */
 /* 6. Header/Nav */
+/* 7. Cards */
 
 /****************************************************************************************************************/
 /*********************************************** Fonts **********************************************************/
@@ -144,7 +145,7 @@ body {
 
 #app[data-theme='alt'] {
   background-color: var(--alt-background-200);
-  color: var(--alt-option-100);
+  color: #fff;
 }
 
 /****************************************************************************************************************/
@@ -244,11 +245,23 @@ body {
   color: var(--dark-option-200);
 }
 
-#app[data-theme='light'] .link:focus {
+#app[data-theme='dark'] .link:focus {
+  color: var(--dark-option-200);
+}
+
+#app[data-theme='dark'] .link:active {
+  color: var(--dark-option-100);
+}
+
+#app[data-theme='alt'] .link {
   color: var(--light-option-200);
 }
 
-#app[data-theme='light'] .link:active {
+#app[data-theme='alt'] .link:focus {
+  color: var(--light-option-200);
+}
+
+#app[data-theme='alt'] .link:active {
   color: var(--light-option-100);
 }
 
@@ -333,6 +346,137 @@ body {
   border-radius: 40px;
 }
 
+.couch-mint__theme-button-container {
+  position: fixed;
+  bottom: 10px;
+  right: 16px;
+  isolation: isolate;
+  z-index: 0;
+}
+
+.couch-mint__theme-toggle-button {
+  position: relative;
+}
+
+.couch-mint__theme-selection-popover {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 10px;
+  padding-right: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--dark-option-200);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  background-color: #fff;
+  bottom: 44px;
+  right: 90px;
+  box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.couch-mint__theme-option {
+  font-family: 'Newake';
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  vertical-align: middle;
+  font-size: 16px;
+  color: var(--light-option-300);
+}
+
+.couch-mint__theme-option:hover {
+  transform: scale(1.15);
+}
+
+.couch-mint__theme-option-active {
+  font-weight: 600;
+  color: var(--light-background-200);
+}
+
+/****************************************************************************************************************/
+/*********************************************** Buttons ***********************************************************/
+/****************************************************************************************************************/
+
+.couch-mint__button-primary {
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  color: #000;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-family: 'Newake';
+  font-size: 16px;
+  font-weight: 500;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: 1px;
+  line-height: 24px;
+  min-width: 110px;
+  outline: 0;
+  padding: 0 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.couch-mint__button-primary:focus {
+  color: var(--light-option-300);
+}
+
+.couch-mint__button-primary:hover {
+  border-color: var(--light-option-300);
+  color: var(--light-option-300);
+  fill: var(--light-option-300);
+}
+
+.couch-mint__button-primary:active {
+  border-color: var(--light-option-200);
+  color: var(--light-option-200);
+  fill: var(--light-option-200);
+}
+
+@media (min-width: 768px) {
+  .couch-mint__button-primary {
+    min-width: 120px;
+  }
+}
+
+.couch-mint__button-chip {
+  box-sizing: border-box;
+  padding: 6px 10px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 2px;
+  font-family: 'Newake';
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+#app[data-theme='light'] .couch-mint__button-chip {
+  border: 1px solid var(--light-option-200);
+  color: var(--light-option-200);
+}
+
+#app[data-theme='dark'] .couch-mint__button-chip {
+  border: 1px solid var(--dark-option-100);
+  color: var(--dark-option-100);
+}
+
+#app[data-theme='alt'] .couch-mint__button-chip {
+  border: 1px solid var(--alt-option-100);
+  color: var(--alt-option-100);
+}
+
 /****************************************************************************************************************/
 /*********************************************** Card ***********************************************************/
 /****************************************************************************************************************/
@@ -355,6 +499,7 @@ body {
   background-color: transparent;
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 8px;
   position: relative;
   border-radius: 10px;
   overflow: visible;
@@ -373,6 +518,7 @@ body {
 .card__wrapper[data-couchcardsize='lg'][data-couchcardtype='full'] {
   width: var(--card-width-large);
   min-width: var(--card-width-large);
+  max-width: var(--card-width-large);
   height: var(--card-height-large);
   max-height: var(--card-height-large);
   min-height: var(--card-height-large);
@@ -388,11 +534,15 @@ body {
 
 .card__wrapper[data-couchcardsize='lg'][data-couchcardtype='mini'] {
   width: var(--card-width-large);
+  max-width: var(--card-width-large);
+  min-width: var(--card-width-large);
   height: fit-content;
 }
 
 .card__wrapper[data-couchcardsize='sm'][data-couchcardtype='mini'] {
   width: var(--card-width-small);
+  max-width: var(--card-width-small);
+  min-width: var(--card-width-small);
   height: fit-content;
 }
 
@@ -503,9 +653,6 @@ body {
   overflow: hidden;
 }
 
-.card__text[data-couchcardsize='lg'][data-couchcardtype='full'] {
-}
-
 .card__text[data-couchcardsize='sm'][data-couchcardtype='full'] {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -531,6 +678,14 @@ body {
   color: var(--light-option-200);
 }
 
+#app[data-theme='dark'] .card__text {
+  color: var(--dark-option-200);
+}
+
+#app[data-theme='alt'] .card__text {
+  color: var(--alt-option-100);
+}
+
 .button-small {
   font-family: 'Newake';
   font-weight: 500;
@@ -545,4 +700,83 @@ body {
 .button-small:hover {
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.7);
   transition: box-shadow 400ms;
+}
+
+/****************************************************************************************************************/
+/*********************************************** Browse *********************************************************/
+/****************************************************************************************************************/
+
+.couch-mint__browse-page-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  height: fit-content;
+  z-index: 0;
+}
+
+.couch-mint__card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 684px;
+}
+
+.couch-mint__card-action-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.couch-mint__card-button-chip-row {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+  overflow: hidden;
+  padding-bottom: 24px;
+}
+
+.couch-mint__card-wrapping-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.couch-mint__card-aside-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.couch-mint__card-search-container {
+  box-sizing: border-box;
+  padding: 10px 0px;
+  margin-bottom: 24px;
+}
+
+.couch-mint__card-search-container input {
+  border-radius: 20px;
+  height: 40px;
+  min-width: 512px;
+  box-sizing: border-box;
+  padding: 0px 16px;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  font-family: 'Newake';
+  color: #000;
+}
+
+.couch-mint__card-search-container input::placeholder {
+  color: #868686;
 }

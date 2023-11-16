@@ -6,7 +6,6 @@ import { Text, CouchFont } from '@/components/web/Text';
 
 import { HeaderClassNames } from './HeaderMeta';
 import { HeaderIcon } from './HeaderIcon';
-import { ThemeToggle } from './ThemeToggle';
 
 const Header = memo(function HeaderComponent() {
   const { mode } = useThemeContext();
@@ -22,7 +21,6 @@ const Header = memo(function HeaderComponent() {
         <a className="link">Article Repository</a>
         <a className="link">Subscribe To Mint</a>
         <a className="link">Editorial</a>
-        <ThemeToggle />
       </div>
     </header>
   );

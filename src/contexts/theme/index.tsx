@@ -1,5 +1,6 @@
 import React, { createContext, memo, useContext, useEffect, useState } from 'react';
 import { ThemeContextType, ThemeContextProviderProps, ThemeModeType } from './types';
+import { ThemeToggle } from '@/components/web/ThemeToggle';
 
 const defaultContext: ThemeContextType = {
   dispatchThemeUpdate(nextTheme) {},
@@ -35,6 +36,7 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
     <ThemeContext.Provider value={{ dispatchThemeUpdate: setMode, mode }}>
       <div id="couch-mint__theme" data-mode={mode}>
         {children}
+        <ThemeToggle />
       </div>
     </ThemeContext.Provider>
   );

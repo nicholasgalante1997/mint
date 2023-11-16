@@ -20,6 +20,20 @@
                 "bundle": "home",
                 "html": "index"
             }
+        },
+        {
+            "key": "@mint-browse-page",
+            "path": "mounts/browse-articles/index.tsx",
+            "page": {
+                "registryKey": "@mint-browse-page",
+                "metadata": {
+                    "raw": []
+                }
+            },
+            "out": {
+                "bundle": "browse",
+                "html": "browse-articles"
+            }
         }
     ],
     "data": {

@@ -149,7 +149,6 @@ function BrowsePage() {
               type="mini"
               title={display.title}
               description={display.subtitle}
-              image="https://coincu.com/wp-content/uploads/2022/07/111.png"
               cta={{ text: 'Read', href: '#' }}
             />
           ))}

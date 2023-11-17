@@ -9,6 +9,8 @@
 /* 5. Links */
 /* 6. Header/Nav */
 /* 7. Cards */
+/* 8. Browse */
+/* 9. Article */
 
 /****************************************************************************************************************/
 /*********************************************** Fonts **********************************************************/
@@ -779,4 +781,158 @@ body {
 
 .couch-mint__card-search-container input::placeholder {
   color: #868686;
+}
+
+/****************************************************************************************************************/
+/*********************************************** Article ********************************************************/
+/****************************************************************************************************************/
+
+.couch-mint__main-article-image-container {
+  height: 484px;
+  max-height: 484px;
+  width: 100%;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.couch-mint__main-article-image-container img {
+  aspect-ratio: 16 / 9;
+}
+
+.couch-mint__main-article-title {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-subtitle {
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-metadata-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 16px 4px;
+}
+
+#app[data-theme="light"] .couch-mint__main-article-metadata-row {
+  border-top: 2px solid var(--light-background-200);
+  border-bottom: 2px solid var(--light-background-200);
+}
+
+#app[data-theme="dark"] .couch-mint__main-article-metadata-row {
+  border-top: 2px solid var(--dark-option-100);
+  border-bottom: 2px solid var(--dark-option-100);
+}
+
+#app[data-theme="alt"] .couch-mint__main-article-metadata-row {
+  border-top: 2px solid var(--alt-option-100);
+  border-bottom: 2px solid var(--alt-option-100);
+}
+
+.couch-mint__main-article-metadata-row div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.couch-mint__main-article-metadata-author {
+  font-family: 'Modern Sans';
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-metadata-date {
+  font-family: 'Modern Sans';
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-metadata-collection {
+  font-family: 'Newake';
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-markdown-container {
+  box-sizing: border-box;
+  padding-bottom: 24px;
+}
+
+.couch-mint__main-article-markdown-container p {
+  font-family: 'Modern Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.15;
+}
+
+.couch-mint__main-article-markdown-container h1, 
+.couch-mint__main-article-markdown-container h2,
+.couch-mint__main-article-markdown-container h3,
+.couch-mint__main-article-markdown-container h4,
+.couch-mint__main-article-markdown-container h5,
+.couch-mint__main-article-markdown-container h6 {
+  font-family: 'Newake';
+}
+
+.couch-mint__main-article-share-action {
+  min-width: 170px;
+  min-height: 44px;
+  border-radius: 22px;
+  border: none;
+  font-family: 'Newake';
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: underline;
+}
+
+#app[data-theme="light"] .couch-mint__main-article-share-action {
+  color: #fff;
+  background-color: var(--light-option-200);
+}
+
+#app[data-theme="light"] .couch-mint__main-article-share-action:hover {
+  color: #fff;
+  background-color: var(--light-option-300);
+  transform: scale(1.15);
+  transition: transform 300ms;
+}
+
+#app[data-theme="dark"] .couch-mint__main-article-share-action {
+  color: #fff;
+  background-color: var(--dark-option-200);
+}
+
+#app[data-theme="dark"] .couch-mint__main-article-share-action:hover {
+  color: #fff;
+  background-color: var(--dark-option-300);
+  transform: scale(1.15);
+  transition: transform 300ms;
+}
+
+#app[data-theme="alt"] .couch-mint__main-article-share-action {
+  color: #fff;
+  background-color: var(--alt-option-200);
+}
+
+#app[data-theme="alt"] .couch-mint__main-article-share-action:hover {
+  color: #fff;
+  background-color: var(--alt-option-300);
+  transform: scale(1.15);
+  transition: transform 300ms;
 }

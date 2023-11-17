@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.js",
     "dev:BROWSE": "REQUEST_PAGE=\"@mint-browse-page\" webpack serve --config webpack/webpack.dev.js",
+    "dev:ARTICLE": "REQUEST_PAGE=\"@mint-main-article-page\" webpack serve --config webpack/webpack.dev.js",
     "build": "npm-run-all package:clean package:bundleJs package:compileBuildScript package:buildMarkup package:cleanTmp package:copyAssets",
     "package:clean": "rm -rf build",
     "package:compileBuildScript": "webpack --config webpack/webpack.build-script.js",
@@ -63,5 +64,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.10.0"
+  },
+  "engines": {
+    "node": "~18.18.0"
   }
 }

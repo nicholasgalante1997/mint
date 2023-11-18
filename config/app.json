@@ -34,6 +34,16 @@
                 "bundle": "browse",
                 "html": "browse-articles"
             }
+        },
+        {
+            "key": "@mint-article-bundle",
+            "path": "mounts/articles/index.tsx",
+            "page": {
+                "registryKey": "@mint-main-article-page"
+            },
+            "out": {
+                "bundle": "article"
+            }
         }
     ],
     "data": {
@@ -220,16 +230,12 @@
                 "display": {
                     "image": "/styled-components.png",
                     "imageAltText": "The react.js logo in a light blue hue.",
-                    "title": "Reflecting on the usage of styled-components in a react component library developed while at Amazon Games.",
-                    "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
+                    "title": "Tales From The Couch Dev 1",
+                    "subtitle": "This is my everest.",
                     "tags": [
                         {
                             "visible": "React",
                             "keys": ["react", "react-dom"]
-                        }, 
-                        {
-                            "visible": "styled-components",
-                            "keys": ["styled-components"]
                         }
                     ]
                 }

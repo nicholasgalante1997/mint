@@ -44,4 +44,4 @@ function MainArticleComponent({
   );
 }
 
-export const MainArticle = memo(wrapComponent([ThemeContextProvider], MainArticleComponent));
+export const MainArticle = memo<MainArticleProps>(wrapComponent([ThemeContextProvider], MainArticleComponent));

@@ -3,6 +3,24 @@ export default `
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Odio aenean sed adipiscing diam donec. Leo integer malesuada nunc vel risus commodo viverra. Proin nibh nisl condimentum id venenatis a condimentum vitae sapien. Eu tincidunt tortor aliquam nulla facilisi cras fermentum odio. Id ornare arcu odio ut sem nulla pharetra. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra. A iaculis at erat pellentesque adipiscing commodo elit at. Porttitor lacus luctus accumsan tortor posuere. Massa eget egestas purus viverra. Ac placerat vestibulum lectus mauris ultrices eros. Adipiscing commodo elit at imperdiet dui accumsan. Faucibus purus in massa tempor nec.
 
+## Code Example
+
+~~~js
+const variable1 = 2 + 2;
+~~~
+
+\`\`\`js
+const variable1 = 2 + 2;
+\`\`\`
+
+~~~ts
+const variable1 = 2 + 2;
+~~~
+
+\`\`\`ts
+const variable1 = 2 + 2;
+\`\`\`
+
 ## Ipsum
 
 Orci phasellus egestas tellus rutrum tellus pellentesque eu. Donec ac odio tempor orci dapibus. A scelerisque purus semper eget duis at tellus at. Faucibus purus in massa tempor. Fusce id velit ut tortor pretium viverra. Dignissim sodales ut eu sem integer vitae justo eget magna. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae purus. Scelerisque varius morbi enim nunc faucibus a pellentesque sit. Tortor vitae purus faucibus ornare. Cras ornare arcu dui vivamus arcu felis. Id semper risus in hendrerit gravida rutrum quisque non. Nisi lacus sed viverra tellus in hac habitasse. Et malesuada fames ac turpis. Enim neque volutpat ac tincidunt. Dui sapien eget mi proin sed libero enim sed faucibus.

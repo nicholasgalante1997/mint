@@ -823,17 +823,17 @@ body {
   padding: 16px 4px;
 }
 
-#app[data-theme="light"] .couch-mint__main-article-metadata-row {
+#app[data-theme='light'] .couch-mint__main-article-metadata-row {
   border-top: 2px solid var(--light-background-200);
   border-bottom: 2px solid var(--light-background-200);
 }
 
-#app[data-theme="dark"] .couch-mint__main-article-metadata-row {
+#app[data-theme='dark'] .couch-mint__main-article-metadata-row {
   border-top: 2px solid var(--dark-option-100);
   border-bottom: 2px solid var(--dark-option-100);
 }
 
-#app[data-theme="alt"] .couch-mint__main-article-metadata-row {
+#app[data-theme='alt'] .couch-mint__main-article-metadata-row {
   border-top: 2px solid var(--alt-option-100);
   border-bottom: 2px solid var(--alt-option-100);
 }
@@ -879,7 +879,7 @@ body {
   line-height: 1.15;
 }
 
-.couch-mint__main-article-markdown-container h1, 
+.couch-mint__main-article-markdown-container h1,
 .couch-mint__main-article-markdown-container h2,
 .couch-mint__main-article-markdown-container h3,
 .couch-mint__main-article-markdown-container h4,
@@ -901,36 +901,36 @@ body {
   text-decoration: underline;
 }
 
-#app[data-theme="light"] .couch-mint__main-article-share-action {
+#app[data-theme='light'] .couch-mint__main-article-share-action {
   color: #fff;
   background-color: var(--light-option-200);
 }
 
-#app[data-theme="light"] .couch-mint__main-article-share-action:hover {
+#app[data-theme='light'] .couch-mint__main-article-share-action:hover {
   color: #fff;
   background-color: var(--light-option-300);
   transform: scale(1.15);
   transition: transform 300ms;
 }
 
-#app[data-theme="dark"] .couch-mint__main-article-share-action {
+#app[data-theme='dark'] .couch-mint__main-article-share-action {
   color: #fff;
   background-color: var(--dark-option-200);
 }
 
-#app[data-theme="dark"] .couch-mint__main-article-share-action:hover {
+#app[data-theme='dark'] .couch-mint__main-article-share-action:hover {
   color: #fff;
   background-color: var(--dark-option-300);
   transform: scale(1.15);
   transition: transform 300ms;
 }
 
-#app[data-theme="alt"] .couch-mint__main-article-share-action {
+#app[data-theme='alt'] .couch-mint__main-article-share-action {
   color: #fff;
   background-color: var(--alt-option-200);
 }
 
-#app[data-theme="alt"] .couch-mint__main-article-share-action:hover {
+#app[data-theme='alt'] .couch-mint__main-article-share-action:hover {
   color: #fff;
   background-color: var(--alt-option-300);
   transform: scale(1.15);

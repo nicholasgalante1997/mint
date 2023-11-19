@@ -12,6 +12,17 @@ Rhoncus dolor purus non enim praesent elementum facilisis leo. Malesuada bibendu
 
 Porta lorem mollis aliquam ut porttitor leo. Pellentesque id nibh tortor id aliquet lectus proin. Sodales ut eu sem integer vitae justo eget magna. Sagittis eu volutpat odio facilisis mauris sit amet. Consectetur lorem donec massa sapien. Nisl pretium fusce id velit ut. Consectetur adipiscing elit pellentesque habitant morbi tristique. Magna fermentum iaculis eu non diam phasellus vestibulum lorem sed. Dui nunc mattis enim ut. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Integer malesuada nunc vel risus commodo viverra maecenas accumsan. Aenean vel elit scelerisque mauris pellentesque. Ornare lectus sit amet est placerat. Tempus urna et pharetra pharetra massa massa. Et pharetra pharetra massa massa ultricies mi quis hendrerit. Egestas tellus rutrum tellus pellentesque eu tincidunt. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar.
 
+## Code Example
+
+~~~js
+const variable1 = 2 + 2;
+~~~
+
+~~~ts
+const variable1 = 2 + 2;
+~~~
+
+
 ### More Ipsum
 
 Neque egestas congue quisque egestas diam in. Molestie nunc non blandit massa enim nec. Tortor condimentum lacinia quis vel eros donec ac odio tempor. Sed risus ultricies tristique nulla. Risus feugiat in ante metus dictum at tempor. Sagittis nisl rhoncus mattis rhoncus urna. Bibendum neque egestas congue quisque egestas diam. Turpis egestas pretium aenean pharetra. Dui accumsan sit amet nulla facilisi morbi tempus iaculis. Id aliquet lectus proin nibh.

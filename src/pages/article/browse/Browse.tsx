@@ -6,16 +6,13 @@ import { ThemeContextProvider } from '@/contexts';
 import { useBrowsePageStore } from '@/store';
 import { ButtonChip } from '@/components/web/ButtonChip';
 
-const BrowsePageClassNames = {
-  Container: 'couch-mint__browse-page-container',
-  CardGridContainer: 'couch-mint__card-container',
-  ActionContainer: 'couch-mint__card-action-container',
-  SearchContainer: 'couch-mint__card-search-container',
-  Search: 'couch-mint__card-search-input',
-  ButtonChipRow: 'couch-mint__card-button-chip-row',
-  CardWrappingGrid: 'couch-mint__card-wrapping-container',
-  CardAsideColumn: 'couch-mint__card-aside-container'
-} as const;
+import { BrowsePageClassNames } from './BrowseMeta';
+
+function buildLocalHrefFromArticleFilePath(key: string) {
+  const [dataSrcFolder, ...rest] = key.split('/');
+  const pathWithoutFileEnding = rest.join('-').replace(/.md/, '.html');
+  return '/' + pathWithoutFileEnding;
+}
 
 function BrowsePage() {
   const { articles, filters, updateFilter, updateSearch } = useBrowsePageStore();
@@ -127,7 +124,7 @@ function BrowsePage() {
           </div>
           <Suspense fallback={<p>Loading</p>}>
             <div suppressHydrationWarning className={BrowsePageClassNames.CardWrappingGrid}>
-              {deferredVisible.map(({ display, key }) => (
+              {deferredVisible.map(({ display, key, contentPath }) => (
                 <Card
                   key={key}
                   size="lg"
@@ -135,21 +132,21 @@ function BrowsePage() {
                   title={display.title}
                   description={display.subtitle}
                   image="https://coincu.com/wp-content/uploads/2022/07/111.png"
-                  cta={{ text: 'Read', href: '#' }}
+                  cta={{ text: 'Read', href: buildLocalHrefFromArticleFilePath(contentPath) }}
                 />
               ))}
             </div>
           </Suspense>
         </div>
         <aside className={BrowsePageClassNames.CardAsideColumn}>
-          {nicksPicks.map(({ display, key }) => (
+          {nicksPicks.map(({ display, key, contentPath }) => (
             <Card
               key={key}
               size="lg"
               type="mini"
               title={display.title}
               description={display.subtitle}
-              cta={{ text: 'Read', href: '#' }}
+              cta={{ text: 'Read', href: buildLocalHrefFromArticleFilePath(contentPath) }}
             />
           ))}
         </aside>

@@ -16,12 +16,11 @@ const seoMarker = '<!-- @couch-mint/seo-additional-metadata -->';
 
 /**
  * What does this build script do?
- * 
+ *
  * > Our application's entire configuration is derived from the json blob provided in
  */
 
 try {
-
   /**
    * 1. Load the template html file
    */
@@ -37,17 +36,18 @@ try {
    * - or both
    */
   for (const entrypoint of AppConfig.entrypoints) {
-
     /** 2.1 Destructure necessary properties off entrypoint */
     const {
-      page: { registryKey }, /** the `registryKey` is used to index the PageIndex map of Page Level Components */
+      page: {
+        registryKey
+      } /** the `registryKey` is used to index the PageIndex map of Page Level Components */,
       out: { bundle, html } /** Used to drive the output of the build operation */
     } = entrypoint;
 
     /**
      * This build script is only concerned with static html file generation,
-     * there is a webpack configuration that iterates through AppConfig.entrypoints 
-     * and generates the client side javascript bundles that are injected into 
+     * there is a webpack configuration that iterates through AppConfig.entrypoints
+     * and generates the client side javascript bundles that are injected into
      * these statically generated markup files,
      * so if a given entrypoint does not have an html field
      * we can skip generating its server side markup (as it may not have one)
@@ -80,11 +80,16 @@ try {
    */
   for (const article of AppConfig.data.articles) {
     const { contentPath, display, key } = article;
+
     const Component = PageIndex.get(PageIndexKey.MainArticle);
+
     if (!Component) {
       throw new Error('PageIndexReturnedNullException');
     }
-    const markdownFile = fs.readFileSync(path.resolve(process.cwd(), ...contentPath.split('/')), { encoding: 'utf-8' })
+
+    const markdownFile = fs.readFileSync(path.resolve(process.cwd(), ...contentPath.split('/')), {
+      encoding: 'utf-8'
+    });
     if (!markdownFile || markdownFile === '') {
       throw new Error('MarkdownFileCorruptionException:::' + key);
     }
@@ -109,12 +114,16 @@ try {
     copyOfHtmlTemplate = copyOfHtmlTemplate
       .replace(reactAppMarker, componentAsString)
       .replace(bundleMarker, `<script src="article.bundle.js" defer></script>`)
-      .replace(propMarker, `<script id="@couch-gag/mint__props-node" type="application/json">${JSON.stringify(props)}</script>`);
+      .replace(
+        propMarker,
+        `<script id="@couch-gag/mint__props-node" type="application/json">${JSON.stringify(
+          props
+        )}</script>`
+      );
 
-    console.log(htmlFileName)
-    console.log(path.resolve(outDir, htmlFileName))
-    fs.writeFileSync(path.resolve(outDir, htmlFileName) + '.html', copyOfHtmlTemplate, { encoding: 'utf-8' });
-
+    fs.writeFileSync(path.resolve(outDir, htmlFileName) + '.html', copyOfHtmlTemplate, {
+      encoding: 'utf-8'
+    });
   }
 } catch (e) {
   console.error(e);

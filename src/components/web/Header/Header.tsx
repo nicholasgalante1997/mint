@@ -18,7 +18,9 @@ const Header = memo(function HeaderComponent() {
         </Text>
       </div>
       <div className={HeaderClassNames.LinkContainer}>
-        <a className="link">Article Repository</a>
+        <a target="_self" href="/browse-articles.html" className="link">
+          Article Repository
+        </a>
         <a className="link">Subscribe To Mint</a>
         <a className="link">Editorial</a>
       </div>

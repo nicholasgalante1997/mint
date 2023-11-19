@@ -5,9 +5,7 @@ function getProps<T = any>() {
     if (!dataAsString) {
       return null;
     }
-    console.log({dataAsString})
     const data = JSON.parse(dataAsString) as T;
-    console.log({ data })
     propsElement.remove();
     return data;
   }

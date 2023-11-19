@@ -34,7 +34,7 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
 
   return (
     <ThemeContext.Provider value={{ dispatchThemeUpdate: setMode, mode }}>
-      <div id="couch-mint__theme" data-mode={mode}>
+      <div suppressHydrationWarning id="couch-mint__theme" data-mode={mode}>
         {children}
         <ThemeToggle />
       </div>

@@ -1,12 +1,6 @@
 import React from 'react';
-
+import { getProps, render } from '@/lib';
 import { MainArticle, MainArticleProps } from '@/pages/article/main';
 
-import { getProps, render } from '@/lib';
-
 const props = getProps<MainArticleProps>();
-
-console.log({ props });
-
-render({ Component: MainArticle, mountingElement: 'app', props })
-
+render({ Component: MainArticle, mountingElement: 'app', props });

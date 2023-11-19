@@ -7,13 +7,14 @@ import { ThemeContextProvider } from '@/contexts';
 
 import { MainArticleClassNames } from './MainArticleMeta';
 import { MainArticleProps } from './types';
+import { CodeBlock } from '@/components/web/CodeBlock';
 
 function MainArticleComponent({
   public: { markdown, publishing, image, subtitle, title }
 }: MainArticleProps) {
   async function onCopy() {
     if (typeof window !== 'undefined') {
-      window.navigator && await window.navigator.clipboard.writeText(window.location.href);
+      window.navigator && (await window.navigator.clipboard.writeText(window.location.href));
     }
   }
   return (
@@ -34,14 +35,18 @@ function MainArticleComponent({
           <span className={MainArticleClassNames.Date}>{publishing.date}</span>
         </div>
         <div>
-          <button onClick={onCopy} className={MainArticleClassNames.ShareButton}>Share</button>
+          <button onClick={onCopy} className={MainArticleClassNames.ShareButton}>
+            Share
+          </button>
         </div>
       </div>
       <div className={MainArticleClassNames.MarkdownContainer}>
-        <ReactMarkdown children={markdown} />
+        <ReactMarkdown components={{ code: CodeBlock }} children={markdown} />
       </div>
     </React.Fragment>
   );
 }
 
-export const MainArticle = memo<MainArticleProps>(wrapComponent([ThemeContextProvider], MainArticleComponent));
+export const MainArticle = memo<MainArticleProps>(
+  wrapComponent([ThemeContextProvider], MainArticleComponent)
+);

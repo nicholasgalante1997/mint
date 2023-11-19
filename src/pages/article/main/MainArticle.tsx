@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { CouchFont, Header, Text } from '@/components';
 import { wrapComponent } from '@/lib';
@@ -41,7 +42,7 @@ function MainArticleComponent({
         </div>
       </div>
       <div className={MainArticleClassNames.MarkdownContainer}>
-        <ReactMarkdown components={{ code: CodeBlock }} children={markdown} />
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ code: CodeBlock }} children={markdown} />
       </div>
     </React.Fragment>
   );

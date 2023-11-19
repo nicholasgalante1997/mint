@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { synthwave84 } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 function CodeBlockComponent(props: any) {
-  console.log({ props, component: 'CodeBlock' });
   const { children, className, node, ...rest } = props;
   const match = /language-(\w+)/.exec(className || '');
   return match ? (
@@ -12,7 +11,7 @@ function CodeBlockComponent(props: any) {
       PreTag="div"
       children={String(children).replace(/\n$/, '')}
       language={match[1]}
-      style={synthwave84}
+      style={dracula}
     />
   ) : (
     <code {...rest} className={className}>

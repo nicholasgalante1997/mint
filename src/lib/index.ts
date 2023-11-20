@@ -4,3 +4,5 @@ export * from './render';
 export * from './wrapComponent';
 export * from './to';
 export * from './string';
+export * from './analytics';
+export * from './api';

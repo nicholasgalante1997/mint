@@ -26,7 +26,12 @@ const prod = {
   output: {
     clean: false,
     path: path.resolve(process.cwd(), 'build'),
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    module: true,
+    chunkFormat: 'module'
+  },
+  experiments: {
+    outputModule: true
   }
 };
 

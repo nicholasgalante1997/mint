@@ -6,7 +6,7 @@ dotenv.config();
 
 module.exports = {
   cache: false,
-  target: ['web', 'es2017'],
+  target: ['web', 'es2020'],
   module: {
     rules: [
       {

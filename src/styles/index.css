@@ -873,10 +873,10 @@ body {
 
 .couch-mint__main-article-markdown-container p {
   font-family: 'Modern Sans';
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: normal;
-  line-height: 1.15;
+  line-height: 1.5;
 }
 
 .couch-mint__main-article-markdown-container h1,

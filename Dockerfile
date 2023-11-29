@@ -17,7 +17,6 @@ COPY ./pnpm-lock.yaml ./
 COPY ./tsconfig.json ./
 COPY ./babel.config.json ./
 COPY ./build.tsx ./
-
 COPY ./webpack/ ./webpack/
 COPY ./assets/ ./assets/
 COPY ./html/ ./html/
@@ -41,6 +40,7 @@ RUN rm -rf node_modules \
 CMD ["npx", "serve", "build", "-p", "3000"]
 
 # # Nginx webserver
+
 # FROM nginx as webserver
 # # Copy static website over to expected distribution directory
 # COPY --from=node --chown=node:webserver /home/couch/mint/web/build /usr/share/nginx/html

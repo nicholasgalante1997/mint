@@ -42,7 +42,11 @@ function MainArticleComponent({
         </div>
       </div>
       <div className={MainArticleClassNames.MarkdownContainer}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ code: CodeBlock }} children={markdown} />
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{ code: CodeBlock }}
+          children={markdown}
+        />
       </div>
     </React.Fragment>
   );

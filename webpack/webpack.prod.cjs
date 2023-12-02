@@ -4,7 +4,7 @@ const { merge } = require('webpack-merge');
 
 const AppConfig = require('../config/app.json');
 
-const common = require('./webpack.common');
+const common = require('./webpack.common.cjs');
 
 dotenv.config();
 
@@ -25,7 +25,7 @@ const prod = {
   entry: getEntryObject(),
   output: {
     clean: false,
-    path: path.resolve(process.cwd(), 'build'),
+    path: path.resolve(process.cwd(), 'build', 'web'),
     filename: '[name].bundle.js',
     module: true,
     chunkFormat: 'module'

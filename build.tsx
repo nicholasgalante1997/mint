@@ -8,7 +8,7 @@ import AppConfig from './config/app.json';
 import { PageIndex, PageIndexKey } from './src/pages';
 import { MainArticleProps } from './src/pages/article/main/types';
 
-const outDir = path.resolve(process.cwd(), 'build');
+const outDir = path.resolve(process.cwd(), 'build', 'web');
 const bundleMarker = '<!-- @couch-mint/bundle-entrypoint -->';
 const reactAppMarker = '<!-- @couch-mint/react-entrypoint -->';
 const propMarker = '<!-- @couch-mint/props-injection-point -->';

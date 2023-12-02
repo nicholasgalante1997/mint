@@ -1,0 +1,3 @@
+# Mint Web Server
+
+## Architecture

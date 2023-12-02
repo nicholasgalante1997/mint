@@ -24,30 +24,31 @@ function sendToAnalytics(metric: any) {
       timestamp: moment().toISOString()
     },
     data: body
-  }
+  };
   const canUseBeacon =
     typeof window !== 'undefined' && window?.navigator && window?.navigator?.sendBeacon;
   if (canUseBeacon) {
-    const beaconResult = window.navigator.sendBeacon(MintApiClient.__ANALYTICS_ENDPOINT__ + '/create', JSON.stringify(data));
+    const beaconResult = window.navigator.sendBeacon(
+      MintApiClient.__ANALYTICS_ENDPOINT__ + '/create',
+      JSON.stringify(data)
+    );
     if (!beaconResult) {
       console.warn('Failed to queue beacon analytics post.');
     }
   } else {
-    axios.post(
-      MintApiClient.__ANALYTICS_ENDPOINT__ + '/create',
-      data
-    )
-    .then(({ data, status }) => {
-      if (status < 200 || status > 299) {
-        throw new Error('ServerReturnedExceptionStatusCode');
-      }
+    axios
+      .post(MintApiClient.__ANALYTICS_ENDPOINT__ + '/create', data)
+      .then(({ data, status }) => {
+        if (status < 200 || status > 299) {
+          throw new Error('ServerReturnedExceptionStatusCode');
+        }
 
-      console.log({ data });
-    })
-    .catch(e => {
-      console.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
-      console.error(e);
-    })
+        console.log({ data });
+      })
+      .catch((e) => {
+        console.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
+        console.error(e);
+      });
   }
 }
 

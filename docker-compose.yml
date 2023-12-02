@@ -4,6 +4,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: couch-mint-web-nginx-webserver
+    image: couch-mint-web-server
     ports:
-      - "3000:3000"
+      - "8080:8080"

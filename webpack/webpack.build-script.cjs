@@ -7,7 +7,7 @@ const buildScript = {
   entry: path.resolve(process.cwd(), 'build.tsx'),
   output: {
     path: path.resolve(process.cwd(), '.build-process'),
-    filename: '[name].js'
+    filename: '[name].cjs'
   },
   module: {
     rules: [

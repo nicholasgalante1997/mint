@@ -4,6 +4,7 @@ FROM node:18-slim as node
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV RUNTIME_STAGE="production"
+
 # Enable pnpm via corepack @see https://nodejs.org/api/corepack.html
 RUN corepack enable
 # Create app directory
@@ -12,7 +13,7 @@ RUN mkdir -p /home/couch/mint/web
 WORKDIR /home/couch/mint/web
 # Copy over the package manifest and dependency lockfile
 COPY ./package.json ./
-COPY ./pnpm-lock.yaml ./
+
 # Copy over app
 COPY ./tsconfig.json ./
 COPY ./babel.config.json ./
@@ -35,14 +36,19 @@ RUN rm -rf node_modules \
     assets \
     html \
     scripts \
-    webpack
+    webpack \ 
+    package.json \
+    pnpm-lock.yaml \
+    build.tsx \ 
+    babel.config.json \ 
+    tsconfig.json
 
-CMD ["npx", "serve", "build", "-p", "3000"]
+# Copy over production web-server code
+COPY ./server/*.mjs ./server/
+# Copy over production server package.json
+COPY ./server/package.json ./package.json
+# Install production dependencies
+RUN pnpm install --prod
+# Start the pm2 node process manager script.
+CMD ["node", "./server/pm2.mjs"]
 
-# # Nginx webserver
-
-# FROM nginx as webserver
-# # Copy static website over to expected distribution directory
-# COPY --from=node --chown=node:webserver /home/couch/mint/web/build /usr/share/nginx/html
-# # Copy over our desired nginx configuration
-# COPY nginx.conf /etc/nginx/nginx.conf

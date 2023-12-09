@@ -9,6 +9,7 @@ import { ThemeContextProvider } from '@/contexts';
 import { MainArticleClassNames } from './MainArticleMeta';
 import { MainArticleProps } from './types';
 import { CodeBlock } from '@/components/web/CodeBlock';
+import { Summary } from '@/components/web/Summary/Summary';
 
 function MainArticleComponent({
   public: { markdown, publishing, image, subtitle, title }
@@ -27,9 +28,7 @@ function MainArticleComponent({
       <Text className={MainArticleClassNames.Title} as="h1" font={CouchFont.Newake}>
         {title}
       </Text>
-      <Text className={MainArticleClassNames.Subtitle} as="p" font={CouchFont.ModernSans}>
-        {subtitle}
-      </Text>
+      <Summary content={subtitle} />
       <div className={MainArticleClassNames.MetadataRow}>
         <div>
           <span className={MainArticleClassNames.Author}>by Nick Galante</span>

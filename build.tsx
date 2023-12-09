@@ -17,7 +17,7 @@ const seoMarker = '<!-- @couch-mint/seo-additional-metadata -->';
 /**
  * What does this build script do?
  *
- * > Our application's entire configuration is derived from the json blob provided in
+ * > Our application's entire configuration is derived from the json blob provided in config/app.json
  */
 
 try {

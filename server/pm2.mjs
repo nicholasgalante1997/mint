@@ -37,11 +37,12 @@ pm2.connect((error) => {
       /**
        * If we disconnect from pm2,
        * the contsiner exits as a looping process.
-       * 
-       * We could loop possibly, to avoid exiting the container 
-       * but also close the connection 
+       *
+       * We could loop possibly, to avoid exiting the container
+       * but also close the connection
        */
-      /** pm2.disconnect(); */
+      pm2.disconnect();
+      while (true) {}
     }
   );
 });

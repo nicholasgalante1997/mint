@@ -1,6 +1,5 @@
 import React, { createContext, memo, useContext, useEffect, useState } from 'react';
 import { ThemeContextType, ThemeContextProviderProps, ThemeModeType } from './types';
-import { ThemeToggle } from '@/components/web/ThemeToggle';
 
 const defaultContext: ThemeContextType = {
   dispatchThemeUpdate(nextTheme) {},
@@ -14,7 +13,7 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
   children,
   initialMode = 'light'
 }: ThemeContextProviderProps) {
-  const [mode, setMode] = useState<ThemeModeType>(initialMode);
+  const [mode, setMode] = useState<ThemeModeType>(/* initialMode */ 'dark');
 
   useEffect(() => {
     const storedTheme = window.localStorage.getItem('@couch-mint/theme');
@@ -36,7 +35,6 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
     <ThemeContext.Provider value={{ dispatchThemeUpdate: setMode, mode }}>
       <div suppressHydrationWarning id="couch-mint__theme" data-mode={mode}>
         {children}
-        <ThemeToggle />
       </div>
     </ThemeContext.Provider>
   );

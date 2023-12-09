@@ -86,7 +86,7 @@
   --dark-option-200: #778da9;
   --dark-option-300: #415a77;
 
-  --light-background-100: #e0e1dd;
+  --light-background-100: #fff;
   --light-background-200: #778da9;
   --light-option-100: #0d1b2a;
   --light-option-200: #1b263b;
@@ -823,21 +823,6 @@ body {
   padding: 16px 4px;
 }
 
-#app[data-theme='light'] .couch-mint__main-article-metadata-row {
-  border-top: 2px solid var(--light-background-200);
-  border-bottom: 2px solid var(--light-background-200);
-}
-
-#app[data-theme='dark'] .couch-mint__main-article-metadata-row {
-  border-top: 2px solid var(--dark-option-100);
-  border-bottom: 2px solid var(--dark-option-100);
-}
-
-#app[data-theme='alt'] .couch-mint__main-article-metadata-row {
-  border-top: 2px solid var(--alt-option-100);
-  border-bottom: 2px solid var(--alt-option-100);
-}
-
 .couch-mint__main-article-metadata-row div {
   display: flex;
   flex-direction: row;
@@ -935,4 +920,67 @@ body {
   background-color: var(--alt-option-300);
   transform: scale(1.15);
   transition: transform 300ms;
+}
+
+.summary__wrapping-container {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#app[data-theme='light'] .summary__wrapping-container {
+  background-color: var(--dark-background-100);
+  color: var(--dark-option-100);
+  border: 1px solid var(--dark-background-200);
+  border-radius: 10px;
+}
+
+#app[data-theme='dark'] .summary__wrapping-container {
+  background-color: var(--dark-option-300);
+  color: var(--light-background-100);
+  border: 1px solid var(--light-background-100);
+  border-radius: 10px;
+}
+
+#app[data-theme='alt'] .summary__wrapping-container {
+  background-color: var(--alt-background-200);
+  color: var(--light-background-100);
+  border: 1px solid var(--light-background-100);
+  border-radius: 10px;
+}
+
+.summary__label-section-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.summary__label {
+  font-weight: bolder;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+  text-decoration: underline;
+  letter-spacing: 0.04em;
+}
+
+.summary__content-section-container {
+  box-sizing: border-box;
+  padding-top: 4px;
+  text-align: left;
+  text-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.summary__content-text {
+  font-weight: lighter;
+  font-size: 14px;
+  line-height: 1.15;
+  text-align: left;
+  margin-block: 0px;
 }

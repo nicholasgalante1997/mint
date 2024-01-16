@@ -34,13 +34,6 @@ pm2.connect((error) => {
         `@mint/pm2-web-server process manager started in cluster mode with ${PM2_INSTANCE_COUNT} instances and auto-restart on failure`
       );
 
-      /**
-       * If we disconnect from pm2,
-       * the contsiner exits as a looping process.
-       *
-       * We could loop possibly, to avoid exiting the container
-       * but also close the connection
-       */
       pm2.disconnect();
       while (true) {}
     }

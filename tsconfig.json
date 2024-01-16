@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-      "target": "es2017",
+      "target": "es6",
       "lib": [
-        "DOM",
-        "DOM.Iterable",
-        "ES2017"
+        "dom",
+        "dom.iterable",
+        "es6"
       ],
-      "jsx": "react-jsx",
-      "module": "es2020",
+      "jsx": "react",
+      "module": "es6",
       "rootDir": ".",
       "moduleResolution": "bundler",
       "baseUrl": ".",

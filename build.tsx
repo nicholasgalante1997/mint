@@ -12,7 +12,6 @@ const outDir = path.resolve(process.cwd(), 'build', 'web');
 const bundleMarker = '<!-- @couch-mint/bundle-entrypoint -->';
 const reactAppMarker = '<!-- @couch-mint/react-entrypoint -->';
 const propMarker = '<!-- @couch-mint/props-injection-point -->';
-const seoMarker = '<!-- @couch-mint/seo-additional-metadata -->';
 
 /**
  * What does this build script do?

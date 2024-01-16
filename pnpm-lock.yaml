@@ -14,9 +14,18 @@ dependencies:
   gsap:
     specifier: ^3.12.2
     version: 3.12.2
+  heller-2-lite:
+    specifier: ^0.0.18
+    version: 0.0.18
+  heller-2-react:
+    specifier: ^0.0.4
+    version: 0.0.4(heller-2-lite@0.0.18)(react-dom@18.2.0)(react@18.2.0)
   lodash.isequal:
     specifier: ^4.5.0
     version: 4.5.0
+  moment:
+    specifier: ^2.29.4
+    version: 2.29.4
   pino:
     specifier: ^8.16.1
     version: 8.16.1
@@ -121,9 +130,6 @@ devDependencies:
   json-loader:
     specifier: ^0.5.7
     version: 0.5.7
-  moment:
-    specifier: ^2.29.4
-    version: 2.29.4
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
@@ -4943,6 +4949,10 @@ packages:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
 
+  /classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
+    dev: false
+
   /clean-css@5.3.2:
     resolution: {integrity: sha512-JVJbM+f3d3Q704rF4bqQ5UUyTtuJ0JRKNbTKVEeujCCBoMdkEi+V+e8oktO9qGQNSvHrFTM6JZRXrUvGR1czww==}
     engines: {node: '>= 10.0'}
@@ -6478,6 +6488,24 @@ packages:
     hasBin: true
     dev: true
 
+  /heller-2-lite@0.0.18:
+    resolution: {integrity: sha512-ZWHDPzWT2O9oCiab6pdEDnmKqRnVJxDW3SF8v2LNPwKxILCcwbYT8u69Yc1YUmH4wNMhvp/6/Ax1wI7YTEg1Xg==}
+    dev: false
+
+  /heller-2-react@0.0.4(heller-2-lite@0.0.18)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-6k5eo8dFnEkquCo0k+mgsJia7hHskw2GR/DL7FAA3hNrdUJ2Fz1kqIj8DwR2622/IHJrACs8rISppr/sxmBSdw==}
+    peerDependencies:
+      heller-2-lite: ^0.0.18
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      classnames: 2.5.1
+      heller-2-lite: 0.0.18
+      lodash.isequal: 4.5.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /help-me@4.2.0:
     resolution: {integrity: sha512-TAOnTB8Tz5Dw8penUuzHVrKNKlCIbwwbHnXraNJxPwf8LRtE2HlM84RYuezMFcwOJmoYOCWVDyJ8TQGxn9PgxA==}
     dependencies:
@@ -8010,7 +8038,7 @@ packages:
 
   /moment@2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
-    dev: true
+    dev: false
 
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}

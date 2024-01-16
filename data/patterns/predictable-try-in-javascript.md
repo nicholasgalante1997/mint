@@ -1,32 +1,34 @@
-# Abstract
+# Outline Section
 
-This article is about handling operations that could fail in typescript, leveraging `try-catch` code blocks, for altogether cleaner and more readable implementation code. This implementation leans on the notion of Options, which is a concept in both Java and Rust programming, where a given value could be something or nothing.
+1. What is this article about?
+   1. Handling errors in javascript in a more predictable manner
+2. Code Smells with Try Catch
+   1. Realistic application examples create ambiguous failure points in try blocks
+   2. Abstracting internal `try-catch` logic to each potentially fallable function results in a similar boiler-plate code lift, which feels adversarial to DRY principles.
+      1. What if we need to update how we're handling errors? Now we need to update it everywhere we have a catch block
+   3. Nesting `try-catch` blocks leads to unreadable and difficult to maintain code, as well as extra boiler plate code to lift the variable back into usable scope
 
-## Foreground - The Problem Space  
+---
 
-In the course of application development, as functionality and complexity grow, it's likely you arrive at a situation in which you'll introduce some logic or code that could fail on execution, whether that be due to a failed network request, or invalid user input, or any other means of failed execution. In Javascript and Typescript development, you could handle these cases leveraging try-catch blocks, to more gracefully handle error cases that could arise during application execution. A typical implementation pattern might resemble the following:
+# Foreward
 
-~~~ts
+This article is going to discuss exception handling in javascript (and also typescript), and then approach several code smells that could be easily associated with conventional try-catch blocks in production applications. I'll then offer an alternative pattern based on the Java or Rust 'Option' concept.
 
-function opCouldFail() {
-    /** logic */
-}
+# Error Handling in Javascript
 
-try {
-    const data = opCouldFail();
-    /** Do something with data */
-} catch (e: unknown) {
-    console.error('An error occurred', e);
-}
+Javascript offers several methods for handling errors that could be thrown during the execution of your code. For synchronus operations, it's often conventional to wrap fallable code execution in a try-catch block. When working with promises, the standard Javascript Promise definition allows for attaching a .catch block to a promise, which accepts a function that will be executed if an error occurs during the resolution of the promise (aka a rejection). With the emergence of async/await syntax with ES6, asynchronous fallable code can now also be handled with try catch blocks, allowing for more uniform syntax and an overall better developer experience (less syntax switching).
 
-~~~
+Below is an example of a try catch block that encapsulates an attempt to read a file. This operation could fail because the file could have the incorrect permissions, or not exist at all.
 
-With the above block in place, if an error were to occur during the execution of `opCouldFail()`, our program would continue, as we've handled the error programmatically via implementing a catch block. Without implementing a catch block for handling errors that arise during the execution of our code, we're defaulting to relying on the behavior of the execution environment for encountering errors. We typically do not want to do this, for example the NodeJS engine will exit the active NodeJS Process with a non-zero error code when the engine encounters an unhandled exception thrown in the course of application execution.  
+```javascript
+import fs from 'fs';
+import path from 'path';
 
-### Code Smells That Might Arise
+(async () => {
+   try {
+      console.log(await fs.readFile())
+   } catch(e) {
 
-- Realistic application examples create ambiguous failure points in try blocks
-- Abstracting internal `try-catch` logic to each potentially fallable function results in a similar boiler-plate code lift, which feels adversarial to DRY principles.
-  - What if we need to update how we're handling errors? Now we need to update it everywhere we have a catch block
-- Nesting `try-catch` blocks leads to unreadable and difficult to maintain code
-
+   }
+})();
+```

@@ -76,29 +76,19 @@
   font-family: 'Newake', system-ui;
 }
 
+@font-face {
+  font-family: 'League Spartan';
+  src: url('LeagueSpartan.ttf');
+  font-display: swap;
+}
+
+.couch-mint__ls {
+  font-family: 'League Spartan', system-ui;
+}
+
 /****************************************************************************************************************/
 /*********************************************** Root ***********************************************************/
 /****************************************************************************************************************/
-:root {
-  --dark-background-100: #0d1b2a;
-  --dark-background-200: #1b263b;
-  --dark-option-100: #e0e1dd;
-  --dark-option-200: #778da9;
-  --dark-option-300: #415a77;
-
-  --light-background-100: #fff;
-  --light-background-200: #778da9;
-  --light-option-100: #0d1b2a;
-  --light-option-200: #1b263b;
-  --light-option-300: #415a77;
-
-  --alt-background-100: #2f3e46;
-  --alt-background-200: #354f52;
-  --alt-option-100: #cad2c5;
-  --alt-option-200: #84a98c;
-  --alt-option-300: #52796f;
-}
-
 html,
 body {
   font-family: system-ui;
@@ -109,6 +99,10 @@ body {
 
   overflow-x: hidden;
   overflow-y: hidden;
+  font-family: 'League Spartan';
+
+  background-color: var(--color-base-black-eta);
+  color: var(--color-base-white-alpha);
 }
 
 * {
@@ -135,53 +129,21 @@ body {
   overflow-y: scroll;
 }
 
-#app[data-theme='light'] {
-  background-color: var(--light-background-100);
-  color: var(--light-option-100);
-}
-
-#app[data-theme='dark'] {
-  background-color: var(--dark-background-100);
-  color: var(--dark-option-100);
-}
-
-#app[data-theme='alt'] {
-  background-color: var(--alt-background-200);
-  color: #fff;
+button {
+  font-family: 'League Spartan';
 }
 
 /****************************************************************************************************************/
 /*********************************************** @Couch-Mint/Theme **********************************************/
 /****************************************************************************************************************/
 
-#couch-mint__theme {
+.heller2-theme {
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
   margin: 0;
   padding: 32px;
   max-width: 1024px;
-}
-
-#couch-mint__theme-toggle {
-  position: fixed;
-  bottom: 10vh;
-  right: 5vh;
-
-  width: 220px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-
-  border-radius: 20px;
-  border: 2px solid black;
-
-  box-sizing: border-box;
-  padding: 8px;
-
-  background-color: var(--light-background-200);
 }
 
 /****************************************************************************************************************/
@@ -224,47 +186,10 @@ body {
 /****************************************************************************************************************/
 
 .link {
-  font-family: 'Newake';
-  font-weight: 300;
+  font-weight: 500;
   text-decoration: underline;
   letter-spacing: 0.04em;
   line-height: 1.15;
-}
-
-#app[data-theme='light'] .link {
-  color: var(--light-option-300);
-}
-
-#app[data-theme='light'] .link:focus {
-  color: var(--light-option-200);
-}
-
-#app[data-theme='light'] .link:active {
-  color: var(--light-option-100);
-}
-
-#app[data-theme='dark'] .link {
-  color: var(--dark-option-200);
-}
-
-#app[data-theme='dark'] .link:focus {
-  color: var(--dark-option-200);
-}
-
-#app[data-theme='dark'] .link:active {
-  color: var(--dark-option-100);
-}
-
-#app[data-theme='alt'] .link {
-  color: var(--light-option-200);
-}
-
-#app[data-theme='alt'] .link:focus {
-  color: var(--light-option-200);
-}
-
-#app[data-theme='alt'] .link:active {
-  color: var(--light-option-100);
 }
 
 /****************************************************************************************************************/
@@ -289,6 +214,7 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
 }
 
 .couch-mint__header-home-container span {
@@ -764,25 +690,6 @@ body {
   margin-bottom: 24px;
 }
 
-.couch-mint__card-search-container input {
-  border-radius: 20px;
-  height: 40px;
-  min-width: 512px;
-  box-sizing: border-box;
-  padding: 0px 16px;
-
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.06em;
-  font-family: 'Newake';
-  color: #000;
-}
-
-.couch-mint__card-search-container input::placeholder {
-  color: #868686;
-}
-
 /****************************************************************************************************************/
 /*********************************************** Article ********************************************************/
 /****************************************************************************************************************/
@@ -808,6 +715,7 @@ body {
   font-size: 40px;
   font-weight: 700;
   line-height: 1.15;
+  letter-spacing: 0.04em;
 }
 
 .couch-mint__main-article-subtitle {
@@ -821,6 +729,7 @@ body {
   justify-content: space-between;
   box-sizing: border-box;
   padding: 16px 4px;
+  margin-top: 20px;
 }
 
 .couch-mint__main-article-metadata-row div {
@@ -831,24 +740,17 @@ body {
 }
 
 .couch-mint__main-article-metadata-author {
-  font-family: 'Modern Sans';
   font-size: 20px;
   vertical-align: middle;
   line-height: 1.15;
+  text-align: left;
 }
 
 .couch-mint__main-article-metadata-date {
-  font-family: 'Modern Sans';
-  font-size: 20px;
+  font-size: 16px;
   vertical-align: middle;
   line-height: 1.15;
-}
-
-.couch-mint__main-article-metadata-collection {
-  font-family: 'Newake';
-  font-size: 20px;
-  vertical-align: middle;
-  line-height: 1.15;
+  text-align: left;
 }
 
 .couch-mint__main-article-markdown-container {
@@ -857,11 +759,11 @@ body {
 }
 
 .couch-mint__main-article-markdown-container p {
-  font-family: 'Modern Sans';
+  font-family: 'League Spartan';
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: normal;
-  line-height: 1.5;
+  line-height: 1.15;
 }
 
 .couch-mint__main-article-markdown-container h1,
@@ -870,7 +772,8 @@ body {
 .couch-mint__main-article-markdown-container h4,
 .couch-mint__main-article-markdown-container h5,
 .couch-mint__main-article-markdown-container h6 {
-  font-family: 'Newake';
+  font-family: 'Highrise Bold';
+  letter-spacing: 0.04em;
 }
 
 .couch-mint__main-article-share-action {
@@ -886,42 +789,6 @@ body {
   text-decoration: underline;
 }
 
-#app[data-theme='light'] .couch-mint__main-article-share-action {
-  color: #fff;
-  background-color: var(--light-option-200);
-}
-
-#app[data-theme='light'] .couch-mint__main-article-share-action:hover {
-  color: #fff;
-  background-color: var(--light-option-300);
-  transform: scale(1.15);
-  transition: transform 300ms;
-}
-
-#app[data-theme='dark'] .couch-mint__main-article-share-action {
-  color: #fff;
-  background-color: var(--dark-option-200);
-}
-
-#app[data-theme='dark'] .couch-mint__main-article-share-action:hover {
-  color: #fff;
-  background-color: var(--dark-option-300);
-  transform: scale(1.15);
-  transition: transform 300ms;
-}
-
-#app[data-theme='alt'] .couch-mint__main-article-share-action {
-  color: #fff;
-  background-color: var(--alt-option-200);
-}
-
-#app[data-theme='alt'] .couch-mint__main-article-share-action:hover {
-  color: #fff;
-  background-color: var(--alt-option-300);
-  transform: scale(1.15);
-  transition: transform 300ms;
-}
-
 .summary__wrapping-container {
   width: 100%;
   box-sizing: border-box;
@@ -930,27 +797,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-#app[data-theme='light'] .summary__wrapping-container {
-  background-color: var(--dark-background-100);
-  color: var(--dark-option-100);
-  border: 1px solid var(--dark-background-200);
-  border-radius: 10px;
-}
-
-#app[data-theme='dark'] .summary__wrapping-container {
-  background-color: var(--dark-option-300);
-  color: var(--light-background-100);
-  border: 1px solid var(--light-background-100);
-  border-radius: 10px;
-}
-
-#app[data-theme='alt'] .summary__wrapping-container {
-  background-color: var(--alt-background-200);
-  color: var(--light-background-100);
-  border: 1px solid var(--light-background-100);
-  border-radius: 10px;
+  border-radius: 8px;
+  background-color: var(--color-base-green-primary);
+  color: black;
 }
 
 .summary__label-section-container {
@@ -961,8 +810,8 @@ body {
 }
 
 .summary__label {
-  font-weight: bolder;
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 14px;
   line-height: 1.5;
   text-align: left;
   text-decoration: underline;
@@ -978,9 +827,51 @@ body {
 }
 
 .summary__content-text {
-  font-weight: lighter;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 16px;
   line-height: 1.15;
   text-align: left;
   margin-block: 0px;
+}
+
+/****************************************************************************************************************/
+/*********************************************** Article Search *************************************************/
+/****************************************************************************************************************/
+
+.couch-mint__article-search-container {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.couch-mint__card-search-overlay {
+  position: absolute;
+  z-index: 2;
+  height: 500px;
+  width: 324px;
+  border-radius: 10px;
+  background-color: var(--color-base-gray-alpha);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.couch-mint__card-search-input {
+  border-radius: 4px;
+  height: 40px;
+  min-width: 216px;
+  box-sizing: border-box;
+  padding: 0px 16px;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  font-family: 'League Spartan';
+  color: #000;
+}
+
+.couch-mint__card-search-input::placeholder {
+  color: #868686;
 }

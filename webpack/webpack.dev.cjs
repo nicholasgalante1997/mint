@@ -20,6 +20,9 @@ const dev = {
       },
       {
         directory: path.resolve(process.cwd(), 'assets')
+      },
+      {
+        directory: path.resolve(process.cwd(), 'node_modules', 'heller-2-lite', 'build', 'css')
       }
     ]
   },

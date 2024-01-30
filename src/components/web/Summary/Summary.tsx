@@ -1,6 +1,9 @@
 import React, { memo } from 'react';
 import classNames from 'classnames';
-import { CouchFont, Text } from '@/components/web/Text';
+
+import { Body } from 'heller-2-react';
+import { colorBaseBlackAlpha, colorBaseGrayAlpha } from 'heller-2-lite';
+
 import { SummaryClassNames } from './SummaryMeta';
 import { SummaryProps } from './types';
 
@@ -8,14 +11,14 @@ function SummaryComponent({ content, className, ...rest }: SummaryProps) {
   return (
     <section className={classNames(SummaryClassNames.Container, className)} {...rest}>
       <div className={SummaryClassNames.LabelSection}>
-        <Text font={CouchFont.Newake} as="label" className={SummaryClassNames.Label}>
+        <Body as="label" className={SummaryClassNames.Label} style={{ color: colorBaseBlackAlpha }}>
           Article Summary
-        </Text>
+        </Body>
       </div>
       <div className={SummaryClassNames.ContentSection}>
-        <Text font={CouchFont.Newake} as="p" className={SummaryClassNames.Content}>
+        <Body as="p" bold accent className={SummaryClassNames.Content} style={{ color: colorBaseBlackAlpha }}>
           {content}
-        </Text>
+        </Body>
       </div>
     </section>
   );

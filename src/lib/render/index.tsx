@@ -17,7 +17,7 @@ function render({ Component, mountingElement, props = {} }: MintRenderOptions) {
   } else {
     hydrateRoot(getMountingElement(mountingElement), <Component {...props} />, {
       onRecoverableError(error, errorInfo) {
-        console.warn('React encountered a recoverable exception during hydration.')
+        console.warn('React encountered a recoverable exception during hydration.');
         console.warn(error);
         console.warn(errorInfo);
       }

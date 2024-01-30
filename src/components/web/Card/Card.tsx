@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Button } from 'heller-2-react';
 import { CardClassNames } from './CardMeta';
 import { type CardProps } from './types';
 import { to } from '@/lib';
@@ -41,26 +42,38 @@ export function CardComponent(props: CardProps): React.JSX.Element | React.React
         <p className={CardClassNames.CardText} data-couchcardtype={type} data-couchcardsize={size}>
           {description}
         </p>
-        {type === 'full' && size === 'lg' ? (
-          <button
+      </div>
+    );
+  }, [size, type]);
+
+  const renderActions = useCallback<() => React.ReactNode>(() => {
+    if (type === 'full' && size === 'lg') {
+      return (
+        <div style={{ marginTop: 'auto' }}>
+          <Button
             onClick={() => to(cta.href)}
-            className="button-small"
+            size="small"
+            v="primary"
+            hover={{ animationType: 'background-transition' }}
             data-couchcardtype={type}
             data-couchcardsize={size}
           >
             {cta.text}
-          </button>
-        ) : (
-          <a
-            href={cta.href}
-            className="link"
-            target="_self"
-            data-couchcardtype={type}
-            data-couchcardsize={size}
-          >
-            {cta.text}
-          </a>
-        )}
+          </Button>
+        </div>
+      );
+    }
+    return (
+      <div style={{ marginTop: 'auto' }}>
+        <a
+          href={cta.href}
+          className="link"
+          target="_self"
+          data-couchcardtype={type}
+          data-couchcardsize={size}
+        >
+          {cta.text}
+        </a>
       </div>
     );
   }, [size, type]);
@@ -73,6 +86,7 @@ export function CardComponent(props: CardProps): React.JSX.Element | React.React
     <div className={CardClassNames.CardWrapper} data-couchcardtype={type} data-couchcardsize={size}>
       {renderImage()}
       {renderBody()}
+      {renderActions()}
     </div>
   );
 }

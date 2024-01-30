@@ -2,7 +2,9 @@ import React, { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { CouchFont, Header, Text } from '@/components';
+import { Body, Button, Heading } from 'heller-2-react';
+
+import { Header } from '@/components';
 import { wrapComponent } from '@/lib';
 import { ThemeContextProvider } from '@/contexts';
 
@@ -22,24 +24,29 @@ function MainArticleComponent({
   return (
     <React.Fragment>
       <Header />
+      
       <div className={MainArticleClassNames.ImageContainer}>
         <img alt={image.alt} src={image.src} height="100%" width="100%" loading="eager" />
       </div>
-      <Text className={MainArticleClassNames.Title} as="h1" font={CouchFont.Newake}>
+      
+      <Heading className={MainArticleClassNames.Title} as="h1">
         {title}
-      </Text>
+      </Heading>
+      
       <Summary content={subtitle} />
+
       <div className={MainArticleClassNames.MetadataRow}>
         <div>
-          <span className={MainArticleClassNames.Author}>by Nick Galante</span>
-          <span className={MainArticleClassNames.Date}>{publishing.date}</span>
+          <Body as="span" className={MainArticleClassNames.Author}>by Nick Galante</Body>
+          <Body as="span" className={MainArticleClassNames.Date}>{publishing.date}</Body>
         </div>
         <div>
-          <button onClick={onCopy} className={MainArticleClassNames.ShareButton}>
+          <Button size="small" rounded onClick={onCopy} hover={{ animationType: 'background-transition' }}>
             Share
-          </button>
+          </Button>
         </div>
       </div>
+
       <div className={MainArticleClassNames.MarkdownContainer}>
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}

@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
+import { Body } from 'heller-2-react';
 
 import { useThemeContext } from '@/contexts';
-
-import { Text, CouchFont } from '@/components/web/Text';
 
 import { HeaderClassNames } from './HeaderMeta';
 import { HeaderIcon } from './HeaderIcon';
 import { keyDown } from '@/lib';
+import { ArticleSearch } from '../ArticleSearch/ArticleSearch';
 
 const Header = memo(function HeaderComponent() {
   const { mode } = useThemeContext();
@@ -21,25 +21,27 @@ const Header = memo(function HeaderComponent() {
         onClick={onHomeClick}
         onKeyDown={keyDown(onHomeClick)}
         className={HeaderClassNames.HomeContainer}
+        role="button"
       >
         <HeaderIcon />
-        <Text as="span" font={CouchFont.Newake}>
+        <Body as="span" className="couch-mint__highrise-bold">
           Mint.
-        </Text>
+        </Body>
       </div>
       <div className={HeaderClassNames.LinkContainer}>
-        <a target="_self" href="/browse-articles.html" className="link">
+        <a target="_self" href="/browse-articles.html" className="link couch-mint__ls">
           Article Repository
         </a>
-        <a target="_self" href="/subscription" className="link">
+        <a target="_self" href="/subscription" className="link couch-mint__ls">
           Subscribe To Mint
         </a>
-        <a className="link" href="/note-from-the-editor.html">
+        <a className="link couch-mint__ls" target="_self" href="/note-from-the-editor.html">
           Editorial
         </a>
-        <a className="link" target="_self" href="/settings.html">
+        <a className="link couch-mint__ls" target="_self" href="/settings.html">
           Settings
         </a>
+        <ArticleSearch />
       </div>
     </header>
   );

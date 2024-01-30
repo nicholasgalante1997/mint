@@ -1,4 +1,5 @@
 export * from './a11y';
+export * from './browse';
 export * from './getProps';
 export * from './render';
 export * from './wrapComponent';

@@ -1,31 +1,26 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "lib": [
-        "dom",
-        "dom.iterable",
-        "es6"
-      ],
-      "jsx": "react",
-      "module": "es6",
-      "rootDir": ".",
-      "moduleResolution": "bundler",
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["./src/*"]
-      },
-      "typeRoots": [
-        "node_modules/@types"
-      ],
-      "resolveJsonModule": true,
-      "declaration": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "strict": true,
-      "skipLibCheck": true,
-      "allowJs": true
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "jsx": "react",
+    "module": "es6",
+    "rootDir": ".",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     },
-    "include": ["src", "build.tsx"],
-    "exclude": ["node_modules"]
-  }
+    "typeRoots": ["node_modules/@types"],
+    "resolveJsonModule": true,
+    "declaration": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "types": ["./src/types/icons/index.d.ts"]
+  },
+  "include": ["src", "build.tsx"],
+  "exclude": ["node_modules"]
+}

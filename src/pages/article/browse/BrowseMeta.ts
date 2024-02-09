@@ -5,5 +5,7 @@ export const BrowsePageClassNames = {
   SearchContainer: 'couch-mint__card-search-container',
   ButtonChipRow: 'couch-mint__card-button-chip-row',
   CardWrappingGrid: 'couch-mint__card-wrapping-container',
-  CardAsideColumn: 'couch-mint__card-aside-container'
+  CardAsideColumn: 'couch-mint__card-aside-container',
+  PaginationContainer: 'couch-mint__card-pagination-container',
+  BigCardContainer: 'couch-mint__big-card-container'
 } as const;

@@ -6,13 +6,10 @@ type BrowsePageStoreState = {
   articles: {
     all: Article[];
   };
-  filters: {
-    search: string | undefined;
-  };
 };
 
 type BrowsePageStoreActions = {
-  updateSearch(term: string): void;
+  requestArticle(key: string): Article | undefined;
 };
 
 export { Article, BrowsePageStoreActions, BrowsePageStoreState };

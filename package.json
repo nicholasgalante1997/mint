@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "A minimal technology blog.",
   "author": "Nick J Galante <nicholasgalante1997@gmail.com>",
+  "type": "module",
+  "engines": {
+    "node": "~18.x"
+  },
+  "packageManager": "pnpm@8.15.0+sha256.fd1eab68a6d403f35cf3259c53780d70b0f14bd74e39da2f917d201f554d8665",
   "scripts": {
     "format": "prettier --write server src webpack build.tsx",
     "summarize-articles": "node scripts/summarize.mjs",
@@ -22,6 +27,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@iconscout/react-unicons": "^2.0.2",
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
     "fuse.js": "^7.0.0",
@@ -34,6 +40,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.7",
+    "react-rough-notation": "^1.0.5",
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1",
     "uuid": "^9.0.1",
@@ -76,10 +83,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.10.0"
-  },
-  "type": "module",
-  "engines": {
-    "node": "~18.19.0"
-  },
-  "packageManager": "pnpm@8.15.0+sha256.fd1eab68a6d403f35cf3259c53780d70b0f14bd74e39da2f917d201f554d8665"
+  }
 }

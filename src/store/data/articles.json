@@ -107,7 +107,8 @@
       "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
       "tags": [
         { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "styled-components", "keys": ["styled-components"] }
+        { "visible": "styled-components", "keys": ["styled-components"] },
+        { "visible": "anecdotal", "keys": ["anecdotal"] }
       ]
     }
   },
@@ -121,7 +122,8 @@
       "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
       "tags": [
         { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "styled-components", "keys": ["styled-components"] }
+        { "visible": "styled-components", "keys": ["styled-components"] },
+        { "visible": "anecdotal", "keys": ["anecdotal"] }
       ]
     }
   }

@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { useBrowsePageStore } from '@/store';
-import { ShowIf } from '@/components/logical';
+import { Conditional } from '@/components/logical';
 import { Card } from '../Card';
 import { buildLocalHrefFromArticleFilePath } from '@/lib';
 
@@ -35,7 +35,7 @@ function ArticleSearchComponent() {
         onChange={(e) => updateSearch(e.target.value)}
         className={ArticleSearchClassNames.search}
       />
-      <ShowIf condition={!!filters.search}>
+      <Conditional condition={!!filters.search}>
         <div className={ArticleSearchClassNames.overlay} role="menu">
           {results
             .sort((a, b) => {
@@ -54,7 +54,7 @@ function ArticleSearchComponent() {
               />
             ))}
         </div>
-      </ShowIf>
+      </Conditional>
     </div>
   );
 }

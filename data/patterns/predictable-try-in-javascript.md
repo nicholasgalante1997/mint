@@ -12,7 +12,7 @@
 
 # Foreward
 
-This article is going to discuss exception handling in javascript (and also typescript), and then approach several code smells that could be easily associated with conventional try-catch blocks in production applications. I'll then offer an alternative pattern based on the Java or Rust 'Option' concept.
+This article is going to discuss exception handling in javascript (well, typescript), and then approach several code smells that could be easily associated with conventional try-catch blocks in production applications. I'll then offer an alternative pattern based on the Java or Rust 'Option' concept.
 
 # Error Handling in Javascript
 

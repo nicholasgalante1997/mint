@@ -242,7 +242,7 @@
             },
             {
                 "key": "@mint/lets-build/blackthorn-sync",
-                "contentPath": "data/lets-build/broadcast-channel.md",
+                "contentPath": "data/lets-build/blackthorn-sync.md",
                 "display": {
                     "image": "/styled-components.png",
                     "imageAltText": "The react.js logo in a light blue hue.",

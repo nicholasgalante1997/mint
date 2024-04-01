@@ -239,6 +239,30 @@
                         }
                     ]
                 }
+            },
+            {
+                "key": "@mint/lets-build/blackthorn-sync",
+                "contentPath": "data/lets-build/broadcast-channel.md",
+                "display": {
+                    "image": "/styled-components.png",
+                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "title": "Build A Cross Window Lighting Synchronizer with the Broadcast Channel, ESM, and Import Maps",
+                    "subtitle": "Broh went wild in this one.",
+                    "tags": [
+                        {
+                            "visible": "Broadcast Channel",
+                            "keys": ["broadacast-channel", "event", "messaging", "window communication"]
+                        },
+                        {
+                            "visible": "ESM",
+                            "keys": ["ecmascript modules", "es6", "esm", "javascript"]
+                        },
+                        {
+                            "visible": "Import Maps",
+                            "keys": ["import maps", "html5", "javascript", "frameworkless"]
+                        }
+                    ]
+                }
             }
         ]
     }

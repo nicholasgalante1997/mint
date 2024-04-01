@@ -5,7 +5,7 @@ import { colorBaseBluePrimary } from 'heller-2-lite';
 
 import { Conditional, Header, Notation, Card } from '@/components';
 import { ThemeContextProvider } from '@/contexts';
-import { buildLocalHrefFromArticleFilePath, wrapComponent } from '@/lib';
+import { buildLocalHrefFromArticleFilePath, wrapComponent, getExecutionEnv } from '@/lib';
 import { useBrowsePageStore } from '@/store';
 
 import { BrowsePageClassNames } from './BrowseMeta';
@@ -13,11 +13,19 @@ import { BrowsePageClassNames } from './BrowseMeta';
 function BrowsePage() {
   const { requestArticle } = useBrowsePageStore();
 
+  const blackthornArticle = requestArticle('@mint/lets-build/blackthorn-sync');
+
   const articleDataOne = requestArticle('@mint/how-to/prefetch-in-react.md');
   const articleDataTwo = requestArticle('@mint/how-to/get-observability-into-web-app-performance');
   const articleDataThree = requestArticle('@mint/patterns/predictable-try-in-javascript');
   const articleDataFour = requestArticle('@mint/how-to/react-server-side-rendering-with-no-framework');
   const articleDataFive = requestArticle('@mint/how-to/react-static-site-generation-with-no-framework');
+
+  function handleNavigationToArticlePage(article: ReturnType<typeof requestArticle>) {
+    if (getExecutionEnv() === "browser" && typeof article !== "undefined") {
+      window.location.assign(buildLocalHrefFromArticleFilePath(article.contentPath))
+    }
+  }
 
   return (
     <React.Fragment>
@@ -25,23 +33,24 @@ function BrowsePage() {
       <div className={BrowsePageClassNames.Container}>
         <div className={BrowsePageClassNames.CardGridContainer}>
           <div className={BrowsePageClassNames.CardWrappingGrid}>
-            <Conditional condition={Boolean(articleDataOne)}>
-              <div className={BrowsePageClassNames.BigCardContainer}>
+            <Conditional condition={Boolean(blackthornArticle)}>
+              <div onClick={() => handleNavigationToArticlePage(blackthornArticle)} className={BrowsePageClassNames.BigCardContainer}>
                 <img src="https://coincu.com/wp-content/uploads/2022/07/111.png" alt="Doodles NFT" />
                 <RoughNotationGroup show={true}>
                   <Notation color={colorBaseBluePrimary} length={65}>
                     <a
                       target="_self"
-                      href={buildLocalHrefFromArticleFilePath(articleDataOne?.contentPath || '#')}
+                      href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
                     >
-                      <Heading as="h3">{articleDataOne?.display.title}</Heading>
+                      <Heading as="h3">{blackthornArticle?.display?.title}</Heading>
                     </a>
                   </Notation>
                 </RoughNotationGroup>
                 <Body as="p" bold>
-                  {articleDataOne?.display.subtitle}
+                  {blackthornArticle?.display?.subtitle}
                 </Body>
                 <Button
+                  onClick={() => handleNavigationToArticlePage(blackthornArticle)}
                   hover={{ animationType: 'background-transition' }}
                   style={{ marginTop: '16px' }}
                   size="small"

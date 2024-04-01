@@ -5,7 +5,7 @@
   "author": "Nick J Galante <nicholasgalante1997@gmail.com>",
   "type": "module",
   "engines": {
-    "node": "~18.x"
+    "node": "18.x"
   },
   "packageManager": "pnpm@8.15.0+sha256.fd1eab68a6d403f35cf3259c53780d70b0f14bd74e39da2f917d201f554d8665",
   "scripts": {
@@ -15,7 +15,7 @@
     "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:BROWSE": "REQUEST_PAGE=\"@mint-browse-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:ARTICLE": "REQUEST_PAGE=\"@mint-main-article-page\" webpack serve --config webpack/webpack.dev.cjs",
-    "build": "npm-run-all package:clean package:bundleJs package:compileBuildScript package:buildMarkup package:cleanTmp package:copyAssets",
+    "build": "npm-run-all package:clean summarize-articles package:bundleJs package:compileBuildScript package:buildMarkup package:cleanTmp package:copyAssets",
     "package:clean": "rm -rf build",
     "package:compileBuildScript": "webpack --config webpack/webpack.build-script.cjs",
     "package:buildMarkup": "node .build-process/main.cjs",

@@ -7,7 +7,15 @@
       "imageAltText": "The react.js logo in a light blue hue.",
       "title": "How I'll set up a react application",
       "subtitle": "Let's walk through setting up a few different react apps.",
-      "tags": [{ "visible": "React", "keys": ["react", "react-dom"] }]
+      "tags": [
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        }
+      ]
     }
   },
   {
@@ -19,9 +27,27 @@
       "title": "Setting up dynamic route prefetching in React in 10 minutes with WebWorkers and Context",
       "subtitle": "Prefetching your application's resources enhances your end user's experience with your application because it reduces the idle time your user is spending on your site. Here's how it works.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "Optimization", "keys": ["optimization"] },
-        { "visible": "Web Workers", "keys": ["web-workers", "webworkers", "web workers"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        },
+        {
+          "visible": "Optimization",
+          "keys": [
+            "optimization"
+          ]
+        },
+        {
+          "visible": "Web Workers",
+          "keys": [
+            "web-workers",
+            "webworkers",
+            "web workers"
+          ]
+        }
       ]
     }
   },
@@ -34,10 +60,34 @@
       "title": "How to get observability into your web application's performance?",
       "subtitle": "Learning what parts of your application are in need of revision and updates allows us to grow as developers and app maintainers by learning from our implemantation pitfalls, and allows us to prioritize development work more efficiently.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "Optimization", "keys": ["optimization"] },
-        { "visible": "Web Vitals", "keys": ["web-vitals", "webvitals", "web vitals"] },
-        { "visible": "Lighthouse", "keys": ["lighthouse", "browser-tools"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        },
+        {
+          "visible": "Optimization",
+          "keys": [
+            "optimization"
+          ]
+        },
+        {
+          "visible": "Web Vitals",
+          "keys": [
+            "web-vitals",
+            "webvitals",
+            "web vitals"
+          ]
+        },
+        {
+          "visible": "Lighthouse",
+          "keys": [
+            "lighthouse",
+            "browser-tools"
+          ]
+        }
       ]
     }
   },
@@ -50,9 +100,24 @@
       "title": "How to lazy load images with native html",
       "subtitle": "Lazy loading images allows your application to fetch its resources on demand, as opposed to up-front; allowing your users to engage with your application quicker.",
       "tags": [
-        { "visible": "Html", "keys": ["html"] },
-        { "visible": "Optimization", "keys": ["optimization"] },
-        { "visible": "Javascript", "keys": ["javascript"] }
+        {
+          "visible": "Html",
+          "keys": [
+            "html"
+          ]
+        },
+        {
+          "visible": "Optimization",
+          "keys": [
+            "optimization"
+          ]
+        },
+        {
+          "visible": "Javascript",
+          "keys": [
+            "javascript"
+          ]
+        }
       ]
     }
   },
@@ -65,9 +130,26 @@
       "title": "How to set up server side rendering for your react application, with no framework",
       "subtitle": "Server Side rendering your react application has a number of performance benefits for certain larger react apps. We'll dive into those benefits and how to set up server side rendering in react here.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "Optimization", "keys": ["optimization"] },
-        { "visible": "Server-Side Rendering", "keys": ["ssr", "server-side rendering"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        },
+        {
+          "visible": "Optimization",
+          "keys": [
+            "optimization"
+          ]
+        },
+        {
+          "visible": "Server-Side Rendering",
+          "keys": [
+            "ssr",
+            "server-side rendering"
+          ]
+        }
       ]
     }
   },
@@ -80,9 +162,26 @@
       "title": "How to set up static site generation for your react application, with no framework",
       "subtitle": "Server Side rendering your react application has a number of performance benefits for certain larger react apps. We'll dive into those benefits and how to set up server side rendering in react here.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "Optimization", "keys": ["optimization"] },
-        { "visible": "Static Site Generation", "keys": ["ssg", "static site generation"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        },
+        {
+          "visible": "Optimization",
+          "keys": [
+            "optimization"
+          ]
+        },
+        {
+          "visible": "Static Site Generation",
+          "keys": [
+            "ssg",
+            "static site generation"
+          ]
+        }
       ]
     }
   },
@@ -94,7 +193,14 @@
       "imageAltText": "The javascript logo.",
       "title": "Offering an alternatve method for executing code that could fail. Based on the Rust 'Option' concept.",
       "subtitle": "There are a number of code smells with the javascript usage of try-catch. Here's a simple alternative that could help standardize your handling of fallable code.",
-      "tags": [{ "visible": "Javascript", "keys": ["javascript"] }]
+      "tags": [
+        {
+          "visible": "Javascript",
+          "keys": [
+            "javascript"
+          ]
+        }
+      ]
     }
   },
   {
@@ -106,9 +212,19 @@
       "title": "Reflecting on the usage of styled-components in a react component library developed while at Amazon Games.",
       "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "styled-components", "keys": ["styled-components"] },
-        { "visible": "anecdotal", "keys": ["anecdotal"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        },
+        {
+          "visible": "styled-components",
+          "keys": [
+            "styled-components"
+          ]
+        }
       ]
     }
   },
@@ -118,12 +234,55 @@
     "display": {
       "image": "/styled-components.png",
       "imageAltText": "The react.js logo in a light blue hue.",
-      "title": "Reflecting on the usage of styled-components in a react component library developed while at Amazon Games.",
-      "subtitle": "When I worked at Amazon Games, I led an initiative to construct a net new design system that was more focused on extensability. Here, we dive into some of the learnings.",
+      "title": "Tales From The Couch Dev 1",
+      "subtitle": "This is my everest.",
       "tags": [
-        { "visible": "React", "keys": ["react", "react-dom"] },
-        { "visible": "styled-components", "keys": ["styled-components"] },
-        { "visible": "anecdotal", "keys": ["anecdotal"] }
+        {
+          "visible": "React",
+          "keys": [
+            "react",
+            "react-dom"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "key": "@mint/lets-build/blackthorn-sync",
+    "contentPath": "data/lets-build/broadcast-channel.md",
+    "display": {
+      "image": "/styled-components.png",
+      "imageAltText": "The react.js logo in a light blue hue.",
+      "title": "Build A Cross Window Lighting Synchronizer with the Broadcast Channel, ESM, and Import Maps",
+      "subtitle": "Broh went wild in this one.",
+      "tags": [
+        {
+          "visible": "Broadcast Channel",
+          "keys": [
+            "broadacast-channel",
+            "event",
+            "messaging",
+            "window communication"
+          ]
+        },
+        {
+          "visible": "ESM",
+          "keys": [
+            "ecmascript modules",
+            "es6",
+            "esm",
+            "javascript"
+          ]
+        },
+        {
+          "visible": "Import Maps",
+          "keys": [
+            "import maps",
+            "html5",
+            "javascript",
+            "frameworkless"
+          ]
+        }
       ]
     }
   }

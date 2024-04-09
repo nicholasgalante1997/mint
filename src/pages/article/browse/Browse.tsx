@@ -35,7 +35,7 @@ function BrowsePage() {
           <div className={BrowsePageClassNames.CardWrappingGrid}>
             <Conditional condition={Boolean(blackthornArticle)}>
               <div onClick={() => handleNavigationToArticlePage(blackthornArticle)} className={BrowsePageClassNames.BigCardContainer}>
-                <img src="https://coincu.com/wp-content/uploads/2022/07/111.png" alt="Doodles NFT" />
+                <img src={blackthornArticle?.display.image} alt="Doodles NFT" />
                 <RoughNotationGroup show={true}>
                   <Notation color={colorBaseBluePrimary} length={65}>
                     <a

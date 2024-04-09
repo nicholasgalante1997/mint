@@ -244,8 +244,8 @@
                 "key": "@mint/lets-build/blackthorn-sync",
                 "contentPath": "data/lets-build/blackthorn-sync.md",
                 "display": {
-                    "image": "/styled-components.png",
-                    "imageAltText": "The react.js logo in a light blue hue.",
+                    "image": "/doodles/doodles_cloud.webp",
+                    "imageAltText": "A composite style image of doodles nft character headshots organized into rows.",
                     "title": "Build A Cross Window Lighting Synchronizer with the Broadcast Channel, ESM, and Import Maps",
                     "subtitle": "Broh went wild in this one.",
                     "tags": [

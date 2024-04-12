@@ -13,13 +13,7 @@ import { BrowsePageClassNames } from './BrowseMeta';
 function BrowsePage() {
   const { requestArticle } = useBrowsePageStore();
 
-  const blackthornArticle = requestArticle('@mint/lets-build/blackthorn-sync');
-
-  const articleDataOne = requestArticle('@mint/how-to/prefetch-in-react.md');
-  const articleDataTwo = requestArticle('@mint/how-to/get-observability-into-web-app-performance');
-  const articleDataThree = requestArticle('@mint/patterns/predictable-try-in-javascript');
-  const articleDataFour = requestArticle('@mint/how-to/react-server-side-rendering-with-no-framework');
-  const articleDataFive = requestArticle('@mint/how-to/react-static-site-generation-with-no-framework');
+  const blackthornArticle = requestArticle('@mint/ESM_BROADCAST_CHANNEL_1');
 
   function handleNavigationToArticlePage(article: ReturnType<typeof requestArticle>) {
     if (getExecutionEnv() === "browser" && typeof article !== "undefined") {
@@ -60,7 +54,7 @@ function BrowsePage() {
                 </Button>
               </div>
             </Conditional>
-            <div style={{ flexDirection: 'column' }}>
+            {/* <div style={{ flexDirection: 'column' }}>
               <Card
                 size="sm"
                 type="mini"
@@ -105,7 +99,7 @@ function BrowsePage() {
                 image="https://coincu.com/wp-content/uploads/2022/07/111.png"
                 alt="Doodles NFT"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

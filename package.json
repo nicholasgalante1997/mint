@@ -39,8 +39,8 @@
     "lodash.isequal": "^4.5.0",
     "moment": "^2.29.4",
     "pino": "^8.16.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.0.0-beta-4508873393-20240430",
+    "react-dom": "19.0.0-beta-4508873393-20240430",
     "react-markdown": "^8.0.7",
     "react-rough-notation": "^1.0.5",
     "react-syntax-highlighter": "^15.5.0",
@@ -65,8 +65,8 @@
     "@types/axios": "^0.14.0",
     "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^20.9.0",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
+    "@types/react": "npm:types-react@beta",
+    "@types/react-dom": "npm:types-react-dom@beta",
     "@types/react-syntax-highlighter": "^15.5.10",
     "@types/uuid": "^9.0.7",
     "autocannon": "^7.14.0",
@@ -85,5 +85,9 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.10.0"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@beta",
+    "@types/react-dom": "npm:types-react-dom@beta"
   }
 }

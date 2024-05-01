@@ -97,11 +97,11 @@ try {
         title: display.title,
         subtitle: display.subtitle,
         image: {
-          alt: 'Doodles nft, against a pink background',
-          src: 'https://coincu.com/wp-content/uploads/2022/07/111.png'
+          alt: display.imageAltText,
+          src: display.image
         },
         publishing: {
-          date: 'Add date when article in final state',
+          date: new Date().toISOString(),
           collection: display.tags.map(({ keys }) => keys).join(', ')
         },
         markdown: markdownFile

@@ -1,6 +1,6 @@
-import { Home } from './home';
-import { Browse } from './article/browse/Browse';
-import { MainArticle } from './article/main/MainArticle';
+import { Home } from './Home';
+import { Browse } from './Browse';
+import { MainArticle } from './Post';
 
 enum PageIndexKey {
   Index = '@mint-home-page',

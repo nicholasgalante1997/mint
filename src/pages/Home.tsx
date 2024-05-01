@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { RoughNotationGroup } from 'react-rough-notation';
-import { Body, Heading } from 'heller-2-react';
+import { Body, Heading, Button } from 'heller-2-react';
 import { colorBaseBluePrimary } from 'heller-2-lite';
 
 import { Header, Notation } from '@/components';

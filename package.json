@@ -5,9 +5,10 @@
   "author": "Nick J Galante <nicholasgalante1997@gmail.com>",
   "type": "module",
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "pnpm": "9.x"
   },
-  "packageManager": "pnpm@8.15.0+sha256.fd1eab68a6d403f35cf3259c53780d70b0f14bd74e39da2f917d201f554d8665",
+  "packageManager": "pnpm@9.0.6",
   "scripts": {
     "format": "prettier --write server src webpack build.tsx",
     "summarize-articles": "node scripts/summarize.mjs",

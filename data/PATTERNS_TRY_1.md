@@ -1,34 +1,21 @@
-# Outline Section
+# Brevity
 
-1. What is this article about?
-   1. Handling errors in javascript in a more predictable manner
-2. Code Smells with Try Catch
-   1. Realistic application examples create ambiguous failure points in try blocks
-   2. Abstracting internal `try-catch` logic to each potentially fallable function results in a similar boiler-plate code lift, which feels adversarial to DRY principles.
-      1. What if we need to update how we're handling errors? Now we need to update it everywhere we have a catch block
-   3. Nesting `try-catch` blocks leads to unreadable and difficult to maintain code, as well as extra boiler plate code to lift the variable back into usable scope
+This article is going to be short, perhaps even a little opinionated (the worst). In every programming language, you encounter certain scenarios that require that you handle code that might fail. Maybe you try to open a file that doesn't exist or that you don't have permission to open. Maybe a network request goes down due to a server being offline. This article primarily offers opinions on scalable patterns to reduce boilerplate code in such scenarios, and to increase robustness and performance in certain scenarios.
 
----
+If you're looking to develop a better foundation with regards to Error Handling in javascript, I'd recommend reading [Triton's Error Handling in Node Js](https://www.tritondatacenter.com/node-js/production/design/errors), which this post may refer to from time to time. Here's an excerpt from the post that I think will offer a decent starting point to this discussion on error handling:
 
-# Foreward
+> The general rule is that a function may deliver operational errors synchronously (e.g., by throwing [or returning the error]) or asynchronously (by passing them to a callback or emitting error on an EventEmitter), but it should not do both. This way, a user can handle errors by either handling them in the callback or using try/catch, but they never need to do both. Which one they use depends on what how the function delivers its errors, and that should be specified with its documentation.
 
-This article is going to discuss exception handling in javascript (well, typescript), and then approach several code smells that could be easily associated with conventional try-catch blocks in production applications. I'll then offer an alternative pattern based on the Java or Rust 'Option' concept.
+This does a concise job of enumerating the options we have when dealing with potentially fallible code, and the conditions in which best practices dictate we should leverage each. We can think of the phrase *operational error*, as being akin to "run-time problems experienced by correctly-written programs". With that in mind, let's move on to explore more concrete implementations and patterns.  
 
-# Error Handling in Javascript
+## Differentiating on Function Type
 
-Javascript offers several methods for handling errors that could be thrown during the execution of your code. For synchronus operations, it's often conventional to wrap fallable code execution in a try-catch block. When working with promises, the standard Javascript Promise definition allows for attaching a .catch block to a promise, which accepts a function that will be executed if an error occurs during the resolution of the promise (aka a rejection). With the emergence of async/await syntax with ES6, asynchronous fallable code can now also be handled with try catch blocks, allowing for more uniform syntax and an overall better developer experience (less syntax switching).
+Whereas the above post from Triton makes an important distinction on which Error Handling approach to take based on whether the function is synchronous or asynchronous, this post will deviate slightly and instead will leverage throw/try/catch for both synchronous and asynchronous operations that return a value, and will leverage callbacks for void functions that are pure side effects, and I'll offer context as to why.
 
-Below is an example of a try catch block that encapsulates an attempt to read a file. This operation could fail because the file could have the incorrect permissions, or not exist at all.
+Functional code that returns a value is often blocking in regards to the execution environment calling it. Either the value returned from the function is needed for some later computation in the body of the function, or the value is itself propagated out of the function by being returned to the calling scope.  
 
-```javascript
-import fs from 'fs';
-import path from 'path';
+Void functions, sync or async, are often mutative in some capacity, and 
 
-(async () => {
-   try {
-      console.log(await fs.readFile())
-   } catch(e) {
+### Utility Classes
 
-   }
-})();
-```
+### Using Functions

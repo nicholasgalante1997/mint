@@ -5,8 +5,8 @@
     "display": {
       "image": "/doodles/doodles_space_banana.jpeg",
       "imageAltText": "A doodles nft character emerging from a banana peel in a light blue themed outer space.",
-      "title": "Using Webworkers To Prefetch Resources Client Side",
-      "subtitle": "Prefetching your application's resources enhances your end user's experience with your application because it reduces the idle time your user is spending on your site. Here's how it works.",
+      "title": "EAT PREFETCH LOVE: GET STUFF SOONER",
+      "subtitle": "Do you hate your end user?",
       "tags": [
         {
           "visible": "React",
@@ -38,7 +38,7 @@
     "display": {
       "image": "/doodles/doodles_pink.png",
       "imageAltText": "A doodles character in a blue shirt against a pink background.",
-      "title": "Getting Observability Into Webapp Performance",
+      "title": "CRYSTAL BALL WHY DOES MY APP SUCK",
       "subtitle": "Take longer to load your webpage. I'll wait.",
       "tags": [
         {
@@ -78,7 +78,7 @@
     "display": {
       "image": "/doodles/doodles_cloud.webp",
       "imageAltText": "A doodle nft character floating on a cloud.",
-      "title": "using Native HTML5 to Lazy Load Images",
+      "title": "BE LAZIER: HTML5 LAZY LOADING MEDIA",
       "subtitle": "Didnt even really need to be an article this one. Too quick.",
       "tags": [
         {
@@ -108,8 +108,8 @@
     "display": {
       "image": "/doodles/doodles_pink.png",
       "imageAltText": "A doodles character in a blue shirt against a pink background.",
-      "title": "Offering an alternatve method for executing code that could fail. Based on the Rust 'Option' concept.",
-      "subtitle": "There are a number of code smells with the javascript usage of try-catch. Here's a simple alternative that could help standardize your handling of fallable code.",
+      "title": "[JS PATTERNS]: CODE THAT MIGHT FAIL",
+      "subtitle": "Its a suggestion, you know. Like do it.",
       "tags": [
         {
           "visible": "Javascript",
@@ -126,7 +126,7 @@
     "display": {
       "image": "/doodles/doodles_space_banana.jpeg",
       "imageAltText": "A doodles nft character emerging from a banana peel in a light blue themed outer space.",
-      "title": "ANECDOTE: Amazon Games Gotham",
+      "title": "ANECDOTE: AMAZON GAMES - GOTHAM DESIGN SYSTEM",
       "subtitle": "Done went and made a design system.",
       "tags": [
         {
@@ -151,7 +151,7 @@
     "display": {
       "image": "/doodles/doodles_skeleton.webp",
       "imageAltText": "The react.js logo in a light blue hue.",
-      "title": "ANECDOTE: Couch Gag 1",
+      "title": "ANECDOTE: COUCH GAG 1",
       "subtitle": "This is my everest.",
       "tags": [
         {
@@ -170,8 +170,8 @@
     "display": {
       "image": "/doodles/doodles_cloud.webp",
       "imageAltText": "A doodle nft character floating on a cloud.",
-      "title": "Build A Cross Window Lighting Synchronizer with the Broadcast Channel, ESM, and Import Maps",
-      "subtitle": "Broh went wild in this one.",
+      "title": "ESM + IMPORT MAPS + BROADCAST CHANNEL + POKEMON",
+      "subtitle": "Went and did a whole lot trying to do a whole little. Why.",
       "tags": [
         {
           "visible": "Broadcast Channel",
@@ -198,6 +198,30 @@
             "html5",
             "javascript",
             "frameworkless"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "key": "@mint/TC39_SIGNALS_1",
+    "contentPath": "data/TC39_SIGNALS_1.md",
+    "display": {
+      "image": "/doodles/doodles_space_banana.jpeg",
+      "imageAltText": "A doodle nft character floating on a cloud.",
+      "title": "TC39 ECMASCRIPT SIGNALS",
+      "subtitle": "Actually sort of cool.",
+      "tags": [
+        {
+          "visible": "Ecmascript Proposals",
+          "keys": [
+            "ecmascript"
+          ]
+        },
+        {
+          "visible": "Signals",
+          "keys": [
+            "reactive signals"
           ]
         }
       ]

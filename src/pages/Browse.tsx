@@ -8,12 +8,23 @@ import { ThemeContextProvider } from '@/contexts';
 import { buildLocalHrefFromArticleFilePath, wrapComponent, getExecutionEnv } from '@/lib';
 import { useBrowsePageStore } from '@/store';
 
-import { BrowsePageClassNames } from './BrowseMeta';
+export const BrowsePageClassNames = {
+  Container: 'couch-mint__browse-page-container',
+  CardGridContainer: 'couch-mint__card-container',
+  ActionContainer: 'couch-mint__card-action-container',
+  SearchContainer: 'couch-mint__card-search-container',
+  ButtonChipRow: 'couch-mint__card-button-chip-row',
+  CardWrappingGrid: 'couch-mint__card-wrapping-container',
+  CardAsideColumn: 'couch-mint__card-aside-container',
+  PaginationContainer: 'couch-mint__card-pagination-container',
+  BigCardContainer: 'couch-mint__big-card-container'
+} as const;
 
 function BrowsePage() {
   const { requestArticle } = useBrowsePageStore();
 
   const blackthornArticle = requestArticle('@mint/ESM_BROADCAST_CHANNEL_1');
+  const prefetchArticle = requestArticle('@mint/WEBWORKERS_PREFETCH_1');
 
   function handleNavigationToArticlePage(article: ReturnType<typeof requestArticle>) {
     if (getExecutionEnv() === "browser" && typeof article !== "undefined") {

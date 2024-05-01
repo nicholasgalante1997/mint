@@ -8,10 +8,36 @@ import { Header } from '@/components';
 import { wrapComponent } from '@/lib';
 import { ThemeContextProvider } from '@/contexts';
 
-import { MainArticleClassNames } from './MainArticleMeta';
-import { MainArticleProps } from './types';
 import { CodeBlock } from '@/components/web/CodeBlock';
 import { Summary } from '@/components/web/Summary/Summary';
+
+export type MainArticleProps = {
+  public: {
+    title: string;
+    subtitle: string;
+    image: {
+      src: string;
+      alt: string;
+    };
+    publishing: {
+      date: string;
+      collection: string;
+    };
+    markdown: string;
+  };
+};
+
+const MainArticleClassNames = {
+  ImageContainer: 'couch-mint__main-article-image-container',
+  MetadataRow: 'couch-mint__main-article-metadata-row',
+  Author: 'couch-mint__main-article-metadata-author couch-gag__highrise-bold',
+  Collection: 'couch-mint__main-article-metadata-collection',
+  Date: 'couch-mint__main-article-metadata-date',
+  ShareButton: 'couch-mint__main-article-share-action',
+  MarkdownContainer: 'couch-mint__main-article-markdown-container',
+  Title: 'couch-mint__main-article-title couch-mint__ls',
+  Subtitle: 'couch-mint__main-article-subtitle'
+} as const;
 
 function MainArticleComponent({
   public: { markdown, publishing, image, subtitle, title }

@@ -11,12 +11,12 @@ function SummaryComponent({ content, className, ...rest }: SummaryProps) {
   return (
     <section className={classNames(SummaryClassNames.Container, className)} {...rest}>
       <div className={SummaryClassNames.LabelSection}>
-        <Body as="label" className={SummaryClassNames.Label} style={{ color: colorBaseBlackAlpha }}>
-          Article Summary
+        <Body as="label" className={SummaryClassNames.Label}>
+          Author's Notes
         </Body>
       </div>
       <div className={SummaryClassNames.ContentSection}>
-        <Body as="p" bold accent className={SummaryClassNames.Content} style={{ color: colorBaseBlackAlpha }}>
+        <Body as="p" accent className={SummaryClassNames.Content}>
           {content}
         </Body>
       </div>

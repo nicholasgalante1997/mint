@@ -89,6 +89,18 @@
 /****************************************************************************************************************/
 /*********************************************** Root ***********************************************************/
 /****************************************************************************************************************/
+* {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
+
 html,
 body {
   font-family: system-ui;
@@ -103,18 +115,9 @@ body {
 
   background-color: var(--color-base-black-eta);
   color: var(--color-base-white-alpha);
-}
 
-* {
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-*::-webkit-scrollbar {
-  display: none;
-  /* Safari and Chrome */
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #app {
@@ -135,6 +138,22 @@ button {
   font-family: 'League Spartan';
 }
 
+.button-link-wrapper {
+  text-decoration: none;
+  display: flex;
+}
+
+:root {
+  --desktop-breakpoint-larger: 1440px;
+  --desktop-breakpoint-smaller: 1024px;
+  --tablet-breakpoint-larger: 812px;
+  --tablet-breakpoint-smaller: 596px;
+  --mobile-breakpoint-larger: 496px;
+  --mobile-breakpoint-smaller: 320px;
+
+  --desktop-max-width: 1024px;
+}
+
 /****************************************************************************************************************/
 /*********************************************** @Couch-Mint/Theme **********************************************/
 /****************************************************************************************************************/
@@ -145,8 +164,21 @@ button {
   box-sizing: border-box;
   margin: 0;
   padding: 32px;
-  max-width: 1024px;
+  max-width: var(--desktop-max-width);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries */
+/* https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries */
+
+@media screen and (812px < width < 1024px) {
+  .heller2-theme {
+    padding: 16px;
+    max-width: 100%;
+  }
+}
+
 
 /****************************************************************************************************************/
 /*********************************************** Home Page ******************************************************/
@@ -199,6 +231,14 @@ button {
   color: var(--color-base-blue-primary);
 }
 
+.icon-link {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
 /****************************************************************************************************************/
 /*********************************************** Header/Nav *****************************************************/
 /****************************************************************************************************************/
@@ -222,6 +262,7 @@ button {
   align-items: center;
   gap: 12px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .couch-mint__header-home-container span {
@@ -471,14 +512,16 @@ button {
   width: var(--card-width-large);
   max-width: var(--card-width-large);
   min-width: var(--card-width-large);
-  height: fit-content;
+  height: min-content;
+  max-height: 184px;
 }
 
 .card__wrapper[data-couchcardsize='sm'][data-couchcardtype='mini'] {
   width: var(--card-width-small);
   max-width: var(--card-width-small);
   min-width: var(--card-width-small);
-  height: fit-content;
+  height: min-content;
+  max-height: 184px;
 }
 
 .card__image-wrapper {
@@ -577,7 +620,6 @@ button {
 }
 
 .card__text {
-  font-family: 'Newake', system-ui;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.15;
@@ -697,6 +739,84 @@ button {
   margin-bottom: 24px;
 }
 
+.couch-mint__card-pagination-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  min-height: 90px;
+  justify-content: space-evenly;
+}
+
+.couch-mint__big-card-container {
+  width: 640px;
+  max-width: 640px;
+  overflow: visible;
+  height: fit-content;
+  position: relative;
+
+  > img {
+    height: auto;
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 16 / 12;
+  }
+
+  a {
+    text-decoration: none;
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 10px 16px;
+    margin-top: 8px;
+  }
+
+  p {
+    margin-top: 16px;
+  }
+}
+
+@media screen and (812px <= width < 1024px) {
+  .couch-mint__big-card-container {
+    width: 100%;
+    height: fit-content;
+  }
+}
+
+@media screen and (width < 812px) {
+  .couch-mint__big-card-container {
+    width: 100%;
+    height: fit-content;
+  }
+}
+
+.couch-mint__mini-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+@media screen and (812px <= width < 1024px) {
+  .couch-mint__mini-card-container {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px
+  }
+}
+
+@media screen and (width < 812px) {
+  .couch-mint__mini-card-container {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px
+  }
+}
+
 /****************************************************************************************************************/
 /*********************************************** Article ********************************************************/
 /****************************************************************************************************************/
@@ -715,7 +835,9 @@ button {
 }
 
 .couch-mint__main-article-image-container img {
-  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
 }
 
 .couch-mint__main-article-title {
@@ -769,7 +891,7 @@ button {
 .couch-mint__main-article-markdown-container p {
   font-family: 'League Spartan';
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: normal;
   line-height: 1.15;
 }
@@ -806,8 +928,8 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   border-radius: 8px;
-  background-color: var(--color-base-green-primary);
-  color: black;
+  background-color: var(--color-base-gray-alpha);
+  color: white;
 }
 
 .summary__label-section-container {
@@ -824,6 +946,7 @@ button {
   text-align: left;
   text-decoration: underline;
   letter-spacing: 0.04em;
+  color: #fff;
 }
 
 .summary__content-section-container {
@@ -840,6 +963,7 @@ button {
   line-height: 1.15;
   text-align: left;
   margin-block: 0px;
+  color: #fff;
 }
 
 /****************************************************************************************************************/
@@ -945,44 +1069,5 @@ button {
     border: 2px solid var(--color-base-green-primary);
     background-color: var(--color-base-green-primary);
     margin-block: 0px;
-  }
-}
-
-.couch-mint__card-pagination-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  min-height: 90px;
-  justify-content: space-evenly;
-}
-
-.couch-mint__big-card-container {
-  width: 640px;
-  max-width: 640px;
-  overflow: hidden;
-  height: calc(100vh - 72px);
-  position: relative;
-
-  > img {
-    height: auto;
-    width: 100%;
-    border-radius: 20px;
-    object-fit: contain;
-    object-position: center;
-    aspect-ratio: 16 / 12;
-  }
-
-  a {
-    text-decoration: none;
-    display: block;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 10px 16px;
-    margin-top: 8px;
-  }
-
-  p {
-    margin-top: 16px;
   }
 }

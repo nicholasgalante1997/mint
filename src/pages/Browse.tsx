@@ -7,6 +7,7 @@ import { Conditional, Header, Notation, Card } from '@/components';
 import { ThemeContextProvider } from '@/contexts';
 import { buildLocalHrefFromArticleFilePath, wrapComponent, getExecutionEnv } from '@/lib';
 import { useBrowsePageStore } from '@/store';
+import { ArticleKeys } from '@/types';
 
 export const BrowsePageClassNames = {
   Container: 'couch-mint__browse-page-container',
@@ -17,20 +18,18 @@ export const BrowsePageClassNames = {
   CardWrappingGrid: 'couch-mint__card-wrapping-container',
   CardAsideColumn: 'couch-mint__card-aside-container',
   PaginationContainer: 'couch-mint__card-pagination-container',
-  BigCardContainer: 'couch-mint__big-card-container'
+  BigCardContainer: 'couch-mint__big-card-container',
+  MiniCardContainer: 'couch-mint__mini-card-container'
 } as const;
 
 function BrowsePage() {
   const { requestArticle } = useBrowsePageStore();
 
-  const blackthornArticle = requestArticle('@mint/ESM_BROADCAST_CHANNEL_1');
-  const prefetchArticle = requestArticle('@mint/WEBWORKERS_PREFETCH_1');
-
-  function handleNavigationToArticlePage(article: ReturnType<typeof requestArticle>) {
-    if (getExecutionEnv() === "browser" && typeof article !== "undefined") {
-      window.location.assign(buildLocalHrefFromArticleFilePath(article.contentPath))
-    }
-  }
+  const blackthornArticle = requestArticle(ArticleKeys.ESM_BROADCAST_CHANNEL_IMPORT_MAPS);
+  const patternsTryArticle = requestArticle(ArticleKeys.PATTERNS_TRY);
+  const lazyLoadHtmlMedia = requestArticle(ArticleKeys.LAZYLOADING_HTML_MEDIA);
+  const signalsArticle = requestArticle(ArticleKeys.TC39_SIGNALS);
+  const prefetchArticle = requestArticle(ArticleKeys.PREFETCH_WEBWORKERS_REACT);
 
   return (
     <React.Fragment>
@@ -39,7 +38,7 @@ function BrowsePage() {
         <div className={BrowsePageClassNames.CardGridContainer}>
           <div className={BrowsePageClassNames.CardWrappingGrid}>
             <Conditional condition={Boolean(blackthornArticle)}>
-              <div onClick={() => handleNavigationToArticlePage(blackthornArticle)} className={BrowsePageClassNames.BigCardContainer}>
+              <div className={BrowsePageClassNames.BigCardContainer}>
                 <img src={blackthornArticle?.display.image} alt="Doodles NFT" />
                 <RoughNotationGroup show={true}>
                   <Notation color={colorBaseBluePrimary} length={65}>
@@ -54,8 +53,8 @@ function BrowsePage() {
                 <Body as="p" bold>
                   {blackthornArticle?.display?.subtitle}
                 </Body>
+                <a className="button-link-wrapper" target="_self" href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}>
                 <Button
-                  onClick={() => handleNavigationToArticlePage(blackthornArticle)}
                   hover={{ animationType: 'background-transition' }}
                   style={{ marginTop: '16px' }}
                   size="small"
@@ -63,54 +62,51 @@ function BrowsePage() {
                 >
                   Read
                 </Button>
+                </a>
               </div>
             </Conditional>
-            {/* <div style={{ flexDirection: 'column' }}>
+            <div className={BrowsePageClassNames.MiniCardContainer}>
               <Card
                 size="sm"
                 type="mini"
-                title={articleDataTwo?.display.title || ''}
-                description={articleDataTwo?.display.subtitle || ''}
+                title={patternsTryArticle?.display.title || ''}
+                description={patternsTryArticle?.display.subtitle || ''}
                 cta={{
-                  text: 'Read',
-                  href: buildLocalHrefFromArticleFilePath(articleDataTwo?.contentPath || '#')
+                  text: 'Read Post',
+                  href: buildLocalHrefFromArticleFilePath(patternsTryArticle?.contentPath || '#')
                 }}
               />
               <Card
                 size="sm"
                 type="mini"
-                title={articleDataThree?.display.title || ''}
-                description={articleDataThree?.display.subtitle || ''}
+                title={lazyLoadHtmlMedia?.display.title || ''}
+                description={lazyLoadHtmlMedia?.display.subtitle || ''}
                 cta={{
-                  text: 'Read',
-                  href: buildLocalHrefFromArticleFilePath(articleDataThree?.contentPath || '#')
+                  text: 'Read Post',
+                  href: buildLocalHrefFromArticleFilePath(lazyLoadHtmlMedia?.contentPath || '#')
                 }}
               />
               <Card
                 size="sm"
                 type="mini"
-                title={articleDataFour?.display.title || ''}
-                description={articleDataFour?.display.subtitle || ''}
+                title={signalsArticle?.display.title || ''}
+                description={signalsArticle?.display.subtitle || ''}
                 cta={{
-                  text: 'Read',
-                  href: buildLocalHrefFromArticleFilePath(articleDataFour?.contentPath || '#')
+                  text: 'Read Post',
+                  href: buildLocalHrefFromArticleFilePath(signalsArticle?.contentPath || '#')
+                }}
+              />
+              <Card
+                size="sm"
+                type="mini"
+                title={prefetchArticle?.display.title || ''}
+                description={prefetchArticle?.display.subtitle || ''}
+                cta={{
+                  text: 'Read Post',
+                  href: buildLocalHrefFromArticleFilePath(prefetchArticle?.contentPath || '#')
                 }}
               />
             </div>
-            <div style={{ flexDirection: 'row', width: '100%', flexWrap: 'wrap' }}>
-              <Card
-                size="lg"
-                type="full"
-                title={articleDataFive?.display.title || ''}
-                description={articleDataFive?.display.subtitle || ''}
-                cta={{
-                  text: 'Read',
-                  href: buildLocalHrefFromArticleFilePath(articleDataFive?.contentPath || '#')
-                }}
-                image="https://coincu.com/wp-content/uploads/2022/07/111.png"
-                alt="Doodles NFT"
-              />
-            </div> */}
           </div>
         </div>
       </div>

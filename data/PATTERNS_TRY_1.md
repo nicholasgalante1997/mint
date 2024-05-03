@@ -12,7 +12,7 @@ We can think of the phrase *operational error*, as being akin to "run-time probl
 
 ## Code Smells With Common Exception Handling Strategies
 
-Okay so to illustrate some of what I'm hoping to break into, we're going to write a simple node program that is going to attempt to load a file in the local file system based off of a command line arg that it's passed, and then it's going to cherry pick every prime line in the poem and write a new poem based off those lines. Pretty straightforward and useless, so a great place to start.
+Okay so to illustrate some of what I'm hoping to break into, we're going to write a simple node program that is going to attempt to load a poem in the local file system based off of a command line arg that it's passed, and then it's going to cherry pick every prime line in the poem and write a new poem based off those lines. Pretty straightforward and useless, so a great place to start.
 
 We're going to start by implementing this example using try/catch/throw, and then we'll dig into what code smells we have in this implementation.
 
@@ -97,6 +97,8 @@ function isPrimeNum(num) {
 And we can now update our run function to be the following:
 
 ```js
+...
+
 async function run() {
     try {
         const filepath = getFileArg();
@@ -107,126 +109,311 @@ async function run() {
         console.error(e);
     }
 }
+
+...
 ```
+
+So now that we have every prime line, we can write it out to a local file and spit out a little analysis of what we did to the console.  
+
+```js
+import { readFile, appendFile } from 'node:fs/promises';
+
+...
+
+async function run() {
+    try {
+        const filepath = getFileArg();
+        const file = await readFile(`./poems/${filepath}`, { encoding: "utf8" });
+        const lines = file.split("\n");
+        const primeLines = takeEveryPrimeLine(lines);
+        const filename = filepath.replace('.txt', '')
+        await writePoem(filename, [...primeLines]);
+        printAnalysis(filename, primeLines);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+async function writePoem(name, poem) {
+    const outfile = `./poems/${name}.prime.txt`
+    await appendFile(outfile, name.toUpperCase() + '\n\n\n' , { encoding: 'utf8' });
+    while(poem.length) {
+        await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+    }
+}
+
+function printAnalysis(name, poem) {
+    console.log(`
+        Transcribed: ${name}.txt into ${name}.prime.txt;
+        Wrote ${poem.length} lines.
+        Run "cat ./poems/${name}.prime.txt" to print the poem to std output.
+    `)
+}
+
+...
+
+```
+
+And our final program would look something like this:
+
+```js
+#! /usr/bin/env node
+
+/**
+ * Prime Poems,
+ * 
+ * This program will try to load a poem
+ * local to the file system, 
+ * and will take prime numbered lines, 
+ * and emit metadata about the new 'prime poem' 
+ */
+
+import { readFile, appendFile, rm } from 'node:fs/promises';
+
+async function run() {
+    try {
+        const filepath = getFileArg();
+        const file = await readFile(`./poems/${filepath}`, { encoding: "utf8" });
+        const lines = file.split("\n");
+        const primeLines = takeEveryPrimeLine(lines);
+        const filename = filepath.replace('.txt', '')
+        await writePoem(filename, [...primeLines]);
+        printAnalysis(filename, primeLines);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+function getFileArg() {
+    const args = process.argv.slice(2);
+    if (args.length < 1) throw new Error("MISSING FILENAME ARGUMENT")
+    return args[0];
+}
+
+function takeEveryPrimeLine(poem) {
+    return poem.filter((_, i) => isPrimeNum(i));
+}
+
+function isPrimeNum(num) {
+    if (num < 2) return false;
+    const sqrt = Math.sqrt(num);
+    for (let x = 2; x <= sqrt; x++) {
+        if ((num % x) === 0) return false;
+    }
+    return true;
+}
+
+async function writePoem(name, poem) {
+    const outfile = `./poems/${name}.prime.txt`
+    await appendFile(outfile, name.toUpperCase() + '\n\n\n' , { encoding: 'utf8' });
+    while(poem.length) {
+        await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+    }
+}
+
+function printAnalysis(name, poem) {
+    console.log(`
+        Transcribed: ${name}.txt into ${name}.prime.txt;
+        Wrote ${poem.length} lines.
+        Run "cat ./poems/${name}.prime.txt" to print the poem to std output.
+    `)
+}
+
+await run();
+```
+
+It is a super simple program, it has some issues and doesn't clean up after itself if `appendFile` fails, but it's great for a poem like Howl where you're like 'Aw jeez, this thing is like 700 lines of darkness and I really only need like 34', and it allows us to illustrate a few code smells that come up when using try/catch/throw to handle exceptions that arise when writing programs.  
+
+In this program, we have a single try/catch block implementation that contains all of the potentially fallible code that our program may encounter, which also means we're now allotted to handling all the exceptions from a single point of failure. By my count, our program could fail by improper command line arguments, failure to read a file, or any attempt it makes to append to a line to our outfile. That's 3(n = prime nums in poem) + 2 chances at failure, and we need to handle failure's in at least 3 different ways. We now need to build out clauses within our catch block, or structure an error handler in such a flexible way, that it may be able to appropriately handle N (in this case 3) failure methods. This ultimately becomes unscalable to approach error handling in larger applications in such a manner where a single or several highly overloaded catch blocks account for a majority of the exception handling logic, and it encourages writing massive handler functions that know and do too much.  
+
+So by this logic, you'd say "well, okay but this is a result of your decision, Nick, to stuff all the fallible logic in the same try-catch block, if you delegated a try catch block internally to each function with a point of failure, you can handle error cases very specifically to each functional point of failure, and also the error handler code is now co-located to the function which is better right? Smaller, more intentional handlers is better? Right? Please?" Yeah okay, well lets grab our example above and do just that and see how we feel.  
+
+```js
+#! /usr/bin/env node
+
+/**
+ * Prime Poems,
+ * 
+ * This program will try to load a poem
+ * local to the file system, 
+ * and will take prime numbered lines, 
+ * and emit metadata about the new 'prime poem' 
+ */
+
+import { readFile, appendFile, rm } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+
+async function run() {
+    const filepath = getFileArg();
+    const file = await readPoem(filepath);
+    const lines = file.split("\n");
+    const primeLines = takeEveryPrimeLine(lines);
+    const filename = filepath.replace('.txt', '')
+    await writePoem(filename, [...primeLines]);
+    printAnalysis(filename, primeLines);
+}
+
+const AppErrorCodes = Object.freeze({
+    MISSING_FILENAME: 1,
+    READFILE_EXCEPTION: 2,
+    WRITEFILE_EXCEPTION: 3
+});
+
+function getFileArg() {
+    try {
+      const args = process.argv.slice(2);
+      if (args.length < 1) throw new Error("MISSING FILENAME ARGUMENT")
+      return args[0];
+    } catch(e) {
+        console.error(`
+            [ERROR]: Oops! This program requires that you supply it a .txt file to run. 
+            You can do so by providing the filename as a command line argument.
+        `);
+        process.exit(AppErrorCodes.MISSING_FILENAME);
+    }
+}
+
+async function readPoem(filepath) {
+    try {
+        const file = await readFile(`./poems/${filepath}`, { encoding: "utf8" });
+        return file;
+    } catch(e) {
+        console.error(`
+            [ERROR]: Oh no! This program couldn't read the file you provided.
+            See below for output details.
+                
+                ${e}
+        `);
+        process.exit(AppErrorCodes.READFILE_EXCEPTION);
+    }
+}
+
+function takeEveryPrimeLine(poem) {
+    return poem.filter((_, i) => isPrimeNum(i));
+}
+
+function isPrimeNum(num) {
+    if (num < 2) return false;
+    const sqrt = Math.sqrt(num);
+    for (let x = 2; x <= sqrt; x++) {
+        if ((num % x) === 0) return false;
+    }
+    return true;
+}
+
+async function writePoem(name, poem) {
+    const outfile = `./poems/${name}.prime.txt`
+
+    try {
+      await appendFile(outfile, name.toUpperCase() + '\n\n\n' , { encoding: 'utf8' });
+      while(poem.length) {
+        await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+      }
+    } catch(e) {
+        console.error(`
+            [ERROR]: Drat! You may not have write permissions on this host! WHO ARE YOU?!
+            See Error Output Below:
+
+                ${e}
+        `);
+
+        if (existsSync(outfile)) {
+            try {
+                await rm(outfile, { force: true });
+            } catch(e) {
+                console.error(`
+                    [ERROR]: Can't brute force delete ${outfile}. 
+                    Looks like you have to manually delete it.
+                    Error output below:
+
+                        ${e};
+                `)
+            }
+        }
+
+        process.exit(AppErrorCodes.WRITEFILE_EXCEPTION);
+    }
+}
+
+function printAnalysis(name, poem) {
+    console.log(`
+        Transcribed: ${name}.txt into ${name}.prime.txt;
+        Wrote ${poem.length} lines.
+        Run "cat ./poems/${name}.prime.txt" to print the poem to std output.
+    `)
+}
+
+await run();
+```
+
+I'm sure there's a language out there somewhere that has a phrase for something that's both better and worse, maybe German, but this is that. It's loads better, because the program is more robust and we're now locally handling exceptions that our operations throw, which is fantastic. But God, look at all this boilerplate. Our program was 60 lines. It's now 115. It's like our new program went and ate our old one. You could surely say that had we implemented robust error handling in the first example, our program would have been a lot longer. I'd say "EH, likely not". You likely still just want to report the error, clean the outfile if its there and exit. What is that 10 lines?  
+
+I think this is better because from a readability/mainitainability perspective, but what's worse about is one of the quasi non negotiable issues of leveraging try/catch/throw for exception handling: Every fallible op requires a minimum of 6 lines of boilerplate setup to safely run the op. That's like pretty dumb. I guess you're not forced into breaking into newlines, but that's also dumb. What psychopath is going to write:
+
+```js
+try { return myOp(); } catch(e) { handleMyOpFailure(e); };
+```
+
+That's about as short and clean as you're gonna make a try/catch one-liner, and I still would not want to be seen leaving the proverbial bar with it.  
+
+If you look at the `writePoem` function rewrite, here's another code smell with try-catch, the nested try-catch. It is a degradation on the readability of that function. Let's compare the before and after:
+
+```js
+
+// Before
+
+async function writePoem(name, poem) {
+    const outfile = `./poems/${name}.prime.txt`
+    await appendFile(outfile, name.toUpperCase() + '\n\n\n' , { encoding: 'utf8' });
+    while(poem.length) {
+        await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+    }
+}
+
+// After
+
+async function writePoem2(name, poem) {
+    const outfile = `./poems/${name}.prime.txt`
+
+    try {
+      await appendFile(outfile, name.toUpperCase() + '\n\n\n' , { encoding: 'utf8' });
+      while(poem.length) {
+        await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+      }
+    } catch(e) {
+        console.error(`
+            [ERROR]: Drat! You may not have write permissions on this host! WHO ARE YOU?!
+            See Error Output Below:
+
+                ${e}
+        `);
+
+        if (existsSync(outfile)) {
+            try {
+                await rm(outfile, { force: true });
+            } catch(e) {
+                console.error(`
+                    [ERROR]: Can't brute force delete ${outfile}. 
+                    Looks like you have to manually delete it.
+                    Error output below:
+
+                        ${e};
+                `)
+            }
+        }
+
+        process.exit(AppErrorCodes.WRITEFILE_EXCEPTION);
+    }
+}
+
+```
+
+That's a real bummer. Sure we could abstract out some of that clean up logic to its own function with its own try-catch, and likely we should, but I think we're aware of the overall nagging point here: Try Catch -> More Boilerplate.  
+
+Ideally what this is screaming is "Abstract me!", and that is the overall road we're going down.  
+
+Im gonna shift gears a little bit here, and we'll refactor the above example to use `.catch` and explore how we feel about that. I think ultimately the node community is moving toward a point of agreement that *[callback hell](http://callbackhell.com/)* is something we'd like to leave in the back
 
 ## OOP
 
-### Functional Programming (I Still Like Ike)
-
----
-[Excised]
-
-Section: Differentiating on Function Type
-
-Whereas the above post from Triton makes an important distinction on which exception handling approach to take based on whether the function is synchronous or asynchronous, this post will deviate slightly and instead will leverage throw/try/catch for both synchronous and asynchronous operations that return a value, and will leverage callbacks for void functions that are pure side effects, and I'll offer context as to why.
-
-Functional code that returns a value is often blocking in regards to the execution environment calling it. Either the value returned from the function is needed for some later computation in the body of the function, or the value is itself propagated out of the function by being returned to the calling scope. With the advent of async/await syntax, it's become a commonly adopted pattern to pause execution of synchronous code that's dependent on an asynchronously provided value by `await` -ing for the promise that provides that async value to resolve.  
-
-Void functions are typically mutative in nature, perhaps mutative of the internal data model or the DOM, but typically we can avoid halting execution context on the operation, and instead pass a callback that handles edge cases in which our void function fails to complete it's intended task.
-
----
-
-[Excised]
-
-Let's move into discussing code smells with try/catch/throw. 
-
-> Expand the above examples to illustrate issues with try/catch/throw ->
-
-Here's a simple example illustrating an asynchronous function that pauses further execution of synchronous code until it resolves a promise and has a value, and an example of an asynchronous void function that writes/mutates a file in the local directory. If anything fails in either function, they clean up any mutations and re-throw the error. For all intents and purposes these are supposed to be simple examples, so algorithmic optimization is ignored here.
-
-```js
-import { readFile, appendFile, rm } from 'node:fs/promises';
-
-/**
- * This is a simple function that loads a file `poem.txt`
- * and iterates through each line,
- * searching for a matching phrase.
- * 
- * When it finds a match, it adds it to the array to be returned.
- * 
- * Can be configured to match case-sensitive or insensitive.  
- * Case Sensitive is the default.
- * 
- * @param {string} a 
- * @param {boolean} i - Case insensitive
- * @returns {Promise<string[]>}
- */
-async function searchForPhraseInPoem(a, i = false) {
-    try {
-        const poem = await readFile('poems.txt', { encoding: 'utf-8' });
-        return poem.split(`\n`)
-            .map(line => i ? line.toLowerCase() : line)
-            .filter(line => line.includes(i ? a.toLowerCase() : a));
-    } catch(err) {
-        console.error(err);
-        throw err;
-    }
-}
-
-/**
- * This is a simple function that accepts an array
- * of strings and appends each element in the array
- * as a newline to the 'new-poem.txt' file.
- * 
- * If appending a line fails, the file can be considered corrupt
- * so we try to delete the file (clean up).
- * 
- * @param {string[]} lines 
- * @returns {Promise<void>}
- */
-async function writePoem(lines) {
-    try {
-        while (lines.length) {
-            await appendFile('new-poem.txt', lines.shift() + `\n`, { encoding: 'utf-8' });
-        }
-    } catch(err) {
-        console.error(err);
-        
-        try {
-            await rm('new-poem.txt', { force: true });
-        } catch(err2) {
-            console.error(err2);
-            throw err2;
-        }
-
-        throw err;
-    }
-}
-
-
-```
-
-Okay so even in a simple program like the one illustrated above, we can see several issues with the structure and format of these try-catch implementations. Let's start with the function `searchForPhraseInPoem`.
-
-There isn't a lot going on in `searchForPhraseInPoem`, but we do have one obvious code smell. We are wrapping code that we don't expect to fail inside the try catch block with code we think could fail. We're doing this because we need access to the variable `poem` which is declared and only available within the try block scope. That muddies up the readabilty of this code a little bit, and in an exacerbated example we could have quite a bit of code exist inside that try block if more code needed access to the variable `poem`. If we needed to perform more operations on `poem` and those operations had the potential to throw, then our catch block would need to grow in complexity to accommodate the various exceptions that may surface from the operations in our try block.
-
-Okay so the alternative is we could rewrite `searchForPhraseInPoem` in another manner that addresses the above code smells:
-
-```js
-async function searchForPhraseInPoem(a, i = false) {
-    let poem = null;
-    
-    try {
-        poem = await readFile('poems.txt', { encoding: 'utf-8' });
-    } catch(err) {
-        console.error(err);
-        throw err;
-    }
-
-    if (poem !== null) {
-        return poem.split(`\n`)
-            .map(line => i ? line.toLowerCase() : line)
-            .filter(line => line.includes(a));
-    } else {
-        return [];
-    }
-}
-```
-
-Okay so we lifted up the scope of the variable `poem` by a block so that it's accessible outside the try block and now the try block only contains the code that may or may not fail, which is better and a lot more explicit about what the intention of the try block is, but we've added a ton of boilerplate code to achieve it; and now we need to perform a non-nullish check to ensure that by the time we're using `poem`, it is a valid string and can be used in such a fashion. All in all the implementation feels long and a bit janky, for something really simple.
-
-Let's discuss the other function, `writePoem`, which employs a nested try-catch block inside the catch clause of the root try catch block. This also feels anti-pattern-y. Little bit harder to explain why this code feels like it smells, but I think it can be reduced to the fact that nested try-catches obfuscate intention and add developer complexity overhead (not operational complexity overhead). It takes what could be a relatively simple and straightforward implementation and adds so much boilerplate. And with that, we arrive at an opinion: Try catch blocks are clunky, and prone to add additional boilerplate code that leaves us writing more when we want to be writing less.  
-
-Let's move into revising the above examples to leverage `.catch()` chaining, and discuss any code smells that come up with that approach. 
-
-I think in an ideal world, we want to abstract away the specifics of the try catch implementation. Really what we need is a way of representing, "hey this is an operation that might fail, and I want to know if it fails or passes because I want to handle each case differently".
+## Functional Programming

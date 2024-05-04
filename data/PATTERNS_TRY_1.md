@@ -12,7 +12,7 @@ We can think of the phrase *operational error*, as being akin to "run-time probl
 
 ## Code Smells With Common Exception Handling Strategies
 
-Okay so to illustrate some of what I'm hoping to break into, we're going to write a simple node program that is going to attempt to load a poem in the local file system based off of a command line arg that it's passed, and then it's going to cherry pick every prime line in the poem and write a new poem based off those lines. Pretty straightforward and useless, so a great place to start.
+Okay so to illustrate some of what I'm hoping to break into, we're going to write a simple node program that is going to attempt to load a poem in the local file system based off of a command line arg that it's passed, and then it's going to cherry pick every prime numbered line in the poem and write a new poem based off those lines. Pretty straightforward and useless, so a great place to start.
 
 We're going to start by implementing this example using try/catch/throw, and then we'll dig into what code smells we have in this implementation.
 
@@ -348,7 +348,7 @@ await run();
 
 I'm sure there's a language out there somewhere that has a phrase for something that's both better and worse, maybe German, but this is that. It's loads better, because the program is more robust and we're now locally handling exceptions that our operations throw, which is fantastic. But God, look at all this boilerplate. Our program was 60 lines. It's now 115. It's like our new program went and ate our old one. You could surely say that had we implemented robust error handling in the first example, our program would have been a lot longer. I'd say "EH, likely not". You likely still just want to report the error, clean the outfile if its there and exit. What is that 10 lines?  
 
-I think this is better because from a readability/mainitainability perspective, but what's worse about is one of the quasi non negotiable issues of leveraging try/catch/throw for exception handling: Every fallible op requires a minimum of 6 lines of boilerplate setup to safely run the op. That's like pretty dumb. I guess you're not forced into breaking into newlines, but that's also dumb. What psychopath is going to write:
+I think this is better from a readability/mainitainability perspective, but what's worse about is one of the quasi non negotiable issues of leveraging try/catch/throw for exception handling: Every fallible op requires a minimum of 6 lines of boilerplate setup to safely run the op. That's like pretty dumb. I guess you're not forced into breaking into newlines, but that's also dumb. What psychopath is going to write:
 
 ```js
 try { return myOp(); } catch(e) { handleMyOpFailure(e); };
@@ -412,7 +412,113 @@ That's a real bummer. Sure we could abstract out some of that clean up logic to 
 
 Ideally what this is screaming is "Abstract me!", and that is the overall road we're going down.  
 
-Im gonna shift gears a little bit here, and we'll refactor the above example to use `.catch` and explore how we feel about that. I think ultimately the node community is moving toward a point of agreement that *[callback hell](http://callbackhell.com/)* is something we'd like to leave in the back
+Im gonna shift gears a little bit here, and we'll refactor the above example to use `.catch` and explore how we feel about that. I think ultimately the node community is moving toward a point of agreement that *[callback hell](http://callbackhell.com/)* is something we'd like to leave in the past, so I'm not going to set up a whole callback example and walk through that. On that same vein, we'll likely also not explore the 'error' event + EventEmitter pattern, as the other three techniques are far more common for exception handling in most JS applications (except for *maybe* some event driven systems).
+
+```js
+#! /usr/bin/env node
+
+import { readFile, appendFile, rm } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+
+async function run() {
+  const filepath = getFileArg();
+  const file = await readFile(`./poems/${filepath}`, {
+    encoding: 'utf8'
+  }).catch(handleReadFileError);
+  const lines = file.split('\n');
+  const primeLines = takeEveryPrimeLine(lines);
+  const filename = filepath.replace('.txt', '');
+  await writePoem(filename, [...primeLines]).catch(handleWriteError);
+  printAnalysis(filename, primeLines);
+}
+
+const AppErrorCodes = Object.freeze({
+  MISSING_FILENAME: 1,
+  READFILE_EXCEPTION: 2,
+  WRITEFILE_EXCEPTION: 3
+});
+
+function getFileArg() {
+  const args = process.argv.slice(2);
+  if (args.length < 1) {
+    console.error(`
+            [ERROR]: Oops! This program requires that you supply it a .txt file to run. 
+            You can do so by providing the filename as a command line argument.
+        `);
+    process.exit(AppErrorCodes.MISSING_FILENAME);
+  }
+  return args[0];
+}
+
+function handleReadFileError(e) {
+  console.error(`
+        [ERROR]: Oh no! This program couldn't read the file you provided.
+        See below for output details.
+            
+            ${e}
+    `);
+  process.exit(AppErrorCodes.READFILE_EXCEPTION);
+}
+
+function takeEveryPrimeLine(poem) {
+  return poem.filter((_, i) => isPrimeNum(i));
+}
+
+function isPrimeNum(num) {
+  if (num < 2) return false;
+  const sqrt = Math.sqrt(num);
+  for (let x = 2; x <= sqrt; x++) {
+    if (num % x === 0) return false;
+  }
+  return true;
+}
+
+async function writePoem(name, poem) {
+  const outfile = `./poems/${name}.prime.txt`;
+  await appendFile(outfile, name.toUpperCase() + '\n\n\n', {
+    encoding: 'utf8'
+  });
+  while (poem.length) {
+    await appendFile(outfile, '\t' + poem.shift() + '\n', { encoding: 'utf8' });
+  }
+}
+
+async function handleWriteError(e) {
+  console.error(`
+        [ERROR]: Drat! You may not have write permissions on this host! WHO ARE YOU?!
+        See Error Output Below:
+
+            ${e}
+    `);
+  if (existsSync(outfile)) {
+    await rm(outfile, { force: true }).catch(handleRmFileError);
+  }
+  process.exit(AppErrorCodes.WRITEFILE_EXCEPTION);
+}
+
+function handleRmFileError(e) {
+  console.error(`
+        [ERROR]: Can't brute force delete ${outfile}. 
+        Looks like you have to manually delete it.
+        Error output below:
+
+            ${e};
+    `);
+}
+
+function printAnalysis(name, poem) {
+  console.log(`
+        Transcribed: ${name}.txt into ${name}.prime.txt;
+        Wrote ${poem.length} lines.
+        Run "cat ./poems/${name}.prime.txt" to print the poem to std output.
+    `);
+}
+
+await run();
+
+```
+
+I like this a lot better for a number of reasons: Coerces pattern of exception handling logic typically being abstracted out of the operational function logic. It's declarative and clear what's going on. It's more compact than the previous try/catch/throw example. However, `.catch()` 
 
 ## OOP
 

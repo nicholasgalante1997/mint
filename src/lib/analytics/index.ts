@@ -15,7 +15,24 @@ type Analytics = {
 
 export { type Analytics };
 
+function isRunningInProd() {
+  const prodEnv = process.env.NODE_ENV === 'production';
+  const isBrowser = typeof window !== "undefined";
+  const hrefOrStub = window && window?.location?.href || 'localhost';
+  const isLocalHost = hrefOrStub.includes('localhost');
+  if (prodEnv && isBrowser && !isLocalHost) {
+    return true;
+  }
+  return false;
+}
+
 function sendToAnalytics(metric: any) {
+
+  if (!isRunningInProd()) {
+    console.log({ metric });
+    return
+  }
+
   const body = JSON.stringify(metric);
   const data: Analytics = {
     id: uuid(),

@@ -108,13 +108,7 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  overflow-x: hidden;
-  overflow-y: hidden;
   font-family: 'League Spartan';
-
-  background-color: var(--color-base-black-eta);
-  color: var(--color-base-white-alpha);
 
   overflow-x: hidden;
   overflow-y: scroll;
@@ -132,6 +126,17 @@ body {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
+  transition: background-color 300ms;
+}
+
+#app[data-theme="dark"] {
+  background-color: var(--color-base-black-eta);
+  color: var(--color-base-white-alpha);
+}
+
+#app[data-theme="light"] {
+  background-color: var(--color-base-white-alpha);
+  color: var(--color-base-black-eta);
 }
 
 button {

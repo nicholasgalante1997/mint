@@ -14,8 +14,8 @@ const ThemeContext = createContext(defaultContext);
 export const useThemeContext = () => useContext(ThemeContext);
 
 function getDefaultTheme(): ThemeModeType {
-  if (typeof window !== "undefined") {
-    return (window.localStorage.getItem(STORAGE_KEY) as ThemeModeType) || 'light'
+  if (typeof window !== 'undefined') {
+    return (window.localStorage.getItem(STORAGE_KEY) as ThemeModeType) || 'light';
   }
   return 'light';
 }
@@ -31,7 +31,7 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
       /** Dispatch browser storage update AFTER DOM update */
       window.localStorage.setItem('@mint/theme', mode);
     }
-  }, [mode])
+  }, [mode]);
   return (
     <ThemeContext.Provider value={{ dispatchThemeUpdate: setMode, mode }}>
       <div suppressHydrationWarning className="heller2-theme" data-theme-mode={mode}>

@@ -50,24 +50,33 @@ function MainArticleComponent({
   return (
     <React.Fragment>
       <Header />
-      
+
       <div className={MainArticleClassNames.ImageContainer}>
         <img alt={image.alt} src={image.src} height="100%" width="100%" loading="eager" />
       </div>
-      
+
       <Heading className={MainArticleClassNames.Title} as="h1">
         {title}
       </Heading>
-      
+
       <Summary content={subtitle} />
 
       <div className={MainArticleClassNames.MetadataRow}>
         <div>
-          <Body as="span" className={MainArticleClassNames.Author}>by Nick Galante</Body>
-          <Body as="span" className={MainArticleClassNames.Date}>{publishing.date}</Body>
+          <Body as="span" className={MainArticleClassNames.Author}>
+            by Nick Galante
+          </Body>
+          <Body as="span" className={MainArticleClassNames.Date}>
+            {publishing.date}
+          </Body>
         </div>
         <div>
-          <Button size="small" rounded onClick={onCopy} hover={{ animationType: 'background-transition' }}>
+          <Button
+            size="small"
+            rounded
+            onClick={onCopy}
+            hover={{ animationType: 'background-transition' }}
+          >
             Share
           </Button>
         </div>

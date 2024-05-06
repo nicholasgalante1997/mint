@@ -53,15 +53,19 @@ function BrowsePage() {
                 <Body as="p" bold>
                   {blackthornArticle?.display?.subtitle}
                 </Body>
-                <a className="button-link-wrapper" target="_self" href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}>
-                <Button
-                  hover={{ animationType: 'background-transition' }}
-                  style={{ marginTop: '16px' }}
-                  size="small"
-                  rounded
+                <a
+                  className="button-link-wrapper"
+                  target="_self"
+                  href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
                 >
-                  Read
-                </Button>
+                  <Button
+                    hover={{ animationType: 'background-transition' }}
+                    style={{ marginTop: '16px' }}
+                    size="small"
+                    rounded
+                  >
+                    Read
+                  </Button>
                 </a>
               </div>
             </Conditional>

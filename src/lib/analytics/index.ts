@@ -17,8 +17,8 @@ export { type Analytics };
 
 function isRunningInProd() {
   const prodEnv = process.env.NODE_ENV === 'production';
-  const isBrowser = typeof window !== "undefined";
-  const hrefOrStub = window && window?.location?.href || 'localhost';
+  const isBrowser = typeof window !== 'undefined';
+  const hrefOrStub = (window && window?.location?.href) || 'localhost';
   const isLocalHost = hrefOrStub.includes('localhost');
   if (prodEnv && isBrowser && !isLocalHost) {
     return true;
@@ -27,10 +27,9 @@ function isRunningInProd() {
 }
 
 function sendToAnalytics(metric: any) {
-
   if (!isRunningInProd()) {
     console.log({ metric });
-    return
+    return;
   }
 
   const body = JSON.stringify(metric);

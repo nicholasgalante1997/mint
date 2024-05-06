@@ -63,7 +63,6 @@
     "@storybook/react": "^7.5.3",
     "@storybook/react-webpack5": "^7.5.3",
     "@storybook/testing-library": "^0.2.2",
-    "@types/axios": "^0.14.0",
     "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^20.9.0",
     "@types/react": "^18.2.37",

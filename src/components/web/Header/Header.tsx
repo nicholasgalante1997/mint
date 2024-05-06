@@ -45,23 +45,21 @@ const Header = memo(function HeaderComponent() {
         <a
           data-current-page={isActiveHeader(/profile(.html)?/g) ? 'self' : 'other'}
           target="_self"
-          href="/profile"
+          href="/profile.html"
           className="icon-link link couch-mint__ls"
         >
           <UilUserCircle size="16px" fill={mode === 'dark' ? '#fff' : colorBaseBluePrimary} />
           About
         </a>
         <span id="theme-toggle">
-          <span data-theme-tab="dark">
+          <span onClick={dispatchThemeUpdate.bind({}, 'dark')} data-theme-tab="dark">
             <UilMoon
-              onClick={dispatchThemeUpdate.bind({}, 'dark')}
               size="16px"
               fill={mode === 'light' ? '#fff' : colorBaseBluePrimary}
             />
           </span>
-          <span data-theme-tab="light">
+          <span onClick={dispatchThemeUpdate.bind({}, 'light')} data-theme-tab="light">
             <UilSun
-              onClick={dispatchThemeUpdate.bind({}, 'light')}
               size="16px"
               fill={mode === 'light' ? '#fff' : colorBaseBluePrimary}
             />

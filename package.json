@@ -19,7 +19,7 @@
     "package:buildMarkup": "node .build-process/main.cjs",
     "package:cleanTmp": "rm -rf .build-process/",
     "package:bundleJs": "webpack --config webpack/webpack.prod.cjs",
-    "package:copyAssets": "cp -R node_modules/heller-2-lite/build/css/* src/styles/* assets/* build/web",
+    "package:copyAssets": "cp -R node_modules/heller-2-lite/build/css/* src/styles/* assets/* favicons/* build/web",
     "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:BROWSE": "REQUEST_PAGE=\"@mint-browse-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:ARTICLE": "REQUEST_PAGE=\"@mint-main-article-page\" webpack serve --config webpack/webpack.dev.cjs",

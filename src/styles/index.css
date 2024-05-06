@@ -895,6 +895,54 @@ button {
   letter-spacing: 0.04em;
 }
 
+.couch-mint__main-article-markdown-container blockquote {
+  box-sizing: border-box;
+  margin: 0;
+  padding-inline-start: 2rem;
+  padding-inline-end: 2rem;
+  padding-block-start: 2rem;
+  padding-block-end: 2rem;
+  border-radius: 10px;
+
+  p {
+    font-family: 'League Spartan';
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+}
+
+#app[data-theme="dark"] {
+  .couch-mint__main-article-markdown-container blockquote {
+    background-color: var(--color-base-black-alpha);
+
+    p {
+      color: var(--color-base-white-alpha);
+    }
+  }
+}
+
+#app[data-theme="light"] {
+  .couch-mint__main-article-markdown-container blockquote {
+    background-color: #f8f8f8;
+
+    p {
+      color: var(--color-base-black-eta);
+    }
+  }
+}
+
+.couch-mint__main-article-markdown-container p {
+  font-family: 'League Spartan';
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.15;
+}
+
 .couch-mint__main-article-share-action {
   min-width: 170px;
   min-height: 44px;
@@ -916,9 +964,22 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border-radius: 8px;
-  background-color: var(--color-base-gray-alpha);
-  color: white;
+  border-radius: 4px;
+  transition: background-color 300ms, border 300ms;
+}
+
+#app[data-theme="light"] {
+  .summary__wrapping-container {
+    background-color: #f8f8f8;
+    border: 2px solid var(--color-base-black-eta);
+  }
+}
+
+#app[data-theme="dark"] {
+  .summary__wrapping-container {
+    background-color: var(--color-base-blue-primary);
+    border: 2px solid #f8f8f8;
+  }
 }
 
 .summary__label-section-container {
@@ -929,13 +990,12 @@ button {
 }
 
 .summary__label {
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 24px;
   line-height: 1.5;
   text-align: left;
   text-decoration: underline;
   letter-spacing: 0.04em;
-  color: #fff;
 }
 
 .summary__content-section-container {
@@ -947,12 +1007,11 @@ button {
 }
 
 .summary__content-text {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.15;
   text-align: left;
-  margin-block: 0px;
-  color: #fff;
+  margin-block: 2px;
 }
 
 /****************************************************************************************************************/

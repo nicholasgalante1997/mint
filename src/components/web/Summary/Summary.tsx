@@ -16,7 +16,7 @@ function SummaryComponent({ content, className, ...rest }: SummaryProps) {
         </Body>
       </div>
       <div className={SummaryClassNames.ContentSection}>
-        <Body as="p" accent className={SummaryClassNames.Content}>
+        <Body as="p" className={SummaryClassNames.Content}>
           {content}
         </Body>
       </div>

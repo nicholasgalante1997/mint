@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { PageIndex, PageIndexKey } from '@/pages/index';
+
 import { render } from '@/lib';
 
 import loremIpsum from './lorem';

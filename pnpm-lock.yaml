@@ -56,6 +56,9 @@ dependencies:
   remark-gfm:
     specifier: ^3.0.1
     version: 3.0.1
+  sleepydogs:
+    specifier: ^1.0.3
+    version: 1.0.3
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
@@ -9478,6 +9481,10 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
+
+  /sleepydogs@1.0.3:
+    resolution: {integrity: sha512-ruuN6hGZd2+yh1bEfnyltFAmACMQYNibFBbDYtMQIhll3efQ7rlzwVgJ+w8WbWaAjxkN4C+KXq1H4wrEMG+TOw==}
+    dev: false
 
   /sockjs@0.3.24:
     resolution: {integrity: sha512-GJgLTZ7vYb/JtPSSZ10hsOYIvEYsjbNU+zPdIHcUaWVNUEPivzxku31865sSSud0Da0W4lEeOPlmw93zLQchuQ==}

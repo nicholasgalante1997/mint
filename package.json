@@ -23,6 +23,7 @@
     "dev:HOME": "REQUEST_PAGE=\"@mint-home-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:BROWSE": "REQUEST_PAGE=\"@mint-browse-page\" webpack serve --config webpack/webpack.dev.cjs",
     "dev:ARTICLE": "REQUEST_PAGE=\"@mint-main-article-page\" webpack serve --config webpack/webpack.dev.cjs",
+    "dev:PROFILE": "REQUEST_PAGE=\"@mint-profile-page\" webpack serve --config webpack/webpack.dev.cjs",
     "start": "npx serve build/web",
     "start:server": "node server/pm2.mjs",
     "storybook": "storybook dev -p 6006",

@@ -44,6 +44,20 @@
             "out": {
                 "bundle": "article"
             }
+        },
+        {
+            "key": "@mint-profile-page",
+            "path": "mounts/Profile.tsx",
+            "out": {
+                "bundle": "profile",
+                "html": "profile"
+            },
+            "page": {
+                "registryKey": "@mint-profile-page",
+                "metadata": {
+                    "raw": []
+                }
+            }
         }
     ],
     "data": {

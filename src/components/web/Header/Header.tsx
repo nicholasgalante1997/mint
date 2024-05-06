@@ -17,7 +17,6 @@ import { colorBaseBluePrimary } from 'heller-2-lite';
 function isActiveHeader(href: RegExp) {
   if (typeof window !== 'undefined') {
     const { pathname } = window.location;
-    console.log({ pathname });
     return href.test(pathname);
   }
   return false;
@@ -44,9 +43,9 @@ const Header = memo(function HeaderComponent() {
           Posts
         </a>
         <a
-          data-current-page={isActiveHeader(/author(.html)?/g) ? 'self' : 'other'}
+          data-current-page={isActiveHeader(/profile(.html)?/g) ? 'self' : 'other'}
           target="_self"
-          href="/author"
+          href="/profile"
           className="icon-link link couch-mint__ls"
         >
           <UilUserCircle size="16px" fill={mode === 'dark' ? '#fff' : colorBaseBluePrimary} />

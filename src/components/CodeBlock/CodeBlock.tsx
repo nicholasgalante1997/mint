@@ -15,7 +15,6 @@ function CodeBlockComponent(props: any) {
       language={match[1]}
       style={mode === 'light' ? prism : atomDark}
       showLineNumbers
-      wrapLongLines
     />
   ) : (
     <code {...rest} className={className}>

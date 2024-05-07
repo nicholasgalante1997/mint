@@ -1,14 +1,211 @@
 # Brevity
 
-This article is going to be short, perhaps even a little opinionated (the worst). In every programming language, you encounter certain scenarios that require that you handle code that might fail. Maybe you try to open a file that doesn't exist or that you don't have permission to open. Maybe a network request goes down due to a server being offline. This article primarily offers opinions on scalable patterns to reduce boilerplate code in such scenarios, and to increase robustness and performance in certain scenarios.
+This article is going to be short, perhaps even a little opinionated (the worst). In every programming language, you encounter certain scenarios that require that you handle code that might fail. Maybe you try to open a file that doesn't exist or that you don't have permission to open. Maybe a network request goes down due to a server being offline. This article primarily offers opinions on scalable patterns to reduce boilerplate code, and to increase robustness and performance in such scenarios.  
 
 If you're looking to develop a better foundation with regards to Error Handling in javascript, I'd recommend reading [Triton's Error Handling in Node Js](https://www.tritondatacenter.com/node-js/production/design/errors), which this post may refer to from time to time. Here's an excerpt from the post that I think will offer a decent starting point to this discussion on error handling:
 
 > The general rule is that a function may deliver operational errors synchronously (e.g., by throwing [or returning the error]) or asynchronously (by passing them to a callback or emitting error on an EventEmitter), but it should not do both. This way, a user can handle errors by either handling them in the callback or using try/catch, but they never need to do both. Which one they use depends on what how the function delivers its errors, and that should be specified with its documentation.
 
-This does a concise job of enumerating the options we have when dealing with potentially fallible code, and illustrating a core concept in exception handling - out of the several options that we have for handling exceptions, a particular function should only ever handle an exception in a single way. It should throw an error, OR pass the error to a callback OR emit theme on an EventEmitter, etc., but it shouldn't do more than one of the above  for a given function implementation.  
+We can think of the phrase *operational error*, as being akin to "run-time problems experienced by correctly-written programs".  
 
-We can think of the phrase *operational error*, as being akin to "run-time problems experienced by correctly-written programs". With that in mind, let's move on to explore more concrete implementations and patterns.  
+This does a concise job of enumerating the options we have when dealing with potentially fallible code, and illustrating a core concept in exception handling - out of the several options that we have for handling exceptions, a particular function should only ever handle an exception in a single way. It should throw an error, OR pass the error to a callback OR emit theme on an EventEmitter, etc., but it shouldn't do more than one of the above for a given function implementation. With that in mind, let's move on to explore more concrete implementations and patterns.
+
+## Patterns
+
+> From here on out, it's a lot of opinion. Tread lightly.
+
+From the options listed above, there are two categorical approaches to error handling: a synchronous approach where the error is returned or thrown to the calling scope, and an asynchronous approach where a callback is invoked and passed the error, or an event is emitted for handling. We will leverage both, but with extremely targeted applications.  
+
+For functions or methods that return a value, promise or synchronous, we will *return any errors thrown during operation back to the calling scope*, and we'll do so in a manner that standardizes the API for retrieving data and errors off of operations that return a value and *may* throw an error. An example of this type of function is `require('node:fs/promises').readFile`, which is an asynchronous function that returns the contents of a file or throws an error if an error occurs during an attempt to read a file.  
+
+For functions or methods whose return type is `void | Promise<void>`, we will treat these functions unilaterally as [side effects](https://softwareengineering.stackexchange.com/questions/40297/what-is-a-side-effect) and we will handle any exceptions thrown during these operations asynchronously via callbacks.  
+
+Here's a brief overview of the rationale. Functions or methods that return a value to the calling scope are often considered blocking to their execution context if the execution context plans to use that value. With the standard adoption of es6's async/await syntax, we very rarely see examples of [callback hell](http://callbackhell.com/) anymore, and a lot of that mangled nested code has been replaced with `async/await` for async functions that return a value or sync functions that once used callbacks and can be promisified using `require('util').promisify`. So the budding pattern that the node.js community is adopting, whether it's intended or not, is if a function returns a value that's leveraged by the invoking scope, it's common that that function is awaited if the invoking function is asynchronous, or blocking to the calling scope if its synchronous. To that degree, it makes sense to pass any errors thrown during execution back to the calling scope, since the calling scope has a *dependency* on this returned value, and let it decide how to proceed in the event of failure.  
+
+For side effects, we do not need to block any execution, we don't need to then return a value to the calling scope variably to indicate we've failed. In such cases, it makes more sense to pass a callback in the event of failure and handle it asynchronously, if and when the error event occurs. This allows us to maintain a consistent return type (void), whether or not an exception occurs during operation.
+
+Let's move into types and implementations. 👍  
+
+## OOP
+
+> I still like Object Oriented Programming in a lot of cases. I might always like Object Oriented Programming for logical programming. I am the last of the OOPecans.
+
+The following types and implementations are going to be implemented using typescript, and class syntax, and the approach to code structuring is going to be Object Oriented Programming.
+
+**Callback**  
+
+```ts
+export interface Callback<T> {
+  (...args: any[]): T;
+}
+```
+
+The type `Callback<T>` is a base representation of a callable operation that may or may not return a value. This can also represent an asynchronous operation by passing `Callback<Promise<T>>`.
+
+We can extend this type to represent a `SideEffect` that does not return a value in the following way:
+
+```ts
+export interface SideEffect extends Callback<void | Promise<void>> {
+  (...args: any): void | Promise<void>;
+}
+```
+
+So now we've set up SideEffect as an interface that extends from `Callback<void | Promise<void>>` to ensure that the return type of a `SideEffect` is either `void` (synchronous) or `Promise<void>` (asynchronous).
+
+**SafeInvocation**  
+
+> A SafeInvocation Object or Class represents an entity that is capable of performing a fallible operation, sync or async, and affords consuming code the ability to peek into the state of an operation. It has a uniform API for representing the completed state of an operation (failed|passed).
+
+SafeInvocation is a private static utility class. It is typically not publicly available to the package code, and rather it is going to be leveraged internally inside of `class Option {}`, and `class Attempt {}`, to facilitate invoking code that might throw an error. It has two public static methods: `execute` and `executeAsync` which invoke a synchronous fallible function and an asynchronous fallible function respectively.  
+
+> Promise.resolve(): A Brief Aside
+>
+> Why are we using two separate functions to invoke async and sync functions separately when we could be resolving both with [Promise.resolve()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve)?
+>
+> We want to retain synchronous execution for synchronous functions, where Promise.resolve forces us into `.then` and asynchronous handling.
+
+Let's start by setting up types and our implementation for `execute`, which will call a synchronous function safely, and return an `ExecutionResult<T>`
+
+```ts
+export enum InvocationState {
+  IDLE,
+  SUCCESS,
+  FAILED
+}
+
+export interface ExecutionResult<T> {
+  data: T | null;
+  error: Error | null;
+  status: InvocationState;
+}
+```
+
+So we've set up an interface `ExecutionResult` which consists of metadata representing a completed operation. We have a means of delineating if the operation was successful, and we have access to the resolved value or the thrown error.
+
+We can extend the base `ExecutionResult<T>` to represent Success and Failure states specifically, in the following way:
+
+```ts
+export enum InvocationState {
+  IDLE,
+  SUCCESS,
+  FAILED
+}
+
+export interface ExecutionResult<T> {
+  data: T | null;
+  error?: Error | null;
+  status: InvocationState;
+}
+
+export interface SuccessfulExecution<T> extends ExecutionResult<T> {
+  data: T;
+  error: null;
+  status: InvocationState.SUCCESS;
+}
+
+export interface FailedExecution extends ExecutionResult<never> {
+  data: null;
+  error: Error;
+  status: InvocationState.FAILED;
+}
+```
+
+Now we can begin to define an interface for our SafeInvocation class:
+
+> When it comes time for implementation, we won't actually use this interface as Typescript has some weird behavior around interface satisfaction and static methods. See [the second answer on this stack overflow post](https://stackoverflow.com/questions/13955157/how-to-define-static-property-in-typescript-interface).
+
+```ts
+interface ISafeInvocation {
+    execute<T extends Callback<R>, R = any>(callback: T): SuccessfulExecution<R> | FailedExecution;
+}
+
+/**
+ * WHERE
+ * 
+ * T is the typeof function (Callback<R>) we want to invoke
+ * R is the return type of T (ReturnType<T>)
+ * */
+```
+
+This declaration states, we are declaring that the method `execute` will accept a single callback of type `Callback<T>` and will return either a `SuccessfulExecution<R>` or a `FailedExecution`.
+
+That's a pretty solid definition. Let's get to implementing it!
+
+```ts
+class SafeInvocation {
+  static execute<T extends Callback<R>, R = any>(callback: T): SuccessfulExecution<R> | FailedExecution {
+    let data;
+    let error = null;
+    let status = InvocationState.IDLE;
+    try {
+      data = callback();
+      status = InvocationState.SUCCESS;
+      return {
+        data,
+        error,
+        status
+      };
+    } catch (e: unknown) {
+      data = null;
+      status = InvocationState.FAILED;
+
+      if (e instanceof Error) {
+        error = e;
+      }
+
+      if (typeof e === 'string') {
+        error = new Error(e);
+      }
+
+      if (error == null) {
+        error = new Error(JSON.stringify(e)); // Caution: JSON.stringify itself throws an error if it attempts to stringify a recursive value
+      }
+
+      return {
+        data,
+        error,
+        status
+      };
+    }
+  }
+}
+```
+
+Okay, not the shortest implementation possible, but it's very clear what's going on. We wrap our callback in an try-catch block, and we attempt to call it and assign the return value to data. If that's a success, return a `SuccessfulExecution<R>` by proxying data out of the function by returning it as the data field of the `SuccessfulExecution<R>`. If we've failed or thrown an error, catch it, assign it to the local variable error and return a `FailedExecution` with the error being proxied out of the function as the error field of the `FailedExecution`.  It's hyper readable, and it satisfies our requirement of safely invoking a function and returning metadata about the result of the operation.  
+
+We can very easily reuse certain paradigms in our `executeAsync` implementation, with slightly different types.
+
+We're going to adjust the Async types slightly to support syntax that Promises are more closely associated with: resolved and rejected.
+
+```ts
+export interface AsyncExecution<T> {
+  data: T | null;
+  error?: Error;
+  resolved: boolean;
+  rejected: boolean;
+}
+
+export interface ResolvedAsyncExecution<T> extends AsyncExecution<T> {
+  data: T;
+  resolved: true;
+  rejected: false;
+}
+
+export interface RejectedAsyncExecution extends AsyncExecution<never> {
+  data: null;
+  error: Error;
+  resolved: false;
+  rejected: true;
+}
+```
+
+
+
+**Attempt**  
+
+> An instance of the Attempt Class represents the lazy intention to perform a side effect. By default, Attempts are lazy, meaning they will not invoke their passed callback on instantiation, unless 
+
+## Functional Programming
 
 ## Code Smells With Common Exception Handling Strategies
 
@@ -518,8 +715,4 @@ await run();
 
 ```
 
-I like this a lot better for a number of reasons: Coerces pattern of exception handling logic typically being abstracted out of the operational function logic. It's declarative and clear what's going on. It's more compact than the previous try/catch/throw example. However, `.catch()` 
-
-## OOP
-
-## Functional Programming
+I like this a lot better for a number of reasons: Coerces pattern of exception handling logic typically being abstracted out of the operational function logic. It's declarative and clear what's going on. It's more compact than the previous try/catch/throw example.

@@ -199,8 +199,6 @@ export interface RejectedAsyncExecution extends AsyncExecution<never> {
 }
 ```
 
-
-
 **Attempt**  
 
 > An instance of the Attempt Class represents the lazy intention to perform a side effect. By default, Attempts are lazy, meaning they will not invoke their passed callback on instantiation, unless 

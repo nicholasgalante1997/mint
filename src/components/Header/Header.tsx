@@ -53,16 +53,10 @@ const Header = memo(function HeaderComponent() {
         </a>
         <span id="theme-toggle">
           <span onClick={dispatchThemeUpdate.bind({}, 'dark')} data-theme-tab="dark">
-            <UilMoon
-              size="16px"
-              fill={mode === 'light' ? '#fff' : colorBaseBluePrimary}
-            />
+            <UilMoon size="16px" fill={mode === 'light' ? '#fff' : colorBaseBluePrimary} />
           </span>
           <span onClick={dispatchThemeUpdate.bind({}, 'light')} data-theme-tab="light">
-            <UilSun
-              size="16px"
-              fill={mode === 'light' ? '#fff' : colorBaseBluePrimary}
-            />
+            <UilSun size="16px" fill={mode === 'light' ? '#fff' : colorBaseBluePrimary} />
           </span>
         </span>
       </div>

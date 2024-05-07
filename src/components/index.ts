@@ -1,7 +1,6 @@
-export * from './web/Card';
-export * from './web/CodeBlock';
-export * from './web/Header';
-export * from './web/Notation';
-export * from './web/Summary';
-
-export * from './logical/Condition';
+export * from './Card';
+export * from './CodeBlock';
+export * from './Conditional';
+export * from './Header';
+export * from './Notation';
+export * from './Summary';

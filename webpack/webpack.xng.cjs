@@ -4,10 +4,10 @@ const webpack = require('webpack');
 
 const buildScript = {
   mode: 'production',
-  entry: path.resolve(process.cwd(), 'build.tsx'),
+  entry: path.resolve(process.cwd(), 'src', 'xng', 'index.ts'),
   output: {
-    path: path.resolve(process.cwd(), '.build-process'),
-    filename: '[name].cjs'
+    path: path.resolve(process.cwd(), '.xng'),
+    filename: 'main.cjs'
   },
   module: {
     rules: [

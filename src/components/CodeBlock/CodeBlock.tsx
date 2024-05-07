@@ -1,7 +1,7 @@
 import { useThemeContext } from '@/contexts';
 import React, { memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark, prism, } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { atomDark, prism } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 function CodeBlockComponent(props: any) {
   const { children, className, node, ...rest } = props;

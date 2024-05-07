@@ -28,8 +28,7 @@ const ThemeContextProvider = memo(function ThemeContextProviderComponent({
     const appElement = window.document.querySelector<HTMLDivElement>('#app');
     if (appElement) {
       appElement.dataset.theme = mode;
-      /** Dispatch browser storage update AFTER DOM update */
-      window.localStorage.setItem('@mint/theme', mode);
+      window.localStorage.setItem(STORAGE_KEY, mode);
     }
   }, [mode]);
   return (

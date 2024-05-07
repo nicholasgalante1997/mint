@@ -8,8 +8,8 @@ import { Header } from '@/components';
 import { wrapComponent } from '@/lib';
 import { ThemeContextProvider } from '@/contexts';
 
-import { CodeBlock } from '@/components/web/CodeBlock';
-import { Summary } from '@/components/web/Summary/Summary';
+import { CodeBlock } from '@/components/CodeBlock';
+import { Summary } from '@/components/Summary/Summary';
 
 export type MainArticleProps = {
   public: {

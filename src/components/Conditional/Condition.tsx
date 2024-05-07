@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 
-type ConditionalProps = {
+interface ConditionalProps {
   children: React.ReactNode;
   condition: boolean;
-};
+}
 
 function ConditionalComponent({ children, condition }: ConditionalProps) {
   return condition && children;

@@ -21,7 +21,7 @@ export async function getHtmlTemplate() {
       }
     );
 
-    return htmlTemplate as string;
+    return htmlTemplate!;
   }
 
   return htmlTemplate;

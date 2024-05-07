@@ -23,7 +23,7 @@ export async function buildStaticAssets() {
   const stopWatch = new StopWatch();
   stopWatch.start();
 
-  const promises: Promise<void>[] = [];
+  const promises: Array<Promise<void>> = [];
 
   AppConfig.entrypoints.forEach(async function (entrypoint) {
     if (isStaticAssetEntrypoint(entrypoint)) {
@@ -43,7 +43,9 @@ export async function buildStaticAssets() {
 
       const outfile = inject(template.substring(0), markup, entrypoint.out.bundle);
       const outfilePath = path.resolve(DIST, `${entrypoint.out.html}.html`);
-      const writeFileCallback = async () => await writeFile(outfilePath, outfile, { encoding: 'utf-8' });
+      const writeFileCallback = async () => {
+        await writeFile(outfilePath, outfile, { encoding: 'utf-8' });
+      };
       const $writeAttempt = new Attempt(writeFileCallback);
 
       promises.push($writeAttempt.run());

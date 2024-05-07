@@ -7,14 +7,14 @@ import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals';
 import { MintApiClient } from '../api';
 import logger from '../log';
 
-type Analytics = {
+interface Analytics {
   id: string;
   event: {
     type: string;
     timestamp: string;
   };
   data: any;
-};
+}
 
 export { type Analytics };
 

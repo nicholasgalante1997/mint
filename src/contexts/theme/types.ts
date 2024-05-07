@@ -1,12 +1,12 @@
-type ThemeContextProviderProps = {
+interface ThemeContextProviderProps {
   children: React.ReactNode;
   initialMode?: ThemeModeType;
-};
+}
 
-type ThemeContextType = {
-  dispatchThemeUpdate(next: ThemeModeType): void;
+interface ThemeContextType {
+  dispatchThemeUpdate: (next: ThemeModeType) => void;
   mode: ThemeModeType;
-};
+}
 
 type ThemeModeType = 'dark' | 'light' | 'alt';
 

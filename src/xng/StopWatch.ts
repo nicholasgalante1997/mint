@@ -7,7 +7,7 @@ export default class StopWatch {
 
   #lapNum = 0;
 
-  #id;
+  readonly #id;
 
   constructor() {
     this.#id = uuid();

@@ -2,14 +2,14 @@ import ArticlesJson from './data/articles.json';
 
 type Article = (typeof ArticlesJson)[number];
 
-type BrowsePageStoreState = {
+interface BrowsePageStoreState {
   articles: {
     all: Article[];
   };
-};
+}
 
-type BrowsePageStoreActions = {
-  requestArticle(key: string): Article | undefined;
-};
+interface BrowsePageStoreActions {
+  requestArticle: (key: string) => Article | undefined;
+}
 
-export { Article, BrowsePageStoreActions, BrowsePageStoreState };
+export type { Article, BrowsePageStoreActions, BrowsePageStoreState };

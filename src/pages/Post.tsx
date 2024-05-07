@@ -11,7 +11,7 @@ import { ThemeContextProvider } from '@/contexts';
 import { CodeBlock } from '@/components/CodeBlock';
 import { Summary } from '@/components/Summary/Summary';
 
-export type MainArticleProps = {
+export interface MainArticleProps {
   public: {
     title: string;
     subtitle: string;
@@ -25,7 +25,7 @@ export type MainArticleProps = {
     };
     markdown: string;
   };
-};
+}
 
 const MainArticleClassNames = {
   ImageContainer: 'couch-mint__main-article-image-container',

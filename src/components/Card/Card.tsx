@@ -51,7 +51,9 @@ export function CardComponent(props: CardProps): React.JSX.Element | React.React
       return (
         <div style={{ marginTop: 'auto' }}>
           <Button
-            onClick={() => to(cta.href)}
+            onClick={() => {
+              to(cta.href);
+            }}
             size="small"
             v="primary"
             hover={{ animationType: 'background-transition' }}

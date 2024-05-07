@@ -24,7 +24,7 @@ export async function buildDynamicAssets() {
   const stopWatch = new StopWatch();
   stopWatch.start();
 
-  const promises: Promise<void>[] = [];
+  const promises: Array<Promise<void>> = [];
   AppConfig.data.articles.forEach(async function (article) {
     const { contentPath, display, key } = article;
     const {
@@ -48,9 +48,9 @@ export async function buildDynamicAssets() {
     const fileContent = inject(template.substring(0), markup, bundle, props);
     const outfilePath = path.resolve(DIST, filename + '.html');
 
-    const $writeAttempt = new Attempt(
-      async () => await writeFile(outfilePath, fileContent, { encoding: 'utf8' })
-    );
+    const $writeAttempt = new Attempt(async () => {
+      await writeFile(outfilePath, fileContent, { encoding: 'utf8' });
+    });
     promises.push($writeAttempt.run());
   });
 
@@ -91,7 +91,7 @@ function buildProps(
         date: new Date().toISOString(),
         collection: display.tags.map(({ keys }) => keys).join(', ')
       },
-      markdown: markdown
+      markdown
     }
   };
 }

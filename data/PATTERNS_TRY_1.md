@@ -199,9 +199,292 @@ export interface RejectedAsyncExecution extends AsyncExecution<never> {
 }
 ```
 
+Now we can set up our stub definition for `executeAsync`
+
+```ts
+interface ISafeInvocation {
+    execute<T extends Callback<R>, R = any>(callback: T): SuccessfulExecution<R> | FailedExecution;
+    executeAsync<T extends Callback<Promise<R>>, R = any>(callback: T): Promise<ResolvedAsyncExecution<R> | RejectedAsyncExecution>;
+}
+```
+
+We're declaring an contract for an asynchronous function that will accept an asynchronous callback, and will return a Promise that resolves to either a `ResolvedAsyncExecution<R>` or a `RejectedAsyncExecution`. Now let's implement it.
+
+```ts
+class SafeInvocation {
+  /** Refactor execute to use #handleException */
+  static execute<T extends Callback<R>, R = any>(callback: T): SuccessfulExecution<R> | FailedExecution {
+    let data;
+    let status = InvocationState.IDLE;
+    try {
+      data = callback();
+      status = InvocationState.SUCCESS;
+      return {
+        data,
+        status
+      };
+    } catch (e: unknown) {
+      return this.#handleException(e, 'sync') as FailedExecution;
+    }
+  }
+
+  static async executeAsync<T extends Callback<Promise<R>>, R = any>(
+    callback: T
+  ): Promise<ResolvedAsyncExecution<R> | RejectedAsyncExecution> {
+    let resolved = false;
+    let rejected = false;
+    let data;
+
+    try {
+      data = await callback();
+      resolved = true;
+      return {
+        data,
+        resolved,
+        rejected
+      };
+    } catch (e) {
+      return this.#handleException(e, 'async') as RejectedAsyncExecution;
+    }
+  }
+
+  static #handleException(e: unknown, invokee: 'sync' | 'async'): FailedExecution | RejectedAsyncExecution {
+    let error = null;
+    
+    if (e instanceof Error) {
+      error = e;
+    }
+
+    if (typeof e === 'string') {
+      error = new Error(e);
+    }
+
+    if (error == null) {
+      error = new Error('UnknownException');
+    }
+
+    if (invokee === 'sync') {
+      return {
+        data: null,
+        error,
+        status: InvocationState.FAILED
+      } as FailedExecution;
+    } else {
+      return {
+        data: null,
+        error,
+        rejected: true,
+        resolved: false
+      } as RejectedAsyncExecution;
+    }
+  }
+}
+
+```
+
+Not bad. We were able to abstract out the commonalities of exception handling to the private static method `#handleException`, and then we reimplemented the base logic for trying an operation, but leveraging async/await syntax since this operation is async.  
+
+So now we have a reliable way to call an operation that might fail, and a declarative api for working with the possible values returned from the operation. Now let's apply the `SafeInvocation` class in a more opinionated manner for side effects, and set up our `Attempt` class.
+
 **Attempt**  
 
-> An instance of the Attempt Class represents the lazy intention to perform a side effect. By default, Attempts are lazy, meaning they will not invoke their passed callback on instantiation, unless 
+> An instance of the Attempt Class represents the lazy intention to perform a side effect. By default, Attempts are lazy, meaning they will not invoke their passed callback on instantiation, unless forced to eagerly invoke the operation via configuration setting. Only synchronous operations can have immediate (in-constructor) invocation. Async side effects cannot be awaited from within a constructor without having the constructor variably return alternating values, which we won't (read *shouldn't*) do.
+
+An instance of an Attempt represents a side effect that we'd like to manage. An attempt can benefit from baked in retry logic, to facilitate achieving the side effect if initial attempts fail. An attempt may not be cached (intended for usage with side effects, so caching would be contrary to our use case.).
+
+Here's our first go at a rough interface for an Attempt:
+
+```ts
+enum AttemptState {
+  IDLE,
+  FAILED,
+  SUCCEEDED,
+  IN_PROGRESS,
+  RETRYING
+}
+
+interface AttemptConfiguration {
+  callback: SideEffect;
+  onError?: ((e: Error) => void) | null;
+  immediate?: boolean;
+  retries?: number;
+  delay?: number | number[];
+};
+
+interface IAttempt {
+  readonly callback: SideEffect;
+  onError: ((e: Error) => void) | null;
+  immediate: boolean;
+  retries: number;
+  delay: number | number[];
+  runSync(): void;
+  run(): Promise<void>;
+}
+```
+
+So you'll notice that our AttemptConfiguration interface and our IAttempt interface share some commonalities. To keep our configuration options in sync with our interface definition, we should refactor the above to leverage `&` type syntax or use `Pick/Omit` or some type of type sharing. What the AttemptConfiguration represents is an object we can pass when we instantiate a new Attempt that will give us greater granulatity over the behavior of our attempt instance. We also want to allow for our Attempt to be instantiated with just a callback for basic use cases.
+
+Let's start to implement that class now:
+
+```ts
+class Attempt implements IAttempt {
+  #tryN = 0;
+  #state = AttemptState.IDLE;
+
+  callback: SideEffect;
+  onError: ((e: Error) => void) | null;
+  immediate: boolean;
+  retries: number;
+  delay: number | number[];
+
+  constructor(value: AttemptConfiguration | SideEffect) {\
+    if (isAttemptConfiguration(value)) {
+      this.callback = value.callback;
+      this.onError = value.onError ?? null;
+      this.immediate = !!value?.immediate;
+      this.retries = value?.retries ?? 0;
+      this.delay = value?.delay ?? 0;
+    } else {
+      this.callback = value;
+      this.onError = null;
+      this.immediate = false;
+      this.retries = 0;
+      this.delay = 0;
+    }
+
+    if (this.immediate) {
+      this.runSync();
+    }
+  }
+}
+
+function isAttemptConfiguration(value: SideEffect | AttemptConfiguration): value is AttemptConfiguration {
+  if (typeof value === 'function') return false;
+  if (typeof value?.callback !== "undefined") {
+    if (typeof value.callback !== "function") {
+      return false;
+    }
+  }
+  if (typeof value?.onError !== "undefined") {
+    if (typeof value?.onError !== "function") {
+      return false;
+    }
+  }
+  if (typeof value?.retries !== "undefined") {
+    if (typeof value?.retries !== "number") {
+      return false;
+    }
+  }
+  if (typeof value?.delay !== "undefined") {
+    const notNumber = typeof value?.delay !== "number";
+    const notArray = !Array.isArray(value);
+
+    if (notNumber && notArray) {
+      return false;
+    }
+  }
+  return true;
+}
+
+```
+
+If you're unfamiliar with type guard syntax, [check out this typescript article](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) which explains what type guards are. Basically, we check to see what we've been instantiated with. If it's a configuration object, set our local fields to the values of that configuration object or a default value. If it is a callback, set our local fields to the default behavior values.  
+
+Let's move forward with implementing our `run` and `runSync` functions.
+
+```ts
+
+...
+
+class Attempt implements IAttempt {
+
+  ...
+  
+  runSync(): void {
+    this.#state = AttemptState.IN_PROGRESS;
+
+    if (this.callback == null) {
+      this.#state = AttemptState.FAILED;
+      return;
+    }
+
+    const { status, error } = SafeInvocation.execute(this.callback);
+
+    if (status === InvocationState.FAILED) {
+      this.#state = AttemptState.FAILED;
+
+      if (this.retries > this.#tryN) {
+        this.#state = AttemptState.RETRYING;
+        this.#tryN += 1;
+
+        if (Array.isArray(this.delay)) {
+          setTimeout(this.runSync, this.delay[this.#tryN] ?? 0)
+        } else if (this.delay > 0) {
+          setTimeout(this.runSync, this.delay)
+        } else {
+          this.runSync();
+          return;
+        }
+      }
+
+      if (this.onError) {
+        this.onError(error);
+      }
+
+      return;
+    }
+
+    this.#state = AttemptState.SUCCEEDED;
+  }
+
+  async run(): Promise<void> {
+    this.#state = AttemptState.IN_PROGRESS;
+
+    if (this.callback == null) {
+      this.#state = AttemptState.FAILED;
+      return;
+    }
+
+    await SafeInvocation.executeAsync(this.callback as Callback<Promise<void>>).then(async (result) => {
+      const { rejected } = result;
+      if (rejected) {
+        const { error } = result as RejectedAsyncExecution;
+
+        this.#state = AttemptState.FAILED;
+
+        if (this.retries > this.#tryN) {
+          this.#state = AttemptState.RETRYING;
+          this.#tryN += 1;
+
+          if (Array.isArray(this.delay)) {
+            setTimeout(async () => await this.run(), this.delay[this.#tryN] ?? 0)
+          } else if (this.delay > 0) {
+            setTimeout(async () => await this.run(), this.delay)
+          } else {
+            await this.run();
+            return;
+          }
+        }
+
+        if (this.onError) {
+          this.onError(error);
+        }
+
+        return;
+      }
+
+      this.#state = AttemptState.SUCCEEDED;
+    });
+  }
+
+  get state() {
+    return this.#state;
+  }
+}
+
+...
+
+```
 
 ## Functional Programming
 

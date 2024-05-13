@@ -4,12 +4,7 @@ import remarkGfm from 'remark-gfm';
 
 import { Body, Button, Heading } from 'heller-2-react';
 
-import { Header } from '@/components';
-import { wrapComponent } from '@/lib';
-import { ThemeContextProvider } from '@/contexts';
-
-import { CodeBlock } from '@/components/CodeBlock';
-import { Summary } from '@/components/Summary/Summary';
+import { Layout, CodeBlock, Summary } from '@/components';
 
 export interface MainArticleProps {
   public: {
@@ -48,9 +43,7 @@ function MainArticleComponent({
     }
   }
   return (
-    <React.Fragment>
-      <Header />
-
+    <Layout>
       <div className={MainArticleClassNames.ImageContainer}>
         <img alt={image.alt} src={image.src} height="100%" width="100%" loading="eager" />
       </div>
@@ -89,10 +82,8 @@ function MainArticleComponent({
           children={markdown}
         />
       </div>
-    </React.Fragment>
+    </Layout>
   );
 }
 
-export const MainArticle = memo<MainArticleProps>(
-  wrapComponent([ThemeContextProvider], MainArticleComponent)
-);
+export const MainArticle = memo<MainArticleProps>(MainArticleComponent);

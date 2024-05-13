@@ -486,9 +486,17 @@ class Attempt implements IAttempt {
 
 ```
 
+Okay so let's start with runSync. We are first changing our internal state to reflect we're in the course of performing an operation. Then, we use our `SafeInvocation` class to perform the passed callback safely and return to us our `ExecutionResult` response. If the side effect failed, we check if we're intended to retry the operation. If we want to retry, we update our internal state and use recursion to re-call runSync() from inside the body of runSync(). If we failed and we don't want to retry, we check if we've been passed an error handler. If we have, we invoke the supplied error handler with the error we've caught. Then we update our internal state to reflect that we've failed and we return early. If we've succeeded, we update our internal state to reflect the operation succeeded and then we return. Our asynchronous `run` function is implemented in an almost identical way except that it's an asynchronous function and it internally leverages `executeAsync` as opposed to `execute`.  
+
+What are the benefits of writing our side effects in this way? We get to bake in retry logic 
+
 ## Functional Programming
 
-## Code Smells With Common Exception Handling Strategies
+## Appendix
+
+> You don't need to read this if you don't care to.
+
+### Nick's Digression On Code Smells With Common Exception Handling Strategies
 
 Okay so to illustrate some of what I'm hoping to break into, we're going to write a simple node program that is going to attempt to load a poem in the local file system based off of a command line arg that it's passed, and then it's going to cherry pick every prime numbered line in the poem and write a new poem based off those lines. Pretty straightforward and useless, so a great place to start.
 

@@ -1,7 +1,9 @@
-import { useThemeContext } from '@/contexts';
 import React, { memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark, prism } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import classNames from 'classnames';
+
+import { useThemeContext } from '@/contexts';
 
 function CodeBlockComponent(props: any) {
   const { children, className, node, ...rest } = props;
@@ -17,7 +19,7 @@ function CodeBlockComponent(props: any) {
       showLineNumbers
     />
   ) : (
-    <code {...rest} className={className}>
+    <code {...rest} className={classNames(className, 'inline-code')}>
       {children}
     </code>
   );

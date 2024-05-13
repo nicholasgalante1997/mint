@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
-import { Header } from '@/components';
-import { wrapComponent } from '@/lib';
-import { ThemeContextProvider } from '@/contexts';
 import { Body, Heading } from 'heller-2-react';
 import { colorBaseBluePrimary } from 'heller-2-lite';
+
+import { Layout } from '@/components';
 
 const ProfilePageClassNames = {
   main: 'couch-mint__bio-main-root',
@@ -14,8 +13,7 @@ const ProfilePageClassNames = {
 
 function ProfilePageComponent() {
   return (
-    <React.Fragment>
-      <Header />
+    <Layout>
       <main className={ProfilePageClassNames.main}>
         <div className={ProfilePageClassNames.infoRoot}>
           <div className={ProfilePageClassNames.avatarRoot}>
@@ -35,8 +33,8 @@ function ProfilePageComponent() {
           </div>
         </div>
       </main>
-    </React.Fragment>
+    </Layout>
   );
 }
 
-export const Profile = wrapComponent([ThemeContextProvider], memo(ProfilePageComponent));
+export const Profile = memo(ProfilePageComponent);

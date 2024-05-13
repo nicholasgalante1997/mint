@@ -222,6 +222,9 @@ button {
   line-height: 1.15;
   font-weight: 600;
 }
+.couch-mint__home-page-link-to-browse-page {
+  
+}
 
 /****************************************************************************************************************/
 /*********************************************** Links **********************************************************/
@@ -253,11 +256,17 @@ button {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 16px;
 
   box-sizing: border-box;
   margin: 0;
+
+  > button:nth-of-type(1) {
+    border: none;
+    background: transparent;
+  }
 }
 
 .couch-mint__header-home-container {
@@ -277,7 +286,11 @@ button {
   vertical-align: middle;
   text-align: center;
   margin-block-end: 0px;
-  margin-block-start: 6px;
+  margin-block-start: 2px;
+  /* background: linear-gradient(to right, var(--color-base-blue-primary), var(--color-base-green-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 
 .couch-mint__header-link-container {
@@ -287,6 +300,7 @@ button {
   align-items: center;
   gap: 12px;
   cursor: pointer;
+  margin-left: auto;
 
   a {
     box-sizing: border-box;
@@ -298,8 +312,6 @@ button {
 }
 
 #app[data-theme='light'] .couch-mint__header-link-container {
-  border-bottom: 2px solid var(--color-base-blue-primary);
-
   a[data-current-page='self'] {
     background-color: var(--color-base-blue-primary);
     color: var(--color-base-white-alpha);
@@ -307,8 +319,6 @@ button {
 }
 
 #app[data-theme='dark'] .couch-mint__header-link-container {
-  border-bottom: 2px solid var(--color-base-white-alpha);
-
   a[data-current-page='self'] {
     background-color: var(--color-base-white-alpha);
     color: var(--color-base-blue-primary);
@@ -360,6 +370,22 @@ button {
   span[data-theme-tab='light'] {
     background-color: var(--color-base-green-primary);
   }
+}
+
+#hamburger-menu {
+  border: none;
+  background: transparent;
+  position: relative;
+}
+
+#navigation-menu:popover-open {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  inset: unset;
+  top: 84px;
+  right: 10px;
+  margin: 0;
 }
 
 /****************************************************************************************************************/
@@ -896,6 +922,15 @@ button {
   letter-spacing: 0.04em;
 }
 
+.couch-mint__main-article-markdown-container .inline-code {
+  font-size: 14px;
+  box-sizing: border-box;
+  padding-inline-start: 2px;
+  padding-inline-end: 2px;
+  padding-block-start: 2px;
+  padding-block-end: 2px;
+}
+
 .couch-mint__main-article-markdown-container blockquote {
   box-sizing: border-box;
   margin: 0;
@@ -917,7 +952,8 @@ button {
 }
 
 #app[data-theme='dark'] {
-  .couch-mint__main-article-markdown-container blockquote {
+  .couch-mint__main-article-markdown-container blockquote,
+  .couch-mint__main-article-markdown-container .inline-code {
     background-color: var(--color-base-black-alpha);
 
     p {
@@ -927,7 +963,8 @@ button {
 }
 
 #app[data-theme='light'] {
-  .couch-mint__main-article-markdown-container blockquote {
+  .couch-mint__main-article-markdown-container blockquote,
+  .couch-mint__main-article-markdown-container .inline-code {
     background-color: #f8f8f8;
 
     p {
@@ -1052,4 +1089,35 @@ button {
   font-family: 'Newake';
   letter-spacing: 1.45px;
   font-size: 3rem;
+}
+
+
+.couch-mint__aside-link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 48px;
+
+  a {
+    box-sizing: border-box;
+    padding: 16px;
+    width: 100%;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    transition: all 300ms;
+  }
+}
+
+#app[data-theme='light'] .couch-mint__aside-link-container {
+  a[data-current-page='self'] {
+    background-color: var(--color-base-blue-primary);
+  }
+}
+
+#app[data-theme='dark'] .couch-mint__aside-link-container {
+  a[data-current-page='self'] {
+    background-color: var(--color-base-white-alpha);
+  }
 }

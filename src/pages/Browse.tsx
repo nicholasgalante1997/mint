@@ -3,9 +3,8 @@ import { RoughNotationGroup } from 'react-rough-notation';
 import { Heading, Body, Button } from 'heller-2-react';
 import { colorBaseBluePrimary } from 'heller-2-lite';
 
-import { Conditional, Header, Notation, Card } from '@/components';
-import { ThemeContextProvider } from '@/contexts';
-import { buildLocalHrefFromArticleFilePath, wrapComponent, getExecutionEnv } from '@/lib';
+import { Conditional, Layout, Notation, Card } from '@/components';
+import { buildLocalHrefFromArticleFilePath } from '@/lib';
 import { useBrowsePageStore } from '@/store';
 import { ArticleKeys } from '@/types';
 
@@ -32,8 +31,7 @@ function BrowsePage() {
   const prefetchArticle = requestArticle(ArticleKeys.PREFETCH_WEBWORKERS_REACT);
 
   return (
-    <React.Fragment>
-      <Header />
+    <Layout>
       <div className={BrowsePageClassNames.Container}>
         <div className={BrowsePageClassNames.CardGridContainer}>
           <div className={BrowsePageClassNames.CardWrappingGrid}>
@@ -114,8 +112,8 @@ function BrowsePage() {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </Layout>
   );
 }
 
-export const Browse = memo(wrapComponent([ThemeContextProvider], BrowsePage));
+export const Browse = memo(BrowsePage);

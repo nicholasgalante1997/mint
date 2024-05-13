@@ -1,56 +1,28 @@
 import React, { memo } from 'react';
 import { Body } from 'heller-2-react';
 
-import {
-  UilBracketsCurly,
-  UilDocumentLayoutRight,
-  UilMoon,
-  UilSun,
-  UilUserCircle
-} from '@iconscout/react-unicons';
+import { UilMoon, UilSun, UilBars } from '@iconscout/react-unicons';
 
 import { useThemeContext } from '@/contexts';
 
 import { HeaderClassNames } from './HeaderMeta';
 import { colorBaseBluePrimary } from 'heller-2-lite';
-
-function isActiveHeader(href: RegExp) {
-  if (typeof window !== 'undefined') {
-    const { pathname } = window.location;
-    return href.test(pathname);
-  }
-  return false;
-}
+import { useAsideOverlayContext } from '@/contexts/AsideOverlay';
 
 const Header = memo(function HeaderComponent() {
   const { mode, dispatchThemeUpdate } = useThemeContext();
+  const { open } = useAsideOverlayContext();
   return (
     <header className={HeaderClassNames.Container} data-theme={mode}>
+      <button onClick={open}>
+        <UilBars size="24px" fill={colorBaseBluePrimary} />
+      </button>
       <a target="_self" href="/" className={HeaderClassNames.HomeContainer} role="button">
-        <UilBracketsCurly size="32px" fill={colorBaseBluePrimary} />
-        <Body as="span" className="couch-mint__highrise-bold">
+        <Body as="span" className="couch-mint__newake" style={{ color: colorBaseBluePrimary }}>
           Mint.
         </Body>
       </a>
       <div className={HeaderClassNames.LinkContainer}>
-        <a
-          data-current-page={isActiveHeader(/browse-articles(.html)?/g) ? 'self' : 'other'}
-          target="_self"
-          href="/browse-articles.html"
-          className="icon-link link couch-mint__ls"
-        >
-          <UilDocumentLayoutRight size="16px" fill={mode === 'dark' ? '#fff' : colorBaseBluePrimary} />
-          Posts
-        </a>
-        <a
-          data-current-page={isActiveHeader(/profile(.html)?/g) ? 'self' : 'other'}
-          target="_self"
-          href="/profile.html"
-          className="icon-link link couch-mint__ls"
-        >
-          <UilUserCircle size="16px" fill={mode === 'dark' ? '#fff' : colorBaseBluePrimary} />
-          About
-        </a>
         <span id="theme-toggle">
           <span onClick={dispatchThemeUpdate.bind({}, 'dark')} data-theme-tab="dark">
             <UilMoon size="16px" fill={mode === 'light' ? '#fff' : colorBaseBluePrimary} />

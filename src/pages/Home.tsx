@@ -1,23 +1,20 @@
 import React, { memo } from 'react';
 import { RoughNotationGroup } from 'react-rough-notation';
-import { Body, Heading } from 'heller-2-react';
+import { Body, Button, Heading, Link } from 'heller-2-react';
 import { colorBaseBluePrimary } from 'heller-2-lite';
-
-import { Header, Notation } from '@/components';
-import { ThemeContextProvider } from '@/contexts';
-import { wrapComponent } from '@/lib';
+import { Layout, Notation } from '@/components';
 
 const HomePageClassNames = {
   BodyContainer: 'couch-mint__home-page-body-container',
   TextContainer: 'couch-mint__home-page-text-container',
   Title: 'couch-mint__home-page-title-text couch-mint__highrise-bold',
-  Subtitle: 'couch-mint__home-page-subtitle-text couch-mint__ls'
+  Subtitle: 'couch-mint__home-page-subtitle-text couch-mint__ls',
+  Link: 'couch-mint__home-page-link-to-browse-page'
 } as const;
 
 function HomePageComponent() {
   return (
-    <React.Fragment>
-      <Header />
+    <Layout>
       <div className={HomePageClassNames.BodyContainer}>
         <RoughNotationGroup show={true}>
           <Notation length={45} color={colorBaseBluePrimary}>
@@ -28,14 +25,17 @@ function HomePageComponent() {
               <Body as="p" className={HomePageClassNames.Subtitle}>
                 A minimal technology blog.
               </Body>
+              <a className={HomePageClassNames.Link} target="_self" href="/browse-articles.html">
+                Read Posts
+              </a>
             </div>
           </Notation>
         </RoughNotationGroup>
       </div>
-    </React.Fragment>
+    </Layout>
   );
 }
 
-const Home = memo(wrapComponent([ThemeContextProvider], HomePageComponent));
+const Home = memo(HomePageComponent);
 
 export { Home };

@@ -7,6 +7,7 @@ import {
   colorBaseSynthwavePinkPrimary
 } from 'heller-2-lite';
 import { Layout, Notation, Shapes } from '@/components';
+import { WebDeveloperAnimation } from '@/components/WebDeveloperAnimation';
 
 const HomePageClassNames = {
   BodyContainer: 'couch-mint__home-page-body-container',
@@ -17,8 +18,8 @@ const HomePageClassNames = {
 } as const;
 
 function navigateToBrowsePage() {
-  if (typeof window !== "undefined") {
-    window.location.assign("/browse-articles.html");
+  if (typeof window !== 'undefined') {
+    window.location.assign('/browse-articles.html');
   }
 }
 
@@ -26,16 +27,23 @@ function HomePageComponent() {
   return (
     <Layout>
       <div className={HomePageClassNames.BodyContainer}>
-        <Heading as="h1" className={HomePageClassNames.Title}>
-          Learn solid <span style={{ color: colorBaseGreenPrimary }}>Web Fundamentals</span>. Build
-          better <span style={{ color: colorBaseBluePrimary }}>User Experiences.</span> Write cleaner and
-          more <span style={{ color: colorBaseSynthwavePinkPrimary }}>maintainable code.</span>
-        </Heading>
-        <Button style={{ marginTop: '24px' }} onClick={navigateToBrowsePage} size="large" hover={{ animationType: 'background-transition' }}>
-          Learn More
-        </Button>
+        <WebDeveloperAnimation />
+        <div className={HomePageClassNames.TextContainer}>
+          <Heading as="h1" className={HomePageClassNames.Title}>
+            Learn solid <span style={{ color: colorBaseGreenPrimary }}>Web Fundamentals</span>. Build
+            better <span style={{ color: colorBaseBluePrimary }}>User Experiences.</span> Write cleaner
+            and more <span style={{ color: colorBaseSynthwavePinkPrimary }}>maintainable code.</span>
+          </Heading>
+          <Button
+            style={{ marginTop: '24px' }}
+            onClick={navigateToBrowsePage}
+            size="large"
+            hover={{ animationType: 'background-transition' }}
+          >
+            Learn More
+          </Button>
+        </div>
       </div>
-      {/* <Shapes className="couch-mint__home-abstract-shape-art" /> */}
     </Layout>
   );
 }

@@ -187,12 +187,19 @@ a {
 
 .couch-mint__home-page-body-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: row-reverse;
+  align-items: center;
   height: calc(90vh - 72px);
-  width: fit-content;
-  max-width: 712px;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .couch-mint__home-page-body-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+  }
 }
 
 .couch-mint__home-page-text-container {
@@ -202,15 +209,16 @@ a {
   align-items: flex-start;
   gap: 16px;
   text-align: left;
-  min-width: 248px;
-  max-width: 712px;
+  min-width: 240px;
+  max-width: 600px;
   box-sizing: border-box;
   padding: 8px 16px;
+  margin-right: auto;
 }
 
 .couch-mint__home-page-title-text {
   font-weight: 700;
-  font-size: 4rem;
+  font-size: clamp(1rem, 4vw, 4rem);
 }
 
 .couch-mint__home-page-subtitle-text {
@@ -227,16 +235,30 @@ a {
   text-underline-offset: 4px;
 }
 
+@keyframes ball {
+  0% {
+    top: -200px;
+    left: 200px;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
+}
+
 .couch-mint__shapes-root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  position: relative;
 
   #couch-mint__shapes-circle {
     height: 160px;
     width: 160px;
     border-radius: 50%;
     background: var(--color-base-blue-primary);
+    animation: ball 0.6s ease-in 1 alternate;
+    position: absolute;
   }
 
   #couch-mint__shapes-triangle {
@@ -256,10 +278,34 @@ a {
   }
 }
 
-.couch-mint__home-abstract-shape-art {
-  position: absolute;
-  right: 264px;
-  top: 24vh;
+@media screen and (max-width: 596px) {
+  .couch-mint__shapes-root {
+    #couch-mint__shapes-circle {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      background: var(--color-base-blue-primary);
+      animation:
+        bounce-ease-in 0.6s ease-in infinite alternate,
+        move-right 3s linear infinite;
+    }
+
+    #couch-mint__shapes-triangle {
+      height: 0;
+      width: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: calc(40px * 0.8667) solid var(--color-base-green-primary);
+      transform: translateX(0) rotate(-45deg);
+    }
+
+    #couch-mint__shapes-square {
+      height: 40px;
+      width: 40px;
+      background: var(--color-base-synthwave-pink-primary);
+      transform: translateX(0) translateY(0) rotate(45deg);
+    }
+  }
 }
 
 /****************************************************************************************************************/

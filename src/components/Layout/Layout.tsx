@@ -1,6 +1,8 @@
+import React, { memo } from 'react';
+
+import ScreenContextProvider from '@/contexts/Screen';
 import { ThemeContextProvider } from '@/contexts';
 import { AsideOverlayProviderComponent } from '@/contexts/AsideOverlay';
-import React, { memo } from 'react';
 import { Header } from '../Header';
 
 interface LayoutProps {
@@ -9,12 +11,14 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <ThemeContextProvider>
-      <AsideOverlayProviderComponent>
-        <Header />
-        {children}
-      </AsideOverlayProviderComponent>
-    </ThemeContextProvider>
+    <ScreenContextProvider>
+      <ThemeContextProvider>
+        <AsideOverlayProviderComponent>
+          <Header />
+          {children}
+        </AsideOverlayProviderComponent>
+      </ThemeContextProvider>
+    </ScreenContextProvider>
   );
 }
 

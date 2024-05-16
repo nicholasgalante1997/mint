@@ -10,15 +10,24 @@
       "tags": [
         {
           "visible": "React",
-          "keys": ["react", "react-dom"]
+          "keys": [
+            "react",
+            "react-dom"
+          ]
         },
         {
           "visible": "Optimization",
-          "keys": ["optimization"]
+          "keys": [
+            "optimization"
+          ]
         },
         {
           "visible": "Web Workers",
-          "keys": ["web-workers", "webworkers", "web workers"]
+          "keys": [
+            "web-workers",
+            "webworkers",
+            "web workers"
+          ]
         }
       ]
     }
@@ -34,19 +43,31 @@
       "tags": [
         {
           "visible": "React",
-          "keys": ["react", "react-dom"]
+          "keys": [
+            "react",
+            "react-dom"
+          ]
         },
         {
           "visible": "Optimization",
-          "keys": ["optimization"]
+          "keys": [
+            "optimization"
+          ]
         },
         {
           "visible": "Web Vitals",
-          "keys": ["web-vitals", "webvitals", "web vitals"]
+          "keys": [
+            "web-vitals",
+            "webvitals",
+            "web vitals"
+          ]
         },
         {
           "visible": "Lighthouse",
-          "keys": ["lighthouse", "browser-tools"]
+          "keys": [
+            "lighthouse",
+            "browser-tools"
+          ]
         }
       ]
     }
@@ -62,15 +83,21 @@
       "tags": [
         {
           "visible": "Html",
-          "keys": ["html"]
+          "keys": [
+            "html"
+          ]
         },
         {
           "visible": "Optimization",
-          "keys": ["optimization"]
+          "keys": [
+            "optimization"
+          ]
         },
         {
           "visible": "Javascript",
-          "keys": ["javascript"]
+          "keys": [
+            "javascript"
+          ]
         }
       ]
     }
@@ -86,7 +113,9 @@
       "tags": [
         {
           "visible": "Javascript",
-          "keys": ["javascript"]
+          "keys": [
+            "javascript"
+          ]
         }
       ]
     }
@@ -102,11 +131,16 @@
       "tags": [
         {
           "visible": "React",
-          "keys": ["react", "react-dom"]
+          "keys": [
+            "react",
+            "react-dom"
+          ]
         },
         {
           "visible": "styled-components",
-          "keys": ["styled-components"]
+          "keys": [
+            "styled-components"
+          ]
         }
       ]
     }
@@ -122,7 +156,10 @@
       "tags": [
         {
           "visible": "React",
-          "keys": ["react", "react-dom"]
+          "keys": [
+            "react",
+            "react-dom"
+          ]
         }
       ]
     }
@@ -138,15 +175,30 @@
       "tags": [
         {
           "visible": "Broadcast Channel",
-          "keys": ["broadacast-channel", "event", "messaging", "window communication"]
+          "keys": [
+            "broadacast-channel",
+            "event",
+            "messaging",
+            "window communication"
+          ]
         },
         {
           "visible": "ESM",
-          "keys": ["ecmascript modules", "es6", "esm", "javascript"]
+          "keys": [
+            "ecmascript modules",
+            "es6",
+            "esm",
+            "javascript"
+          ]
         },
         {
           "visible": "Import Maps",
-          "keys": ["import maps", "html5", "javascript", "frameworkless"]
+          "keys": [
+            "import maps",
+            "html5",
+            "javascript",
+            "frameworkless"
+          ]
         }
       ]
     }
@@ -162,11 +214,15 @@
       "tags": [
         {
           "visible": "Ecmascript Proposals",
-          "keys": ["ecmascript"]
+          "keys": [
+            "ecmascript"
+          ]
         },
         {
           "visible": "Signals",
-          "keys": ["reactive signals"]
+          "keys": [
+            "reactive signals"
+          ]
         }
       ]
     }

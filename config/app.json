@@ -44,6 +44,20 @@
             "out": {
                 "bundle": "article"
             }
+        },
+        {
+            "key": "@mint-profile-page",
+            "path": "mounts/Profile.tsx",
+            "out": {
+                "bundle": "profile",
+                "html": "profile"
+            },
+            "page": {
+                "registryKey": "@mint-profile-page",
+                "metadata": {
+                    "raw": []
+                }
+            }
         }
     ],
     "data": {
@@ -180,7 +194,7 @@
                 "key": "@mint/ESM_BROADCAST_CHANNEL_1",
                 "contentPath": "data/ESM_BROADCAST_CHANNEL_1.md",
                 "display": {
-                    "image": "/doodles/doodles_cloud.webp",
+                    "image": "/doodles/doodles_space_banana.jpeg",
                     "imageAltText": "A doodle nft character floating on a cloud.",
                     "title": "ESM + IMPORT MAPS + BROADCAST CHANNEL + POKEMON",
                     "subtitle": "Went and did a whole lot trying to do a whole little. Why.",

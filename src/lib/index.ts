@@ -1,6 +1,6 @@
 export * from './analytics';
 export * from './api';
-export * from './a11y';
+export * from './onKeyDown';
 export * from './browse';
 export * from './getProps';
 export * from './render';

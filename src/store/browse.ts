@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import ArticlesJson from './data/articles.json';
 import { type BrowsePageStoreActions, type BrowsePageStoreState } from './browse.types';
 
-const useBrowsePageStore = create<BrowsePageStoreState & BrowsePageStoreActions>((set) => {
+const useBrowsePageStore = create<BrowsePageStoreState & BrowsePageStoreActions>((_set) => {
   return {
     articles: {
       all: ArticlesJson

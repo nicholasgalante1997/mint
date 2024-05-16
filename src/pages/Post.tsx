@@ -4,14 +4,9 @@ import remarkGfm from 'remark-gfm';
 
 import { Body, Button, Heading } from 'heller-2-react';
 
-import { Header } from '@/components';
-import { wrapComponent } from '@/lib';
-import { ThemeContextProvider } from '@/contexts';
+import { Layout, CodeBlock, Summary } from '@/components';
 
-import { CodeBlock } from '@/components/web/CodeBlock';
-import { Summary } from '@/components/web/Summary/Summary';
-
-export type MainArticleProps = {
+export interface MainArticleProps {
   public: {
     title: string;
     subtitle: string;
@@ -25,7 +20,7 @@ export type MainArticleProps = {
     };
     markdown: string;
   };
-};
+}
 
 const MainArticleClassNames = {
   ImageContainer: 'couch-mint__main-article-image-container',
@@ -48,26 +43,33 @@ function MainArticleComponent({
     }
   }
   return (
-    <React.Fragment>
-      <Header />
-      
+    <Layout>
       <div className={MainArticleClassNames.ImageContainer}>
         <img alt={image.alt} src={image.src} height="100%" width="100%" loading="eager" />
       </div>
-      
+
       <Heading className={MainArticleClassNames.Title} as="h1">
         {title}
       </Heading>
-      
+
       <Summary content={subtitle} />
 
       <div className={MainArticleClassNames.MetadataRow}>
         <div>
-          <Body as="span" className={MainArticleClassNames.Author}>by Nick Galante</Body>
-          <Body as="span" className={MainArticleClassNames.Date}>{publishing.date}</Body>
+          <Body as="span" className={MainArticleClassNames.Author}>
+            by Nick Galante
+          </Body>
+          <Body as="span" className={MainArticleClassNames.Date}>
+            {publishing.date}
+          </Body>
         </div>
         <div>
-          <Button size="small" rounded onClick={onCopy} hover={{ animationType: 'background-transition' }}>
+          <Button
+            size="small"
+            rounded
+            onClick={onCopy}
+            hover={{ animationType: 'background-transition' }}
+          >
             Share
           </Button>
         </div>
@@ -80,10 +82,8 @@ function MainArticleComponent({
           children={markdown}
         />
       </div>
-    </React.Fragment>
+    </Layout>
   );
 }
 
-export const MainArticle = memo<MainArticleProps>(
-  wrapComponent([ThemeContextProvider], MainArticleComponent)
-);
+export const MainArticle = memo<MainArticleProps>(MainArticleComponent);

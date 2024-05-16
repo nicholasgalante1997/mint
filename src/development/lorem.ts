@@ -21,6 +21,12 @@ const variable1 = 2 + 2;
 const variable1 = 2 + 2;
 \`\`\`
 
+
+> This is a block quote!
+
+this is \`code or inline code\` 
+
+
 ## Ipsum
 
 Orci phasellus egestas tellus rutrum tellus pellentesque eu. Donec ac odio tempor orci dapibus. A scelerisque purus semper eget duis at tellus at. Faucibus purus in massa tempor. Fusce id velit ut tortor pretium viverra. Dignissim sodales ut eu sem integer vitae justo eget magna. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae purus. Scelerisque varius morbi enim nunc faucibus a pellentesque sit. Tortor vitae purus faucibus ornare. Cras ornare arcu dui vivamus arcu felis. Id semper risus in hendrerit gravida rutrum quisque non. Nisi lacus sed viverra tellus in hac habitasse. Et malesuada fames ac turpis. Enim neque volutpat ac tincidunt. Dui sapien eget mi proin sed libero enim sed faucibus.

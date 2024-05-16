@@ -1,7 +1,7 @@
 import React from 'react';
 
 function wrapComponent<P = any>(
-  wrappers: React.ComponentType<{ children: React.ReactNode }>[],
+  wrappers: Array<React.ComponentType<{ children: React.ReactNode }>>,
   Component: React.ComponentType<any>
 ): React.FC<P> {
   let WrappedComponent = (props: any) => <Component {...props} />;

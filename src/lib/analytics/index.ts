@@ -1,21 +1,43 @@
 import axios from 'axios';
 import moment from 'moment';
-import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals';
+import { inject } from '@vercel/analytics';
 import { v4 as uuid } from 'uuid';
-import { MintApiClient } from '../api';
+import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals';
 
-type Analytics = {
+import { MintApiClient } from '../api';
+import logger from '../log';
+
+interface Analytics {
   id: string;
   event: {
     type: string;
     timestamp: string;
   };
   data: any;
-};
+}
 
 export { type Analytics };
 
+function isRunningInProd() {
+  const prodEnv = process.env.NODE_ENV === 'production';
+  const isBrowser = typeof window !== 'undefined';
+  const hrefOrStub = (window && window?.location?.href) || 'localhost';
+  const isLocalHost = hrefOrStub.includes('localhost');
+  if (prodEnv && isBrowser && !isLocalHost) {
+    return true;
+  }
+  return false;
+}
+
 function sendToAnalytics(metric: any) {
+  if (isRunningInProd()) {
+    pipeMetric(metric);
+  } else {
+    logger.info({ metric, event: '@COUCH/ANALYTICS' });
+  }
+}
+
+async function pipeMetric(metric: any) {
   const body = JSON.stringify(metric);
   const data: Analytics = {
     id: uuid(),
@@ -25,8 +47,10 @@ function sendToAnalytics(metric: any) {
     },
     data: body
   };
+
   const canUseBeacon =
     typeof window !== 'undefined' && window?.navigator && window?.navigator?.sendBeacon;
+
   if (canUseBeacon) {
     const beaconResult = window.navigator.sendBeacon(
       MintApiClient.__ANALYTICS_ENDPOINT__ + '/create',
@@ -43,22 +67,26 @@ function sendToAnalytics(metric: any) {
           throw new Error('ServerReturnedExceptionStatusCode');
         }
 
-        console.log({ data });
+        logger.info({ data });
       })
       .catch((e) => {
-        console.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
-        console.error(e);
+        logger.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
+        logger.error(e);
       });
   }
 }
 
 function setupAnalytics() {
-  onCLS(sendToAnalytics);
-  onFCP(sendToAnalytics);
-  onFID(sendToAnalytics);
-  onINP(sendToAnalytics);
-  onLCP(sendToAnalytics);
-  onTTFB(sendToAnalytics);
+  if (process.env.NODE_ENV === 'production') {
+    onCLS(sendToAnalytics);
+    onFCP(sendToAnalytics);
+    onFID(sendToAnalytics);
+    onINP(sendToAnalytics);
+    onLCP(sendToAnalytics);
+    onTTFB(sendToAnalytics);
+
+    inject({ mode: 'production', framework: 'react-xng' });
+  }
 }
 
 export { sendToAnalytics, setupAnalytics };

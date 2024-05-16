@@ -23,6 +23,9 @@ const config: StorybookConfig = {
         '@': path.resolve(process.cwd(), 'src')
       }
     }
+
+    config.target = ['web', 'es2022'];
+
     return config;
   },
   staticDirs: [

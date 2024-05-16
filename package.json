@@ -10,7 +10,7 @@
   },
   "packageManager": "pnpm@8.15.8",
   "scripts": {
-    "format": "prettier --write server src webpack build.tsx",
+    "format": "prettier --write server src webpack",
     "lint:web": "eslint --config .eslintrc.web.cjs \"src/**/*.{js,jsx,mjs,cjs,ts,tsx}\"",
     "lint:web-fix": "eslint --config .eslintrc.web.cjs --fix \"src/**/*.{js,jsx,mjs,cjs,ts,tsx}\"",
     "lint:node": "eslint --config .eslintrc.node.cjs \"server/**/*.{js,jsx,mjs,cjs,ts,tsx}\"",
@@ -55,7 +55,7 @@
     "react-rough-notation": "^1.0.5",
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1",
-    "sleepydogs": "^1.0.4",
+    "sleepydogs": "^1.0.5",
     "uuid": "^9.0.1",
     "web-vitals": "^3.5.0",
     "zustand": "^4.4.6"

@@ -47,15 +47,20 @@ export function AsideOverlayProviderComponent({ children }: AsideOverlayProvider
   return (
     <AsiceOverlayContext.Provider value={{ hide, open, visibility: { isOpen } }}>
       {children}
-      <Modal isOpen={isOpen} onRequestClose={hide} style={{ content: customStyles.content, overlay: { background: mode === 'light' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0,  0,  0, 0.6)' }}}>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={hide}
+        style={{
+          content: customStyles.content,
+          overlay: { background: mode === 'light' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0,  0,  0, 0.6)' }
+        }}
+      >
         <div className="couch-mint__aside-logo-root">
-          <Heading as='h1'>
+          <Heading as="h1">
             Mint
             <span>.</span>
           </Heading>
-          <Body as="p">
-            A minimal technology blog.
-          </Body>
+          <Body as="p">A minimal technology blog.</Body>
         </div>
         <div className="couch-mint__aside-link-container">
           <a

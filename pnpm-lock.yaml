@@ -60,8 +60,8 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1
   sleepydogs:
-    specifier: ^1.0.4
-    version: 1.0.4
+    specifier: ^1.0.5
+    version: 1.0.5
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
@@ -11353,8 +11353,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /sleepydogs@1.0.4:
-    resolution: {integrity: sha512-DrTNK33RBX4uz5mMf8LlxU3NXSi3d4A+jtlxPVEu5O3+a3Ad3BR9lGmQm7lhHryfLILwTxb95k2+jQGufDTi2g==}
+  /sleepydogs@1.0.5:
+    resolution: {integrity: sha512-Mj2zdSICOC4ZcGk+S34aXOyh2rownxwNqrwn2n8V2hnCcvVvmFkw2W2iu6aH11Is4h0aYobZIjgWakHeyzMwjw==}
     dev: false
 
   /sockjs@0.3.24:

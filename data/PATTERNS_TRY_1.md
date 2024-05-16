@@ -14,7 +14,7 @@ This does a concise job of enumerating the options we have when dealing with pot
 
 > From here on out, it's a lot of opinion. Tread lightly.
 
-From the options listed above, there are two categorical approaches to error handling: a synchronous approach where the error is returned or thrown to the calling scope, and an asynchronous approach where a callback is invoked and passed the error, or an event is emitted for handling. We will leverage both, but with extremely targeted applications.  
+From the options listed above, there are two categorical approaches to error handling: a synchronous approach where the error is returned or thrown to the calling scope, and an asynchronous approach where a callback is invoked and passed the error, or an event is emitted for handling. We will leverage both, but with targeted use cases.  
 
 For functions or methods that return a value, promise or synchronous, we will *return any errors thrown during operation back to the calling scope*, and we'll do so in a manner that standardizes the API for retrieving data and errors off of operations that return a value and *may* throw an error. An example of this type of function is `require('node:fs/promises').readFile`, which is an asynchronous function that returns the contents of a file or throws an error if an error occurs during an attempt to read a file.  
 
@@ -28,7 +28,7 @@ Let's move into types and implementations. 👍
 
 ## OOP
 
-> I still like Object Oriented Programming in a lot of cases. I might always like Object Oriented Programming for logical programming. I am the last of the OOPecans.
+> I still like Object Oriented Programming in a lot of cases. It promotes readability, it's familiar across varied levels of developers.
 
 The following types and implementations are going to be implemented using typescript, and class syntax, and the approach to code structuring is going to be Object Oriented Programming.
 
@@ -322,7 +322,7 @@ interface IAttempt {
 }
 ```
 
-So you'll notice that our AttemptConfiguration interface and our IAttempt interface share some commonalities. To keep our configuration options in sync with our interface definition, we should refactor the above to leverage `&` type syntax or use `Pick/Omit` or some type of type sharing. What the AttemptConfiguration represents is an object we can pass when we instantiate a new Attempt that will give us greater granulatity over the behavior of our attempt instance. We also want to allow for our Attempt to be instantiated with just a callback for basic use cases.
+So you'll notice that our AttemptConfiguration interface and our IAttempt interface share some commonalities. To keep our configuration options in sync with our interface definition, we should refactor the above to leverage `&` type syntax or use `Pick/Omit` or some type of type sharing. What the AttemptConfiguration represents is an object we can pass when we instantiate a new Attempt that will give us greater granularity over the behavior of our attempt instance. We also want to allow for our Attempt to be instantiated with just a callback for basic use cases.
 
 Let's start to implement that class now:
 
@@ -388,7 +388,7 @@ function isAttemptConfiguration(value: SideEffect | AttemptConfiguration): value
 
 ```
 
-If you're unfamiliar with type guard syntax, [check out this typescript article](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) which explains what type guards are. Basically, we check to see what we've been instantiated with. If it's a configuration object, set our local fields to the values of that configuration object or a default value. If it is a callback, set our local fields to the default behavior values.  
+If you're unfamiliar with type guard syntax, [check out this typescript article](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) which explains what type guards are. Basically, we check to see what we've been instantiated with. If it's a configuration object, set our local fields to the values of that configuration object or a default value. If it is a callback, set our local fields to the default behavior values. If we've been configured to run immediately by setting immediate to true, then we call runSync() from inside the constructor. Constructors are synchronous by default.  
 
 Let's move forward with implementing our `run` and `runSync` functions.
 
@@ -399,8 +399,8 @@ Let's move forward with implementing our `run` and `runSync` functions.
 class Attempt implements IAttempt {
 
   ...
-  
-  runSync(): void {
+
+  runSync(...args: any[]): void {
     this.#state = AttemptState.IN_PROGRESS;
 
     if (this.callback == null) {
@@ -408,7 +408,7 @@ class Attempt implements IAttempt {
       return;
     }
 
-    const { status, error } = SafeInvocation.execute(this.callback);
+    const { status, error } = SafeInvocation.execute(() => this.callback(...args));
 
     if (status === InvocationState.FAILED) {
       this.#state = AttemptState.FAILED;
@@ -418,11 +418,11 @@ class Attempt implements IAttempt {
         this.#tryN += 1;
 
         if (Array.isArray(this.delay)) {
-          setTimeout(this.runSync, this.delay[this.#tryN] ?? 0)
+          setTimeout(this.runSync.bind(this, ...args), this.delay[this.#tryN] ?? 0)
         } else if (this.delay > 0) {
-          setTimeout(this.runSync, this.delay)
+          setTimeout(this.runSync.bind(this, ...args), this.delay)
         } else {
-          this.runSync();
+          this.runSync(...args);
           return;
         }
       }
@@ -437,7 +437,7 @@ class Attempt implements IAttempt {
     this.#state = AttemptState.SUCCEEDED;
   }
 
-  async run(): Promise<void> {
+  async run(...args: any[]): Promise<void> {
     this.#state = AttemptState.IN_PROGRESS;
 
     if (this.callback == null) {
@@ -445,7 +445,7 @@ class Attempt implements IAttempt {
       return;
     }
 
-    await SafeInvocation.executeAsync(this.callback as Callback<Promise<void>>).then(async (result) => {
+    await SafeInvocation.executeAsync(async () => await (this.callback as Callback<Promise<void>>)(...args)).then(async (result) => {
       const { rejected } = result;
       if (rejected) {
         const { error } = result as RejectedAsyncExecution;
@@ -457,11 +457,11 @@ class Attempt implements IAttempt {
           this.#tryN += 1;
 
           if (Array.isArray(this.delay)) {
-            setTimeout(async () => await this.run(), this.delay[this.#tryN] ?? 0)
+            setTimeout(this.run.bind(this, ...args), this.delay[this.#tryN] ?? 0)
           } else if (this.delay > 0) {
-            setTimeout(async () => await this.run(), this.delay)
+            setTimeout(this.run.bind(this, ...args), this.delay)
           } else {
-            await this.run();
+            await this.run(...args);
             return;
           }
         }
@@ -488,13 +488,155 @@ class Attempt implements IAttempt {
 
 Okay so let's start with runSync. We are first changing our internal state to reflect we're in the course of performing an operation. Then, we use our `SafeInvocation` class to perform the passed callback safely and return to us our `ExecutionResult` response. If the side effect failed, we check if we're intended to retry the operation. If we want to retry, we update our internal state and use recursion to re-call runSync() from inside the body of runSync(). If we failed and we don't want to retry, we check if we've been passed an error handler. If we have, we invoke the supplied error handler with the error we've caught. Then we update our internal state to reflect that we've failed and we return early. If we've succeeded, we update our internal state to reflect the operation succeeded and then we return. Our asynchronous `run` function is implemented in an almost identical way except that it's an asynchronous function and it internally leverages `executeAsync` as opposed to `execute`.  
 
-What are the benefits of writing our side effects in this way? We get to bake in retry logic 
+What are the benefits of writing our side effects in this way? We get to bake in retry logic into functions we want to retry on failure, without needing to set up retry logic for each function. We also get the benefit of encapsulating side effect exception handling from within the code that's invoking the function that might fail. Because our Attempts are lazy by design, we can pass them around for later invocation or we can eagerly invoke our side effect code when we configure/instantiate our Attempt.  
 
-## Functional Programming
+Here's our final `Attempt` class:
+
+```ts
+
+...
+
+class Attempt implements IAttempt {
+  #tryN = 0;
+  #state = AttemptState.IDLE;
+
+  callback: SideEffect;
+  onError: ((e: Error) => void) | null;
+  immediate: boolean;
+  retries: number;
+  delay: number | number[];
+
+  constructor(value: AttemptConfiguration | SideEffect) {
+    if (isAttemptConfiguration(value)) {
+      this.callback = value.callback;
+      this.onError = value.onError ?? null;
+      this.immediate = !!value?.immediate;
+      this.retries = value?.retries ?? 0;
+      this.delay = value?.delay ?? 0;
+    } else {
+      this.callback = value;
+      this.onError = null;
+      this.immediate = false;
+      this.retries = 0;
+      this.delay = 0;
+    }
+
+    if (this.immediate) {
+      this.runSync();
+    }
+  }
+
+  runSync(...args: any[]): void {
+    this.#state = AttemptState.IN_PROGRESS;
+
+    if (this.callback == null) {
+      this.#state = AttemptState.FAILED;
+      return;
+    }
+
+    const { status, error } = SafeInvocation.execute(() => this.callback(...args));
+
+    if (status === InvocationState.FAILED) {
+      this.#state = AttemptState.FAILED;
+
+      if (this.retries > this.#tryN) {
+        this.#state = AttemptState.RETRYING;
+        this.#tryN += 1;
+
+        if (Array.isArray(this.delay)) {
+          setTimeout(this.runSync.bind(this, ...args), this.delay[this.#tryN] ?? 0)
+        } else if (this.delay > 0) {
+          setTimeout(this.runSync.bind(this, ...args), this.delay)
+        } else {
+          this.runSync(...args);
+          return;
+        }
+      }
+
+      if (this.onError) {
+        this.onError(error);
+      }
+
+      return;
+    }
+
+    this.#state = AttemptState.SUCCEEDED;
+  }
+
+  async run(...args: any[]): Promise<void> {
+    this.#state = AttemptState.IN_PROGRESS;
+
+    if (this.callback == null) {
+      this.#state = AttemptState.FAILED;
+      return;
+    }
+
+    await SafeInvocation.executeAsync(async () => await (this.callback as Callback<Promise<void>>)(...args)).then(async (result) => {
+      const { rejected } = result;
+      if (rejected) {
+        const { error } = result as RejectedAsyncExecution;
+
+        this.#state = AttemptState.FAILED;
+
+        if (this.retries > this.#tryN) {
+          this.#state = AttemptState.RETRYING;
+          this.#tryN += 1;
+
+          if (Array.isArray(this.delay)) {
+            setTimeout(this.run.bind(this, ...args), this.delay[this.#tryN] ?? 0)
+          } else if (this.delay > 0) {
+            setTimeout(this.run.bind(this, ...args), this.delay)
+          } else {
+            await this.run(...args);
+            return;
+          }
+        }
+
+        if (this.onError) {
+          this.onError(error);
+        }
+
+        return;
+      }
+
+      this.#state = AttemptState.SUCCEEDED;
+    });
+  }
+
+  get state() {
+    return this.#state;
+  }
+}
+
+...
+
+export { Attempt, AttemptState };
+```
+
+**Option**  
+
+> An instance of the Option Class represents the lazy intention to perform an operation that might fail, and return the value to the calling scope. By default, Options are lazy, meaning they will not invoke their passed callback on instantiation. Options cannot be configured to be invoked immediately, as that would force the constructor of our Option class to have a variable return type, sometimes returning an Option class, and sometimes returning the safe result of the callback operation. Options can be retried. Options can be cached, so that if our parameters haven't changed, we don't need to recompute the value.  
+
+Options are actually not a new concept and I won't pretend that it's novel or something I devised. This is really directly borrowed from Rust, and before that Java. The Option is intended to allow developers to circumvent the use of null to indicate a value that's potentially nothing. There's a number of issues with null in pragmatic application development, so much so in fact that there's a [famous keynote speech where it was coined the billion dollar mistake](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/). So in the spirit of stealing (borrowing, wink) directly from Rust, here's a brief excerpt from the rust programming language book that provides an overview of why Options are necessary.
+
+> The problem with null values is that if you try to use a null value as a not-null value, you’ll get an error of some kind. Because this null or not-null property is pervasive, it’s extremely easy to make this kind of error.
+>
+> However, the concept that null is trying to express is still a useful one: a null is a value that is currently invalid or absent for some reason.
+
+Enter Options. An Option can be Some or None. It can be a value or it can be the absence of a value. An option can represent a number or a string, etc. but you can't perform numeric or string operations on the Option without first obtaining it's inner value. That's the beauty of the option. Here's a brief quasi-pseudocode example:
+
+```js
+let numOrNull = opThatReturnsNumOrNull();
+let numSquared = numOrNull * numOrNull; // Sometimes this works just fine, sometimes this will error
+
+
+```
+
+## Benchmarking
 
 ## Appendix
 
-> You don't need to read this if you don't care to.
+> You don't need to read this if you don't care to. It's also subject to change more frequently and with less caution than the above sections of the article. This current section is *Work In Progress*
 
 ### Nick's Digression On Code Smells With Common Exception Handling Strategies
 

@@ -89,6 +89,16 @@
 /****************************************************************************************************************/
 /*********************************************** Root ***********************************************************/
 /****************************************************************************************************************/
+:root {
+  --desktop-breakpoint-larger: 1440px;
+  --desktop-breakpoint-smaller: 1024px;
+  --tablet-breakpoint-larger: 812px;
+  --tablet-breakpoint-smaller: 596px;
+  --mobile-breakpoint-larger: 496px;
+  --mobile-breakpoint-smaller: 320px;
+  --desktop-max-width: 1024px;
+}
+
 * {
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
@@ -113,6 +123,18 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
+button {
+  font-family: 'League Spartan';
+}
+
+a {
+  text-underline-offset: 4px;
+}
+
+/****************************************************************************************************************/
+/*********************************************** @Couch-Mint/Theme **********************************************/
+/****************************************************************************************************************/
 
 #app {
   display: flex;
@@ -139,30 +161,6 @@ body {
   color: var(--color-base-black-eta);
 }
 
-button {
-  font-family: 'League Spartan';
-}
-
-.button-link-wrapper {
-  text-decoration: none;
-  display: flex;
-}
-
-:root {
-  --desktop-breakpoint-larger: 1440px;
-  --desktop-breakpoint-smaller: 1024px;
-  --tablet-breakpoint-larger: 812px;
-  --tablet-breakpoint-smaller: 596px;
-  --mobile-breakpoint-larger: 496px;
-  --mobile-breakpoint-smaller: 320px;
-
-  --desktop-max-width: 1024px;
-}
-
-/****************************************************************************************************************/
-/*********************************************** @Couch-Mint/Theme **********************************************/
-/****************************************************************************************************************/
-
 .heller2-theme {
   min-height: 100vh;
   width: 100%;
@@ -176,7 +174,6 @@ button {
 
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries */
 /* https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries */
-
 @media screen and (812px < width < 1024px) {
   .heller2-theme {
     padding: 16px;
@@ -212,18 +209,57 @@ button {
 }
 
 .couch-mint__home-page-title-text {
-  font-size: 56px;
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 4rem;
 }
 
 .couch-mint__home-page-subtitle-text {
-  font-size: 16px;
+  font-size: 24px;
   letter-spacing: 0.04em;
   line-height: 1.15;
-  font-weight: 600;
+  font-weight: 400;
 }
+
 .couch-mint__home-page-link-to-browse-page {
-  
+  color: white;
+  box-sizing: border-box;
+  padding-bottom: var(--size-spacing-large-100);
+  text-underline-offset: 4px;
+}
+
+.couch-mint__shapes-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  #couch-mint__shapes-circle {
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    background: var(--color-base-blue-primary);
+  }
+
+  #couch-mint__shapes-triangle {
+    height: 0;
+    width: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-bottom: calc(160px * 0.8667) solid var(--color-base-green-primary);
+    transform: translateX(60px) rotate(45deg);
+  }
+
+  #couch-mint__shapes-square {
+    height: 160px;
+    width: 160px;
+    background: var(--color-base-synthwave-pink-primary);
+    transform: translateX(-20px) translateY(22px) rotate(-45deg);
+  }
+}
+
+.couch-mint__home-abstract-shape-art {
+  position: absolute;
+  right: 264px;
+  top: 24vh;
 }
 
 /****************************************************************************************************************/
@@ -1090,7 +1126,6 @@ button {
   letter-spacing: 1.45px;
   font-size: 3rem;
 }
-
 
 .couch-mint__aside-link-container {
   display: flex;

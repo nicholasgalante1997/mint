@@ -233,6 +233,26 @@
                         }
                     ]
                 }
+            },
+            {
+                "key": "@mint/REACT-COMPILER_1",
+                "contentPath": "data/REACT-COMPILER_1.md",
+                "display": {
+                    "image": "/react/react-conf-2024.png",
+                    "imageAltText": "React Conf 2024 Logo",
+                    "title": "REACT CONF 2024 - React Compiler: Migrate A Custom SSG React App to use React Compiler",
+                    "subtitle": "Let's migrate a React App to use React 19 and React Compiler",
+                    "tags": [
+                        {
+                            "visible": "React 19",
+                            "keys": ["react", "react-19"]
+                        },
+                        {
+                            "visible": "React Compiler",
+                            "keys": ["react compiler"]
+                        }
+                    ]
+                }
             }
         ]
     }

@@ -1,9 +1,7 @@
 import React, { memo } from 'react';
-import { RoughNotationGroup } from 'react-rough-notation';
 import { Heading, Body, Button } from 'heller-2-react';
-import { colorBaseBluePrimary } from 'heller-2-lite';
 
-import { Conditional, Layout, Notation, Card } from '@/components';
+import { Conditional, Layout, Card } from '@/components';
 import { buildLocalHrefFromArticleFilePath } from '@/lib';
 import { useBrowsePageStore } from '@/store';
 import { ArticleKeys } from '@/types';
@@ -24,33 +22,31 @@ export const BrowsePageClassNames = {
 function BrowsePage() {
   const { requestArticle } = useBrowsePageStore();
 
-  const blackthornArticle = requestArticle(ArticleKeys.ESM_BROADCAST_CHANNEL_IMPORT_MAPS);
+  const reactCompilerArticle = requestArticle(ArticleKeys.REACT_COMPILER_1);
   const patternsTryArticle = requestArticle(ArticleKeys.PATTERNS_TRY);
-  const lazyLoadHtmlMedia = requestArticle(ArticleKeys.LAZYLOADING_HTML_MEDIA);
-  const signalsArticle = requestArticle(ArticleKeys.TC39_SIGNALS);
-  const prefetchArticle = requestArticle(ArticleKeys.PREFETCH_WEBWORKERS_REACT);
+  const esmBcMapsArticle = requestArticle(ArticleKeys.ESM_BROADCAST_CHANNEL_IMPORT_MAPS);
 
   return (
     <Layout>
       <div className={BrowsePageClassNames.Container}>
         <div className={BrowsePageClassNames.CardGridContainer}>
           <div className={BrowsePageClassNames.CardWrappingGrid}>
-            <Conditional condition={Boolean(blackthornArticle)}>
+            <Conditional condition={Boolean(reactCompilerArticle)}>
               <div className={BrowsePageClassNames.BigCardContainer}>
-                <img src={blackthornArticle?.display.image} alt="Doodles NFT" />
+                <img src={reactCompilerArticle?.display.image} alt="Doodles NFT" />
                   <a
                     target="_self"
-                    href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
+                    href={buildLocalHrefFromArticleFilePath(reactCompilerArticle?.contentPath || '#')}
                   >
-                    <Heading as="h3">{blackthornArticle?.display?.title}</Heading>
+                    <Heading as="h3">{reactCompilerArticle?.display?.title}</Heading>
                   </a>
                 <Body as="p" bold>
-                  {blackthornArticle?.display?.subtitle}
+                  {reactCompilerArticle?.display?.subtitle}
                 </Body>
                 <a
                   className="button-link-wrapper"
                   target="_self"
-                  href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
+                  href={buildLocalHrefFromArticleFilePath(reactCompilerArticle?.contentPath || '#')}
                 >
                   <Button
                     hover={{ animationType: 'background-transition' }}
@@ -77,31 +73,11 @@ function BrowsePage() {
               <Card
                 size="sm"
                 type="mini"
-                title={lazyLoadHtmlMedia?.display.title || ''}
-                description={lazyLoadHtmlMedia?.display.subtitle || ''}
+                title={esmBcMapsArticle?.display.title || ''}
+                description={esmBcMapsArticle?.display.subtitle || ''}
                 cta={{
                   text: 'Read Post',
-                  href: buildLocalHrefFromArticleFilePath(lazyLoadHtmlMedia?.contentPath || '#')
-                }}
-              />
-              <Card
-                size="sm"
-                type="mini"
-                title={signalsArticle?.display.title || ''}
-                description={signalsArticle?.display.subtitle || ''}
-                cta={{
-                  text: 'Read Post',
-                  href: buildLocalHrefFromArticleFilePath(signalsArticle?.contentPath || '#')
-                }}
-              />
-              <Card
-                size="sm"
-                type="mini"
-                title={prefetchArticle?.display.title || ''}
-                description={prefetchArticle?.display.subtitle || ''}
-                cta={{
-                  text: 'Read Post',
-                  href: buildLocalHrefFromArticleFilePath(prefetchArticle?.contentPath || '#')
+                  href: buildLocalHrefFromArticleFilePath(esmBcMapsArticle?.contentPath || '#')
                 }}
               />
             </div>

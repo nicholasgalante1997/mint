@@ -1021,6 +1021,18 @@ a {
   letter-spacing: 0.04em;
 }
 
+.couch-mint__main-article-markdown-container img {
+  height: 'auto';
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  background-repeat: none;
+  image-rendering: optimizeQuality;
+  image-orientation: from-image;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
 .couch-mint__main-article-markdown-container .inline-code {
   font-size: 14px;
   box-sizing: border-box;

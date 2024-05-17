@@ -1,2 +1,2 @@
-export { default as ArticleKeys } from './ArticleKeyEnum';
+export { default as ArticleKeys } from './articleKeyEnum';
 export * from './ParentComponent';

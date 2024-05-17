@@ -1,12 +1,7 @@
 import React, { memo } from 'react';
-import { RoughNotationGroup } from 'react-rough-notation';
-import { Body, Button, Heading, Link } from 'heller-2-react';
-import {
-  colorBaseBluePrimary,
-  colorBaseGreenPrimary,
-  colorBaseSynthwavePinkPrimary
-} from 'heller-2-lite';
-import { Layout, Notation, Shapes } from '@/components';
+import { Button, Heading } from 'heller-2-react';
+
+import { Layout } from '@/components';
 import { WebDeveloperAnimation } from '@/components/WebDeveloperAnimation';
 
 const HomePageClassNames = {
@@ -30,9 +25,9 @@ function HomePageComponent() {
         <WebDeveloperAnimation />
         <div className={HomePageClassNames.TextContainer}>
           <Heading as="h1" className={HomePageClassNames.Title}>
-            Learn solid <span style={{ color: colorBaseGreenPrimary }}>Web Fundamentals</span>. Build
-            better <span style={{ color: colorBaseBluePrimary }}>User Experiences.</span> Write cleaner
-            and more <span style={{ color: colorBaseSynthwavePinkPrimary }}>maintainable code.</span>
+            Learn solid <span className="pop-green">Web Fundamentals</span>. Build
+            better <span className="pop-blue">User Experiences.</span> Write cleaner
+            and more <span className="pop-pink">maintainable code.</span>
           </Heading>
           <Button
             style={{ marginTop: '24px' }}

@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals';
 
 import { MintApiClient } from '../api';
-import logger from '../log';
+// import logger from '../log';
 
 interface Analytics {
   id: string;
@@ -33,7 +33,7 @@ function sendToAnalytics(metric: any) {
   if (isRunningInProd()) {
     pipeMetric(metric);
   } else {
-    logger.info({ metric, event: '@COUCH/ANALYTICS' });
+    // logger.info({ metric, event: '@COUCH/ANALYTICS' });
   }
 }
 
@@ -67,11 +67,11 @@ async function pipeMetric(metric: any) {
           throw new Error('ServerReturnedExceptionStatusCode');
         }
 
-        logger.info({ data });
+        // logger.info({ data });
       })
       .catch((e) => {
-        logger.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
-        logger.error(e);
+        // logger.warn('@COUCH-MINT/WEB.METRIC.POST:::FAILED');
+        // logger.error(e);
       });
   }
 }

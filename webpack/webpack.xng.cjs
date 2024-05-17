@@ -14,7 +14,12 @@ const buildScript = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: {
+          loader: path.resolve(process.cwd(), 'webpack', 'babel-react-compiler.loader.cjs'),
+          // options: {
+          //   presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"]
+          // }
+        }
       }
     ]
   },

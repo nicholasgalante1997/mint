@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const path = require('path');
 const webpack = require('webpack');
 
+const reactCompilerConfig = require('./babel-react-compiler.config.cjs');
+
 dotenv.config();
 
 module.exports = {
@@ -28,7 +30,11 @@ module.exports = {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: path.resolve(process.cwd(), 'webpack', 'babel-react-compiler.loader.cjs'),
+          // options: {
+          //   presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"],
+          //   plugins: [['babel-plugin-react-compiler', reactCompilerConfig]]
+          // }
         }
       },
       {

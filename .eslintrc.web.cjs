@@ -18,13 +18,15 @@ module.exports = {
         "project": "tsconfig.json"
     },
     "plugins": [
-        "react"
+        "react",
+        "eslint-plugin-react-compiler"
     ],
     "rules": {
         "@typescript-eslint/semi": "off",
         "@typescript-eslint/space-before-function-paren": "off",
         "@typescript-eslint/consistent-type-imports": "off",
-        "@typescript-eslint/explicit-function-return-type": "off"
+        "@typescript-eslint/explicit-function-return-type": "off",
+        'react-compiler/react-compiler': "error",
     },
     "ignorePatterns": ['./__tests__/**/*.{js,jsx,mjs,cjs,ts,tsx}', 'node_modules']
 }

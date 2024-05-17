@@ -15,11 +15,11 @@ const Header = memo(function HeaderComponent() {
   return (
     <header className={HeaderClassNames.Container} data-theme={mode}>
       <button onClick={open}>
-        <UilBars size="24px" fill={colorBaseBluePrimary} />
+        <UilBars size="24px" className={HeaderClassNames.MenuIcon} />
       </button>
       <a target="_self" href="/" className={HeaderClassNames.HomeContainer} role="button">
-        <Body as="span" className="couch-mint__newake" style={{ color: colorBaseBluePrimary }}>
-          Mint.
+        <Body as="span" className="couch-mint__newake couch-mint">
+          SWE.
         </Body>
       </a>
       <div className={HeaderClassNames.LinkContainer}>

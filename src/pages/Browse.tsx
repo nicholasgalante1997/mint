@@ -38,16 +38,12 @@ function BrowsePage() {
             <Conditional condition={Boolean(blackthornArticle)}>
               <div className={BrowsePageClassNames.BigCardContainer}>
                 <img src={blackthornArticle?.display.image} alt="Doodles NFT" />
-                <RoughNotationGroup show={true}>
-                  <Notation color={colorBaseBluePrimary} length={65}>
-                    <a
-                      target="_self"
-                      href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
-                    >
-                      <Heading as="h3">{blackthornArticle?.display?.title}</Heading>
-                    </a>
-                  </Notation>
-                </RoughNotationGroup>
+                  <a
+                    target="_self"
+                    href={buildLocalHrefFromArticleFilePath(blackthornArticle?.contentPath || '#')}
+                  >
+                    <Heading as="h3">{blackthornArticle?.display?.title}</Heading>
+                  </a>
                 <Body as="p" bold>
                   {blackthornArticle?.display?.subtitle}
                 </Body>

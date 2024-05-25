@@ -15,6 +15,10 @@ if (!Component) {
 let props = {};
 
 if (PAGE === PageIndexKey.MainArticle) {
+  function getDate(date: string) {
+    return new Intl.DateTimeFormat(['en-US']).format(new Date(date));
+  }
+
   props = {
     public: {
       title: 'Building a static website engine with react-dom and react-markdown',
@@ -23,7 +27,7 @@ if (PAGE === PageIndexKey.MainArticle) {
       markdown: loremIpsum,
       publishing: {
         collection: 'React',
-        date: '16 Nov 2023'
+        date: getDate('16 Nov 2023')
       },
       image: {
         alt: 'Doodles NFT, pink backdrop',

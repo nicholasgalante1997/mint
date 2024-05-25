@@ -57,7 +57,7 @@ export function AsideOverlayProviderComponent({ children }: AsideOverlayProvider
       >
         <div className="couch-mint__aside-logo-root">
           <Heading as="h1">
-            Mint
+            SWE
             <span>.</span>
           </Heading>
           <Body as="p">A minimal technology blog.</Body>

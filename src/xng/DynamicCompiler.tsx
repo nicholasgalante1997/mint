@@ -88,7 +88,7 @@ function buildProps(
         src: display.image
       },
       publishing: {
-        date: new Date().toISOString(),
+        date: getDate(display.date || ''),
         collection: display.tags.map(({ keys }) => keys).join(', ')
       },
       markdown
@@ -98,4 +98,8 @@ function buildProps(
 
 function getOutfileName(key: string) {
   return key.split('.')[0].replace(/\//g, '-').replace('@mint-', '');
+}
+
+function getDate(date: string) {
+  return new Intl.DateTimeFormat(['en-US']).format(new Date(date));
 }

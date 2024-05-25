@@ -1,6 +1,6 @@
 # Brevity
 
-This article is going to be short, perhaps even a little opinionated (the worst). In every programming language, you encounter certain scenarios that require that you handle code that might fail. Maybe you try to open a file that doesn't exist or that you don't have permission to open. Maybe a network request goes down due to a server being offline. This article primarily offers opinions on scalable patterns to reduce boilerplate code, and to increase robustness and performance in such scenarios.  
+This article is going to be short, perhaps even a little opinionated (the worst). In every programming language, you encounter certain scenarios that require that you handle code that might fail. Maybe you try to open a file that doesn't exist or that you don't have permission to open. Maybe a network request goes down due to a server being offline. This article primarily offers opinions on scalable patterns to reduce boilerplate code, and to increase robustness and potentially performance in some scenarios.  
 
 If you're looking to develop a better foundation with regards to Error Handling in javascript, I'd recommend reading [Triton's Error Handling in Node Js](https://www.tritondatacenter.com/node-js/production/design/errors), which this post may refer to from time to time. Here's an excerpt from the post that I think will offer a decent starting point to this discussion on error handling:
 
@@ -27,8 +27,6 @@ For side effects, we do not need to block any execution, we don't need to then r
 Let's move into types and implementations. 👍  
 
 ## OOP
-
-> I still like Object Oriented Programming in a lot of cases. It promotes readability, it's familiar across varied levels of developers.
 
 The following types and implementations are going to be implemented using typescript, and class syntax, and the approach to code structuring is going to be Object Oriented Programming.
 
@@ -129,14 +127,14 @@ interface ISafeInvocation {
 
 This declaration states, we are declaring that the method `execute` will accept a single callback of type `Callback<T>` and will return either a `SuccessfulExecution<R>` or a `FailedExecution`.
 
-That's a pretty solid definition. Let's get to implementing it!
+That's a pretty solid definition. Our implementation code might look like this:
 
 ```ts
 class SafeInvocation {
   static execute<T extends Callback<R>, R = any>(callback: T): SuccessfulExecution<R> | FailedExecution {
     let data;
     let error = null;
-    let status = InvocationState.IDLE;
+    let status;
     try {
       data = callback();
       status = InvocationState.SUCCESS;
@@ -208,7 +206,7 @@ interface ISafeInvocation {
 }
 ```
 
-We're declaring an contract for an asynchronous function that will accept an asynchronous callback, and will return a Promise that resolves to either a `ResolvedAsyncExecution<R>` or a `RejectedAsyncExecution`. Now let's implement it.
+We're declaring an contract for an asynchronous function that will accept an asynchronous callback, and will return a Promise that resolves to either a `ResolvedAsyncExecution<R>` or a `RejectedAsyncExecution`.
 
 ```ts
 class SafeInvocation {
@@ -290,7 +288,7 @@ So now we have a reliable way to call an operation that might fail, and a declar
 
 > An instance of the Attempt Class represents the lazy intention to perform a side effect. By default, Attempts are lazy, meaning they will not invoke their passed callback on instantiation, unless forced to eagerly invoke the operation via configuration setting. Only synchronous operations can have immediate (in-constructor) invocation. Async side effects cannot be awaited from within a constructor without having the constructor variably return alternating values, which we won't (read *shouldn't*) do.
 
-An instance of an Attempt represents a side effect that we'd like to manage. An attempt can benefit from baked in retry logic, to facilitate achieving the side effect if initial attempts fail. An attempt may not be cached (intended for usage with side effects, so caching would be contrary to our use case.).
+An instance of an Attempt represents a side effect that we'd like to manage. An attempt can benefit from baked in retry logic, to facilitate achieving the side effect if initial attempts fail. An attempt may not be cached (intended for usage with side effects, so caching would be contrary to our use case because we want to run this fn on every invocation).
 
 Here's our first go at a rough interface for an Attempt:
 
@@ -418,13 +416,16 @@ class Attempt implements IAttempt {
         this.#tryN += 1;
 
         if (Array.isArray(this.delay)) {
-          setTimeout(this.runSync.bind(this, ...args), this.delay[this.#tryN] ?? 0)
+          setTimeout(this.runSync.bind(this, ...args), this.delay[this.#tryN] ?? 0);
+          return;
         } else if (this.delay > 0) {
-          setTimeout(this.runSync.bind(this, ...args), this.delay)
+          setTimeout(this.runSync.bind(this, ...args), this.delay);
+          return;
         } else {
           this.runSync(...args);
           return;
         }
+
       }
 
       if (this.onError) {
@@ -486,7 +487,7 @@ class Attempt implements IAttempt {
 
 ```
 
-Okay so let's start with runSync. We are first changing our internal state to reflect we're in the course of performing an operation. Then, we use our `SafeInvocation` class to perform the passed callback safely and return to us our `ExecutionResult` response. If the side effect failed, we check if we're intended to retry the operation. If we want to retry, we update our internal state and use recursion to re-call runSync() from inside the body of runSync(). If we failed and we don't want to retry, we check if we've been passed an error handler. If we have, we invoke the supplied error handler with the error we've caught. Then we update our internal state to reflect that we've failed and we return early. If we've succeeded, we update our internal state to reflect the operation succeeded and then we return. Our asynchronous `run` function is implemented in an almost identical way except that it's an asynchronous function and it internally leverages `executeAsync` as opposed to `execute`.  
+Okay so let's start with runSync. We are first changing our internal state to reflect we're in the course of performing an operation. Then, we use our `SafeInvocation` class to perform the passed callback safely and return to us our `ExecutionResult` response. If the side effect failed, we check if we're intended to retry the operation. If we want to retry, we update our internal state and use recursion to re-call runSync() from inside the body of runSync(). If we failed and we don't want to retry, we check if we've been passed an error handler. If we have, we invoke the supplied error handler with the error we've caught. Then we update our internal state to reflect that we've failed and we return early. If we've succeeded, we update our internal state to reflect the operation succeeded and then we return. Our asynchronous `run` function is implemented in an almost identical way except that it's an asynchronous function and it internally leverages `executeAsync` as opposed to `execute`.  We've got some duplication of code around the retry logic, and it's a great candidate for some internal abstraction such as a private `#retry` method on the attempt class. If you're feeling obliged to refactor it, go for it.
 
 What are the benefits of writing our side effects in this way? We get to bake in retry logic into functions we want to retry on failure, without needing to set up retry logic for each function. We also get the benefit of encapsulating side effect exception handling from within the code that's invoking the function that might fail. Because our Attempts are lazy by design, we can pass them around for later invocation or we can eagerly invoke our side effect code when we configure/instantiate our Attempt.  
 
@@ -623,14 +624,66 @@ Options are actually not a new concept and I won't pretend that it's novel or so
 >
 > However, the concept that null is trying to express is still a useful one: a null is a value that is currently invalid or absent for some reason.
 
-Enter Options. An Option can be Some or None. It can be a value or it can be the absence of a value. An option can represent a number or a string, etc. but you can't perform numeric or string operations on the Option without first obtaining it's inner value. That's the beauty of the option. Here's a brief quasi-pseudocode example:
+Enter Options. An Option can be Some or None. It can be a value or it can be the absence of a value. An option can represent a number or a string, etc. but you can't perform numeric or string operations on the Option without first obtaining it's inner value. That's the beauty of the option.  
 
-```js
-let numOrNull = opThatReturnsNumOrNull();
-let numSquared = numOrNull * numOrNull; // Sometimes this works just fine, sometimes this will error
+Let's start by setting up our interfaces.
 
+```ts
+import { Callback } from './Callback.js';
 
+/** This represnts the Shape our Option class will take */
+export default interface IOption<T> {
+  state: 'idle' | 'resolved' | 'rejected';
+  matchSync<R>(some: SomeLike<Outcome<T>, R>, none: NoneLike<R>): R | null;
+  match<R>(some: SomeLike<Outcome<T>, Promise<R>>, none: NoneLike<Promise<R>>): Promise<R | null>;
+  resolveSync(): Outcome<T>;
+  resolve(): Promise<Outcome<T>>;
+  peek(): Outcome<T>;
+}
+
+/** This represents a possible granular configuration for each Option instance */
+export interface OptionConfiguration {
+  cache: {
+    optionCache: IOptionCache;
+    indexingKey: ID;
+    stale?: number;
+  };
+  retries?: number;
+}
+
+/** An interface that represents the Return Value of an Option resolution (when it becomes some or none) */
+export interface Outcome<T> {
+  state: 'idle' | 'resolved' | 'rejected';
+  data: T | null;
+  error?: Error;
+}
+
+/** A helper interface that defines a type of function that can be proxied a value if the option has one */
+export interface Some<T, R = any> extends Callback<R> {
+  (t: T): R;
+}
+
+/** A helper interface that defines a type of function that can be proxied an error outcome if the option is NONE */
+export interface None<R = any> extends Callback<R> {
+  (o: Outcome<never>): R;
+}
+
+export type SomeLike<T, R = any> = Some<T, R> | null;
+export type NoneLike<R> = None<R> | null;
+
+export interface IOptionCache {
+  add(id: ID, outcome: any): void;
+  get<T>(id: ID): T | null;
+  delete<T>(id: ID): T | null;
+  has(id: ID): boolean;
+}
+
+export type ID = string | string[];
 ```
+
+A lot of this I think will be self explanatory, but I've never not beat a dead horse before. So let's walk the code. Our option exposes a few different methods, along with a state that we expose to the calling code as public. We have two pairs of sync and async functions: match and resolve. Let's start with resolve.
+
+The resolve and resolveSync functions are going to respectively invoke an async or sync callback that the Option has been instantiated with, and resolve an outcome from it. The outcome could be successful or the invocation might have failed. If we have configured the Option with a shared OptionCache, then we resolve or resolveSync values may re-leverage an existing cached values 
 
 ## Benchmarking
 

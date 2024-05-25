@@ -37,6 +37,11 @@ const MainArticleClassNames = {
 const published = ['REACT-COMPILER_1'];
 
 function getPublishStatus() {
+
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  if (isDevelopment) return true;
+
   if (typeof window !== "undefined") {
     const pathname = window.location.pathname;
     for (const pub of published) {

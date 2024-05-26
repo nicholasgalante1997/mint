@@ -101,5 +101,6 @@ function getOutfileName(key: string) {
 }
 
 function getDate(date: string) {
+  if (date === '') return '';
   return new Intl.DateTimeFormat(['en-US']).format(new Date(date));
 }

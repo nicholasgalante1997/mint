@@ -231,6 +231,7 @@
     "key": "@mint/REACT-COMPILER_1",
     "contentPath": "data/REACT-COMPILER_1.md",
     "display": {
+      "date": "05/17/2024",
       "image": "/react/react-conf-2024.png",
       "imageAltText": "React Conf 2024 Logo",
       "title": "REACT CONF 2024 - React Compiler: Migrate A Custom SSG React App to use React Compiler",

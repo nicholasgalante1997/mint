@@ -1,7 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 
-import AppConfig from '../config/app.json' assert { type: 'json' };
+function getAppConfig() {
+	try {
+		return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'config', 'app.json'), { encoding: 'utf8' }));
+	} catch(e) {
+		console.error(e);
+		return null;
+	}
+}
+
+let AppConfig = getAppConfig();
+
+if (AppConfig == null) process.exit(2);
 
 const { data: { articles } } = AppConfig;
 

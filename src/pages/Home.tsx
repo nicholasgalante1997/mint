@@ -2,7 +2,8 @@ import React, { memo } from 'react';
 import { Button, Heading } from 'heller-2-react';
 
 import { Layout } from '@/components';
-import { WebDeveloperAnimation } from '@/components/WebDeveloperAnimation';
+
+const WebDeveloperAnimation = React.lazy(() => import('@/components/WebDeveloperAnimation'));
 
 const HomePageClassNames = {
   BodyContainer: 'couch-mint__home-page-body-container',
@@ -22,12 +23,14 @@ function HomePageComponent() {
   return (
     <Layout>
       <div className={HomePageClassNames.BodyContainer}>
-        <WebDeveloperAnimation />
+        <React.Suspense fallback={false}>
+          <WebDeveloperAnimation />
+        </React.Suspense>
         <div className={HomePageClassNames.TextContainer}>
           <Heading as="h1" className={HomePageClassNames.Title}>
-            Learn solid <span className="pop-green">Web Fundamentals</span>. Build
-            better <span className="pop-blue">User Experiences.</span> Write cleaner
-            and more <span className="pop-pink">maintainable code.</span>
+            Learn solid <span className="pop-green">Web Fundamentals</span>. Build better{' '}
+            <span className="pop-blue">User Experiences.</span> Write cleaner and more{' '}
+            <span className="pop-pink">maintainable code.</span>
           </Heading>
           <Button
             style={{ marginTop: '24px' }}

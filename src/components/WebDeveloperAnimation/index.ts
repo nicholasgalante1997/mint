@@ -1,1 +1,3 @@
-export { default as WebDeveloperAnimation } from './WebDeveloperAnimation';
+import WebDeveloperAnimation from './WebDeveloperAnimation';
+export { WebDeveloperAnimation }
+export default WebDeveloperAnimation;
